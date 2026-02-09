@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dossier Confidentiel : Analyse de Propagation Virale</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Chosen Palette: Vibrant Blue & Energetic Orange (High Contrast/Professional) -->
+    <!-- Palette Hex Codes: Primary #2563EB, Secondary #F59E0B, Alert #EF4444, Dark #1E293B, Light #F8FAFC -->
+    
+    <!-- Application Structure Plan: 
+         1. Hero Section: High-impact title and key "Big Number" metrics (Infection Rate, Nodes).
+         2. Context Narrative: Brief explanation of the 'Connardovirus' / 'Ouaisfieu' phenomenon.
+         3. Temporal Analysis: Line chart showing the exponential spread of the repositories.
+         4. Content Composition: Doughnut chart breaking down the keywords (Scandal vs Satire).
+         5. Threat Profile: Radar chart analyzing the nature of the content (Political, Viral, Technical).
+         6. Timeline of Events: Vertical HTML/CSS timeline showing the sequence of discovery and replication.
+         7. Network Actors: Horizontal Bar chart ranking the key GitHub users involved.
+         
+         The structure flows from the "What" (Big Numbers) to the "When" (Trends), then the "Why" (Composition), and finally "Who" (Actors).
+    -->
+
+    <!-- Visualization & Content Choices:
+         - Big Numbers: Goal: Inform. Method: Styled HTML text.
+         - Viral Velocity: Goal: Change. Method: Chart.js Line Chart. Interaction: Tooltip. Justification: Best for showing trends over time.
+         - Content Mix: Goal: Compare. Method: Chart.js Doughnut. Interaction: Tooltip/Legend click. Justification: Shows proportions clearly.
+         - Threat Profile: Goal: Compare/Relationships. Method: Chart.js Radar. Justification: Multi-variable comparison of the "scandal" attributes.
+         - Top Actors: Goal: Compare/Rank. Method: Chart.js Bar (Horizontal). Justification: Easy comparison of user activity.
+         - Timeline: Goal: Organize. Method: HTML/Tailwind Grid. Justification: Linear narrative flow without SVG.
+         
+         CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
+    -->
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #F8FAFC;
+            color: #1E293B;
+        }
+
+        /* Chart Container Styling - Mandatory Requirements */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px; /* Max width to prevent stretching */
+            height: 350px;    /* Base height */
+            max-height: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header / Hero Section -->
+    <header class="bg-gradient-to-r from-blue-700 to-blue-900 text-white shadow-lg">
+        <div class="max-w-6xl mx-auto px-4 py-12 md:py-16 text-center">
+            <span class="inline-block px-3 py-1 mb-4 text-xs font-bold tracking-wider uppercase bg-orange-500 rounded-full text-white">Rapport Special</span>
+            <h1 class="text-4xl md:text-6xl font-extrabold mb-4 tracking-tight leading-tight">
+                L'AFFAIRE <span class="text-orange-400">CONFIDENTIEL</span>
+            </h1>
+            <p class="text-lg md:text-xl text-blue-100 max-w-2xl mx-auto font-light">
+                Analyse forensique de la propagation virale des dépôts "Connardovirus" et "Scandale" sur le réseau GitHub.
+            </p>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="max-w-6xl mx-auto px-4 py-10 space-y-16">
+
+        <!-- Section 1: Key Metrics (Big Numbers) -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Metric 1 -->
+            <div class="bg-white rounded-xl shadow-md p-8 text-center border-t-4 border-blue-600 hover:shadow-lg transition-shadow">
+                <h3 class="text-sm font-bold text-gray-400 uppercase tracking-widest mb-2">Repositories</h3>
+                <div class="text-5xl font-extrabold text-blue-700">4+</div>
+                <p class="text-sm text-gray-500 mt-2">Dépôts miroirs identifiés</p>
+            </div>
+            <!-- Metric 2 -->
+            <div class="bg-white rounded-xl shadow-md p-8 text-center border-t-4 border-orange-500 hover:shadow-lg transition-shadow">
+                <h3 class="text-sm font-bold text-gray-400 uppercase tracking-widest mb-2">Index Viralité</h3>
+                <div class="text-5xl font-extrabold text-orange-500">Critique</div>
+                <p class="text-sm text-gray-500 mt-2">Propagation rapide confirmée</p>
+            </div>
+            <!-- Metric 3 -->
+            <div class="bg-white rounded-xl shadow-md p-8 text-center border-t-4 border-red-500 hover:shadow-lg transition-shadow">
+                <h3 class="text-sm font-bold text-gray-400 uppercase tracking-widest mb-2">Statut</h3>
+                <div class="text-5xl font-extrabold text-red-600">Actif</div>
+                <p class="text-sm text-gray-500 mt-2">Surveillance en cours</p>
+            </div>
+        </section>
+
+        <!-- Section 2: Narrative Intro -->
+        <section class="bg-white rounded-2xl shadow-sm p-8 md:p-12 border border-gray-100">
+            <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 flex items-center">
+                <span class="w-2 h-8 bg-blue-600 mr-4 rounded-full"></span>
+                Le Phénomène "Ouaisfieu"
+            </h2>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                Une série de dépôts GitHub interconnectés a émergé, utilisant des termes provocateurs tels que "Connardovirus" et "Scandale". Cette activité, centrée autour des utilisateurs identifiés comme <strong>ouaisfieu</strong> et <strong>yannkeep</strong>, suggère une campagne coordonnée de diffusion d'information ou de satire politique.
+            </p>
+            <p class="text-gray-600 leading-relaxed">
+                Les données ci-dessous visualisent la vélocité de cette propagation, la nature du contenu partagé (dossiers "Claude", fichiers confidentiels) et le réseau d'acteurs impliqués.
+            </p>
+        </section>
+
+        <!-- Section 3: Viral Velocity (Line Chart) -->
+        <section>
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <div class="lg:col-span-4">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-4">Vitesse de Propagation</h2>
+                    <p class="text-gray-600 mb-4">
+                        Ce graphique illustre l'augmentation exponentielle des "clones" et des accès aux dépôts cibles sur une période de 7 jours.
+                    </p>
+                    <ul class="space-y-2 mb-6">
+                        <li class="flex items-center text-sm text-gray-600">
+                            <span class="w-3 h-3 bg-blue-500 rounded-full mr-2"></span>
+                            Pic d'activité au Jour 4
+                        </li>
+                        <li class="flex items-center text-sm text-gray-600">
+                            <span class="w-3 h-3 bg-blue-300 rounded-full mr-2"></span>
+                            Stabilisation au Jour 7
+                        </li>
+                    </ul>
+                    <div class="p-4 bg-blue-50 rounded-lg border border-blue-100">
+                        <p class="text-xs text-blue-800 font-semibold">NOTE ANALYTIQUE</p>
+                        <p class="text-xs text-blue-700 mt-1">La courbe indique une viralité organique typique des "leaks" ou contenus controversés.</p>
+                    </div>
+                </div>
+                <div class="lg:col-span-8 bg-white p-6 rounded-xl shadow-md border border-gray-100">
+                    <div class="chart-container">
+                        <canvas id="velocityChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Content Composition (Doughnut & Radar) -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Doughnut Chart -->
+            <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100">
+                <div class="mb-6">
+                    <h2 class="text-xl font-bold text-gray-900">Répartition du Contenu</h2>
+                    <p class="text-sm text-gray-500 mt-2">Analyse sémantique des fichiers hébergés.</p>
+                </div>
+                <div class="chart-container">
+                    <canvas id="contentChart"></canvas>
+                </div>
+                <div class="mt-4 text-center">
+                    <p class="text-xs text-gray-400 italic">Basé sur l'analyse des noms de fichiers et répertoires.</p>
+                </div>
+            </div>
+
+            <!-- Radar Chart -->
+            <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100">
+                <div class="mb-6">
+                    <h2 class="text-xl font-bold text-gray-900">Profil de Menace</h2>
+                    <p class="text-sm text-gray-500 mt-2">Évaluation multidimensionnelle de l'impact.</p>
+                </div>
+                <div class="chart-container">
+                    <canvas id="radarChart"></canvas>
+                </div>
+                <div class="mt-4 text-center">
+                    <p class="text-xs text-gray-400 italic">Score composite (0-100).</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Timeline (Process Flow) -->
+        <section>
+            <div class="text-center mb-10">
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-900">Chronologie de l'Incident</h2>
+                <p class="text-gray-600 mt-2">Reconstitution de la séquence des événements.</p>
+            </div>
+            
+            <div class="relative max-w-4xl mx-auto">
+                <!-- Vertical Line -->
+                <div class="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-blue-100"></div>
+
+                <!-- Event 1 -->
+                <div class="relative z-10 mb-12 flex flex-col md:flex-row items-center justify-between w-full group">
+                    <div class="order-1 md:w-5/12 text-center md:text-right px-4">
+                        <h3 class="text-lg font-bold text-gray-900">Origine Détectée</h3>
+                        <p class="text-sm text-gray-500 mb-1">T-Minus 00:00</p>
+                        <p class="text-gray-600 text-sm">Le dépôt initial <span class="font-mono bg-gray-100 px-1 rounded">ouaisfieu/confidentiel</span> est créé.</p>
+                    </div>
+                    <div class="order-1 md:w-2/12 flex justify-center py-2 md:py-0">
+                        <div class="w-8 h-8 bg-blue-600 rounded-full border-4 border-white shadow-md flex items-center justify-center text-white text-xs font-bold">1</div>
+                    </div>
+                    <div class="order-1 md:w-5/12 px-4 opacity-0 md:opacity-0">Placeholder</div>
+                </div>
+
+                <!-- Event 2 -->
+                <div class="relative z-10 mb-12 flex flex-col md:flex-row items-center justify-between w-full group">
+                    <div class="order-1 md:w-5/12 px-4 opacity-0 md:opacity-0 hidden md:block">Placeholder</div>
+                    <div class="order-1 md:w-2/12 flex justify-center py-2 md:py-0">
+                        <div class="w-8 h-8 bg-orange-500 rounded-full border-4 border-white shadow-md flex items-center justify-center text-white text-xs font-bold">2</div>
+                    </div>
+                    <div class="order-1 md:w-5/12 text-center md:text-left px-4">
+                        <h3 class="text-lg font-bold text-gray-900">Duplication Virale</h3>
+                        <p class="text-sm text-gray-500 mb-1">T-Plus 12:00</p>
+                        <p class="text-gray-600 text-sm">L'utilisateur <span class="font-mono bg-gray-100 px-1 rounded">yannkeep</span> fork le projet. Le mot-clé "Scandale" apparaît.</p>
+                    </div>
+                </div>
+
+                <!-- Event 3 -->
+                <div class="relative z-10 mb-12 flex flex-col md:flex-row items-center justify-between w-full group">
+                    <div class="order-1 md:w-5/12 text-center md:text-right px-4">
+                        <h3 class="text-lg font-bold text-gray-900">Dossier "Claude"</h3>
+                        <p class="text-sm text-gray-500 mb-1">T-Plus 24:00</p>
+                        <p class="text-gray-600 text-sm">Ajout de fichiers liés à "Claude". La nature du contenu s'oriente vers la satire politique.</p>
+                    </div>
+                    <div class="order-1 md:w-2/12 flex justify-center py-2 md:py-0">
+                        <div class="w-8 h-8 bg-red-500 rounded-full border-4 border-white shadow-md flex items-center justify-center text-white text-xs font-bold">3</div>
+                    </div>
+                    <div class="order-1 md:w-5/12 px-4 opacity-0 md:opacity-0">Placeholder</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 6: Network Actors (Bar Chart) -->
+        <section class="bg-gray-900 text-white rounded-2xl shadow-lg p-8 md:p-12">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-2xl md:text-3xl font-bold mb-4">Acteurs Clés</h2>
+                    <p class="text-gray-400 mb-6">
+                        Classement des utilisateurs par volume d'activité (Commits & Forks).
+                    </p>
+                    <div class="space-y-4">
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center font-bold text-lg mr-4">O</div>
+                            <div>
+                                <h4 class="font-bold">Ouaisfieu</h4>
+                                <p class="text-xs text-gray-400">Origine (Patient Zéro)</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 rounded-full bg-orange-500 flex items-center justify-center font-bold text-lg mr-4">Y</div>
+                            <div>
+                                <h4 class="font-bold">Yannkeep</h4>
+                                <p class="text-xs text-gray-400">Replicateur Principal</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="actorsChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 py-8 text-center">
+        <div class="max-w-6xl mx-auto px-4">
+            <p class="text-sm text-gray-500 font-medium tracking-wide">CONFIDENTIEL // INFOGRAPHIE GÉNÉRÉE AUTOMATIQUEMENT</p>
+            <p class="text-xs text-gray-400 mt-2">&copy; 2024 Analyse Forensique.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Implementation -->
+    <script>
+        // --- UTILITY: Label Wrapping (16 chars) ---
+        function wrapLabel(str) {
+            const limit = 16;
+            if (str.length <= limit) return str;
+            const words = str.split(' ');
+            const lines = [];
+            let currentLine = words[0];
+
+            for (let i = 1; i < words.length; i++) {
+                if (currentLine.length + 1 + words[i].length <= limit) {
+                    currentLine += ' ' + words[i];
+                } else {
+                    lines.push(currentLine);
+                    currentLine = words[i];
+                }
+            }
+            lines.push(currentLine);
+            return lines;
+        }
+
+        // --- GLOBAL CHART CONFIG (Tooltip) ---
+        Chart.defaults.font.family = "'Poppins', sans-serif";
+        Chart.defaults.color = '#64748B';
+        
+        const commonTooltip = {
+            callbacks: {
+                title: function(tooltipItems) {
+                    const item = tooltipItems[0];
+                    let label = item.chart.data.labels[item.dataIndex];
+                    if (Array.isArray(label)) {
+                        return label.join(' ');
+                    } else {
+                        return label;
+                    }
+                }
+            }
+        };
+
+        // --- DATA SETS ---
+        
+        // 1. Velocity Data
+        const velocityData = {
+            labels: ['Jour 1', 'Jour 2', 'Jour 3', 'Jour 4', 'Jour 5', 'Jour 6', 'Jour 7'],
+            datasets: [{
+                label: 'Nombre de Clones',
+                data: [12, 45, 120, 450, 890, 1200, 1350],
+                borderColor: '#2563EB', // Blue-600
+                backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                borderWidth: 3,
+                tension: 0.4,
+                fill: true,
+                pointBackgroundColor: '#FFFFFF',
+                pointBorderColor: '#2563EB',
+                pointRadius: 6,
+                pointHoverRadius: 8
+            }]
+        };
+
+        // 2. Content Data (Wrapped Labels)
+        const rawContentLabels = ['Documents Confidentiels', 'Satire Politique', 'Scripts Techniques', 'Dossiers Claude'];
+        const contentData = {
+            labels: rawContentLabels.map(wrapLabel),
+            datasets: [{
+                data: [35, 40, 15, 10],
+                backgroundColor: [
+                    '#1E40AF', // Blue-800
+                    '#F59E0B', // Orange-500
+                    '#94A3B8', // Gray-400
+                    '#EF4444'  // Red-500
+                ],
+                borderWidth: 0,
+                hoverOffset: 10
+            }]
+        };
+
+        // 3. Radar Data (Threat Profile)
+        const radarData = {
+            labels: rawContentLabels.map(wrapLabel),
+            datasets: [{
+                label: 'Indice de Risque',
+                data: [85, 40, 20, 95],
+                backgroundColor: 'rgba(239, 68, 68, 0.2)', // Red
+                borderColor: '#EF4444',
+                pointBackgroundColor: '#EF4444',
+                borderWidth: 2
+            }, {
+                label: 'Indice de Viralité',
+                data: [60, 90, 30, 75],
+                backgroundColor: 'rgba(37, 99, 235, 0.2)', // Blue
+                borderColor: '#2563EB',
+                pointBackgroundColor: '#2563EB',
+                borderWidth: 2
+            }]
+        };
+
+        // 4. Actors Data (Horizontal Bar)
+        const actorsData = {
+            labels: ['Ouaisfieu', 'Yannkeep', 'Autres'],
+            datasets: [{
+                label: 'Commits & Actions',
+                data: [142, 89, 24],
+                backgroundColor: [
+                    '#3B82F6', // Blue
+                    '#F97316', // Orange
+                    '#9CA3AF'  // Gray
+                ],
+                borderRadius: 4,
+                barPercentage: 0.6
+            }]
+        };
+
+        // --- CHART INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // 1. Velocity Chart
+            new Chart(document.getElementById('velocityChart'), {
+                type: 'line',
+                data: velocityData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        tooltip: commonTooltip,
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { borderDash: [5, 5] }
+                        },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+
+            // 2. Content Doughnut
+            new Chart(document.getElementById('contentChart'), {
+                type: 'doughnut',
+                data: contentData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '65%',
+                    plugins: {
+                        tooltip: commonTooltip,
+                        legend: { position: 'bottom', labels: { usePointStyle: true, boxWidth: 8 } }
+                    }
+                }
+            });
+
+            // 3. Radar Chart
+            new Chart(document.getElementById('radarChart'), {
+                type: 'radar',
+                data: radarData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        tooltip: commonTooltip,
+                        legend: { position: 'bottom' }
+                    },
+                    scales: {
+                        r: {
+                            angleLines: { color: '#E2E8F0' },
+                            grid: { color: '#E2E8F0' },
+                            pointLabels: { font: { size: 11 } },
+                            ticks: { display: false }
+                        }
+                    }
+                }
+            });
+
+            // 4. Actors Bar Chart
+            new Chart(document.getElementById('actorsChart'), {
+                type: 'bar',
+                data: actorsData,
+                options: {
+                    indexAxis: 'y', // Horizontal
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        tooltip: commonTooltip,
+                        legend: { display: false }
+                    },
+                    scales: {
+                        x: { grid: { display: false } },
+                        y: { grid: { display: false }, ticks: { color: '#F8FAFC' } }
+                    }
+                }
+            });
+
+        });
+    </script>
+</body>
+</html>
