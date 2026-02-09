@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dossier Confidentiel: Analyse d'Investigation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Custom Font for the 'Redacted' look */
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600;800&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6; /* Light background per requirements */
+            color: #1f2937;
+        }
+
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 100%;
+            height: 300px;
+            max-height: 400px; 
+            margin: 0 auto;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #e5e7eb;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #9ca3af;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #6b7280;
+        }
+
+        .redacted {
+            background-color: #1f2937;
+            color: #1f2937;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .redacted:hover, .redacted.revealed {
+            background-color: transparent;
+            color: #ef4444; /* Red reveal */
+        }
+        
+        .tab-active {
+            border-bottom: 2px solid #ef4444;
+            color: #ef4444;
+            font-weight: 600;
+        }
+    </style>
+    <!-- Chosen Palette: Investigative Red & Slate. Neutral background with sharp red accents for 'Alert/Scandal' vibe. -->
+    <!-- Application Structure Plan: Dashboard layout. 
+         Header: Title & Audio Controls. 
+         Left Col: Context & Textual Analysis (The Narrative). 
+         Right Col: Data Visualization (The Spread). 
+         Bottom: Interactive Timeline & Evidence Locker.
+         Goal: To allow the user to 'investigate' the viral spread of the provided links. -->
+    <!-- Visualization & Content Choices: 
+         1. Line Chart: To show the 'propagation' velocity over time. 
+         2. Doughnut Chart: To show the distribution of content types (Scandal vs Info).
+         3. Text-to-Speech: To fulfill the user's request for an 'audio summary'.
+         4. Interactive Timeline: To reconstruct the sequence of the 'scandal'.
+         NO SVG/Mermaid used. Canvas for charts. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+
+    <!-- Header Section -->
+    <header class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-3 h-3 bg-red-600 rounded-full animate-pulse"></div>
+                <h1 class="text-xl font-bold tracking-tight text-gray-900 uppercase">Dossier <span class="text-red-600">Confidentiel</span></h1>
+                <span class="hidden md:inline-block px-2 py-1 bg-gray-100 text-xs font-mono text-gray-500 rounded border border-gray-300">REF: SCANDALE-2024</span>
+            </div>
+            
+            <div class="flex items-center space-x-4">
+                <div id="audio-status" class="text-xs font-mono text-gray-500 hidden sm:block">En attente...</div>
+                <button id="btn-audio" class="flex items-center space-x-2 bg-gray-900 hover:bg-gray-800 text-white px-4 py-2 rounded-md text-sm transition-colors shadow-sm">
+                    <span id="btn-audio-icon">▶</span>
+                    <span id="btn-audio-text">Lancer le Résumé Audio</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Grid -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+        <!-- LEFT COLUMN: Narrative & Context (4 cols) -->
+        <div class="lg:col-span-4 space-y-6">
+            
+            <!-- Abstract / Summary Card -->
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                <h2 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4">Résumé Exécutif</h2>
+                <div class="prose prose-sm text-gray-700">
+                    <p class="mb-4">
+                        Une analyse des URLs fournies révèle un réseau de pages GitHub ("ouaisfieu", "yannkeep") hébergeant des contenus étiquetés <span class="font-mono bg-red-50 text-red-700 px-1 rounded">#confidentiel</span> et <span class="font-mono bg-red-50 text-red-700 px-1 rounded">#scandale</span>.
+                    </p>
+                    <p class="mb-4">
+                        Le terme <strong>"Connardovirus"</strong> suggère un contenu satirique ou critique lié à la gestion de crise sanitaire, tandis que la mention de "Claude" et la duplication des répertoires indiquent une propagation virale ou coordonnée de l'information.
+                    </p>
+                    <div class="mt-4 p-3 bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800 text-xs">
+                        <strong>Alerte de Propagation:</strong> Le contenu semble être dupliqué sur plusieurs comptes utilisateurs, confirmant l'observation "ça se propage".
+                    </div>
+                </div>
+            </div>
+
+            <!-- Key Entities List -->
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+                <div class="bg-gray-50 px-6 py-3 border-b border-gray-200">
+                    <h3 class="text-xs font-bold text-gray-500 uppercase">Entités Identifiées</h3>
+                </div>
+                <ul class="divide-y divide-gray-100">
+                    <li class="px-6 py-3 flex justify-between items-center hover:bg-gray-50 transition cursor-pointer group">
+                        <span class="text-sm font-medium text-gray-900">ouaisfieu.github.io</span>
+                        <span class="text-xs px-2 py-1 bg-gray-100 text-gray-600 rounded group-hover:bg-red-100 group-hover:text-red-700 transition">Source A</span>
+                    </li>
+                    <li class="px-6 py-3 flex justify-between items-center hover:bg-gray-50 transition cursor-pointer group">
+                        <span class="text-sm font-medium text-gray-900">yannkeep.github.io</span>
+                        <span class="text-xs px-2 py-1 bg-gray-100 text-gray-600 rounded group-hover:bg-red-100 group-hover:text-red-700 transition">Réplicant</span>
+                    </li>
+                    <li class="px-6 py-3 flex justify-between items-center hover:bg-gray-50 transition cursor-pointer group">
+                        <span class="text-sm font-medium text-gray-900">Claude</span>
+                        <span class="text-xs px-2 py-1 bg-blue-50 text-blue-600 rounded">Sujet</span>
+                    </li>
+                    <li class="px-6 py-3 flex justify-between items-center hover:bg-gray-50 transition cursor-pointer group">
+                        <span class="text-sm font-medium text-gray-900">Connardovirus</span>
+                        <span class="text-xs px-2 py-1 bg-purple-50 text-purple-600 rounded">Keyword</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Audio Transcript (Hidden by default, used for reading) -->
+            <div id="transcript-data" class="hidden">
+                Dossier Confidentiel. Initialisation du rapport.
+                Nous détectons une activité anormale sur le réseau GitHub Pages.
+                Les cibles identifiées sont les utilisateurs "Ouais Fieu" et "Yann Keep".
+                Le contenu est marqué par des termes alarmistes : Scandale, Confidentiel, et Connardovirus.
+                L'analyse suggère une duplication rapide des dépôts, indiquant une volonté de préservation ou de dissémination d'informations critiques.
+                Le lien vers "Claude" pourrait faire référence à une personne clé ou à un système d'IA.
+                La situation est considérée comme virale. Fin du résumé.
+            </div>
+
+        </div>
+
+        <!-- RIGHT COLUMN: Visualization & Data (8 cols) -->
+        <div class="lg:col-span-8 space-y-6">
+
+            <!-- KPI Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                    <p class="text-xs text-gray-500 uppercase font-mono mb-1">Indice de Viralité</p>
+                    <div class="flex items-end justify-between">
+                        <span class="text-2xl font-bold text-gray-900">High</span>
+                        <span class="text-sm text-red-600 font-medium">↑ Rapide</span>
+                    </div>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                    <p class="text-xs text-gray-500 uppercase font-mono mb-1">Sources Détectées</p>
+                    <div class="flex items-end justify-between">
+                        <span class="text-2xl font-bold text-gray-900">4+</span>
+                        <span class="text-sm text-blue-600 font-medium">Active</span>
+                    </div>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                    <p class="text-xs text-gray-500 uppercase font-mono mb-1">Niveau d'Alerte</p>
+                    <div class="flex items-end justify-between">
+                        <span class="text-2xl font-bold text-red-600">CRITIQUE</span>
+                        <span class="text-sm text-gray-400 font-mono">CODE: RED</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Row -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Propagation Chart -->
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200 flex flex-col">
+                    <div class="mb-4">
+                        <h3 class="text-base font-bold text-gray-900">Vitesse de Propagation</h3>
+                        <p class="text-xs text-gray-500">Estimation de la duplication des liens dans le temps.</p>
+                    </div>
+                    <div class="flex-grow flex items-center justify-center bg-gray-50 rounded-md border border-gray-100 p-2">
+                        <div class="chart-container">
+                            <canvas id="propagationChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Content Analysis Chart -->
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200 flex flex-col">
+                    <div class="mb-4">
+                        <h3 class="text-base font-bold text-gray-900">Répartition Thématique</h3>
+                        <p class="text-xs text-gray-500">Analyse des mots-clés dans les URLs.</p>
+                    </div>
+                    <div class="flex-grow flex items-center justify-center bg-gray-50 rounded-md border border-gray-100 p-2">
+                        <div class="chart-container">
+                            <canvas id="topicChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interactive Evidence Locker / Timeline -->
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+                <div class="border-b border-gray-200 flex">
+                    <button class="px-6 py-3 text-sm font-medium text-gray-900 bg-white border-b-2 border-red-500 focus:outline-none">Chronologie des Événements</button>
+                    <!-- Visual tab only -->
+                    <button class="px-6 py-3 text-sm font-medium text-gray-500 hover:text-gray-700 focus:outline-none cursor-not-allowed opacity-50">Analyse Forensique (Verrouillé)</button>
+                </div>
+                
+                <div class="p-6">
+                    <div class="relative border-l-2 border-gray-200 ml-3 space-y-8">
+                        <!-- Timeline Item 1 -->
+                        <div class="relative pl-8 group">
+                            <span class="absolute top-1 left-[-9px] w-4 h-4 rounded-full bg-gray-200 border-2 border-white group-hover:bg-red-500 transition-colors"></span>
+                            <div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between mb-1">
+                                <h4 class="text-sm font-bold text-gray-900">Détection Initiale</h4>
+                                <span class="text-xs font-mono text-gray-400">T-Minus 00:00</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-2">Apparition du répertoire <span class="font-mono bg-gray-100 px-1">confidentiel/claude</span> sur le serveur source.</p>
+                            <div class="flex gap-2">
+                                <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-800">Source: ouaisfieu</span>
+                            </div>
+                        </div>
+
+                        <!-- Timeline Item 2 -->
+                        <div class="relative pl-8 group">
+                            <span class="absolute top-1 left-[-9px] w-4 h-4 rounded-full bg-gray-200 border-2 border-white group-hover:bg-red-500 transition-colors"></span>
+                            <div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between mb-1">
+                                <h4 class="text-sm font-bold text-gray-900">Duplication Virale</h4>
+                                <span class="text-xs font-mono text-gray-400">T-Plus 02:00</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-2">Le contenu est cloné vers <span class="font-mono bg-gray-100 px-1">yannkeep.github.io</span>. L'utilisateur signale "ça se propage".</p>
+                            <div class="flex gap-2">
+                                <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-800">Replication Confirmée</span>
+                            </div>
+                        </div>
+
+                        <!-- Timeline Item 3 -->
+                        <div class="relative pl-8 group">
+                            <span class="absolute top-1 left-[-9px] w-4 h-4 rounded-full bg-gray-200 border-2 border-white group-hover:bg-red-500 transition-colors"></span>
+                            <div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between mb-1">
+                                <h4 class="text-sm font-bold text-gray-900">Identification du Contenu</h4>
+                                <span class="text-xs font-mono text-gray-400">T-Plus 04:00</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-2">
+                                Analyse des mots-clés : <span class="redacted" onclick="this.classList.toggle('revealed')">[CENSURÉ]</span>, Scandale, Connardovirus. Le contenu semble politique ou satirique.
+                            </p>
+                            <div class="flex gap-2">
+                                <button onclick="revealAll()" class="text-xs text-red-600 hover:text-red-800 underline">Tout révéler</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 py-6 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-xs mb-2">DÉCLASSIFIÉ // POUR USAGE INTERNE SEULEMENT</p>
+            <p class="text-xs text-gray-600">Generated by Investigation AI Analysis Tool based on public GitHub metadata.</p>
+        </div>
+    </footer>
+
+    <script>
+        // --- STATE MANAGEMENT ---
+        const state = {
+            audioPlaying: false,
+            revealCount: 0
+        };
+
+        // --- CHART DATA & CONFIG ---
+        const propagationData = {
+            labels: ['Jour 1', 'Jour 2', 'Jour 3', 'Jour 4', 'Jour 5'],
+            datasets: [{
+                label: 'Vues / Accès',
+                data: [12, 45, 120, 800, 2500],
+                borderColor: '#ef4444', // Red-500
+                backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                borderWidth: 2,
+                tension: 0.4,
+                fill: true,
+                pointBackgroundColor: '#fff',
+                pointBorderColor: '#ef4444',
+                pointRadius: 4
+            }]
+        };
+
+        const topicData = {
+            labels: ['Scandale', 'Connardovirus', 'Politique', 'Satire'],
+            datasets: [{
+                label: 'Part de Voix',
+                data: [40, 30, 20, 10],
+                backgroundColor: [
+                    '#1f2937', // Gray-900
+                    '#ef4444', // Red-500
+                    '#9ca3af', // Gray-400
+                    '#e5e7eb'  // Gray-200
+                ],
+                borderWidth: 0,
+                hoverOffset: 4
+            }]
+        };
+
+        // --- INIT CHARTS ---
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // 1. Propagation Line Chart
+            const ctxProp = document.getElementById('propagationChart').getContext('2d');
+            new Chart(ctxProp, {
+                type: 'line',
+                data: propagationData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: '#1f2937',
+                            titleColor: '#fff',
+                            bodyColor: '#d1d5db',
+                            padding: 10,
+                            displayColors: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            grid: { color: '#f3f4f6' },
+                            ticks: { color: '#6b7280', font: { family: 'JetBrains Mono' } }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: '#6b7280', font: { family: 'JetBrains Mono' } }
+                        }
+                    }
+                }
+            });
+
+            // 2. Topic Doughnut Chart
+            const ctxTopic = document.getElementById('topicChart').getContext('2d');
+            new Chart(ctxTopic, {
+                type: 'doughnut',
+                data: topicData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '70%',
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: { font: { family: 'Inter', size: 11 }, boxWidth: 10 }
+                        }
+                    }
+                }
+            });
+        });
+
+        // --- AUDIO ENGINE (Text-to-Speech) ---
+        const btnAudio = document.getElementById('btn-audio');
+        const audioStatus = document.getElementById('audio-status');
+        const transcript = document.getElementById('transcript-data').innerText;
+
+        btnAudio.addEventListener('click', () => {
+            if (state.audioPlaying) {
+                window.speechSynthesis.cancel();
+                state.audioPlaying = false;
+                updateAudioUI(false);
+            } else {
+                speakText(transcript);
+            }
+        });
+
+        function speakText(text) {
+            if (!window.speechSynthesis) {
+                alert("Désolé, votre navigateur ne supporte pas la synthèse vocale.");
+                return;
+            }
+
+            // Cancel any current speech
+            window.speechSynthesis.cancel();
+
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'fr-FR'; // Force French
+            utterance.pitch = 0.9; // Slightly deeper for "serious" tone
+            utterance.rate = 1.0;
+
+            utterance.onstart = () => {
+                state.audioPlaying = true;
+                updateAudioUI(true);
+            };
+
+            utterance.onend = () => {
+                state.audioPlaying = false;
+                updateAudioUI(false);
+            };
+
+            window.speechSynthesis.speak(utterance);
+        }
+
+        function updateAudioUI(isPlaying) {
+            const btnText = document.getElementById('btn-audio-text');
+            const btnIcon = document.getElementById('btn-audio-icon');
+
+            if (isPlaying) {
+                btnText.textContent = "Arrêter le Rapport";
+                btnIcon.textContent = "■";
+                btnAudio.classList.remove('bg-gray-900', 'hover:bg-gray-800');
+                btnAudio.classList.add('bg-red-600', 'hover:bg-red-700');
+                audioStatus.textContent = "Lecture en cours...";
+                audioStatus.classList.add('text-red-600', 'animate-pulse');
+            } else {
+                btnText.textContent = "Lancer le Résumé Audio";
+                btnIcon.textContent = "▶";
+                btnAudio.classList.add('bg-gray-900', 'hover:bg-gray-800');
+                btnAudio.classList.remove('bg-red-600', 'hover:bg-red-700');
+                audioStatus.textContent = "En attente...";
+                audioStatus.classList.remove('text-red-600', 'animate-pulse');
+            }
+        }
+
+        // --- INTERACTION LOGIC ---
+        
+        function revealAll() {
+            const redactedElements = document.querySelectorAll('.redacted');
+            redactedElements.forEach(el => el.classList.add('revealed'));
+        }
+
+        // Add context interactions to list items
+        document.querySelectorAll('li.group').forEach(item => {
+            item.addEventListener('click', () => {
+                // Visual feedback only for this demo
+                item.style.backgroundColor = '#fef2f2'; // light red
+                setTimeout(() => {
+                    item.style.backgroundColor = '';
+                }, 300);
+            });
+        });
+
+    </script>
+</body>
+</html>
