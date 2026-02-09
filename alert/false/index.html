@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rapport d'Analyse : ouaisfieu.github.io</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Chosen Palette: Cyber-Security Light Theme */
+        /* Background: Slate-50 (Neutral Light) */
+        /* Primary: Emerald-600 (Safe/Go) */
+        /* Secondary: Slate-800 (Text/UI) */
+        /* Accent: Amber-500 (Warning/Analysis) */
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* Slate-50 */
+            color: #1e293b; /* Slate-800 */
+        }
+        
+        h1, h2, h3, .mono-font {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .scan-line {
+            width: 100%;
+            height: 2px;
+            background: rgba(16, 185, 129, 0.5);
+            position: absolute;
+            top: 0;
+            left: 0;
+            animation: scan 2s linear infinite;
+            display: none;
+        }
+
+        @keyframes scan {
+            0% { top: 0; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+
+        .scanning .scan-line {
+            display: block;
+        }
+    </style>
+    <!-- Application Structure Plan: 
+         1. Header: Immediate answer to "Is it dangerous?" with a large status indicator.
+         2. Executive Summary: Contextualizes the site as a "Creative Project" hosted on GitHub.
+         3. Evidence Board (Interactive): Cards representing the URLs provided. Users click to "Analyze" (Decrypt) the content, revealing the difference between the scary URL and the safe reality (HTML/CSS).
+         4. Technical Breakdown (Charts): 
+            - Risk Assessment (Donut Chart): Visualizing 0% Malware / 100% Static Code.
+            - Tech Stack (Bar Chart): Comparison of "Real Leak Site" vs "This Site".
+         5. Author Profile: Analysis of "ouaisfieu" (Belgian slang) to humanize the developer.
+         6. Conclusion/Recommendation: Actionable advice (Safe to browse, enjoy the prank).
+    -->
+    <!-- Visualization & Content Choices:
+         - Threat Gauge (Doughnut): Goal -> Inform status immediately. Interaction -> None. Justification -> Instant relief for the user.
+         - Tech Stack Comparison (Bar): Goal -> Compare. Interaction -> Toggle view. Justification -> Shows why it's technically safe (Client-side vs Server-side).
+         - URL Decryptor (Cards + JS): Goal -> Inform & Reveal. Interaction -> Click to "Decrypt". Justification -> Gamifies the "investigation" process, turning fear into understanding.
+         - CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
+    -->
+</head>
+<body class="antialiased selection:bg-emerald-200 selection:text-emerald-900">
+
+    <!-- Top Navigation / Status Bar -->
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center gap-2">
+                        <span class="text-2xl">🛡️</span>
+                        <span class="font-bold text-xl tracking-tight text-slate-900">NET<span class="text-emerald-600">GUARD</span> ANALYST</span>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span class="px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800 border border-emerald-200 flex items-center gap-1">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                        ANALYSE TERMINÉE
+                    </span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+
+        <!-- Section 1: Verdict Header -->
+        <header class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-2 h-full bg-emerald-500"></div>
+            <div class="flex-1 space-y-2">
+                <p class="text-sm font-semibold text-slate-500 uppercase tracking-wider">Cible de l'enquête : ouaisfieu.github.io</p>
+                <h1 class="text-3xl md:text-4xl font-bold text-slate-900">Verdict : <span class="text-emerald-600">SITE NON DANGEREUX</span></h1>
+                <p class="text-slate-600 max-w-2xl text-lg">
+                    L'analyse des URLs indique qu'il s'agit d'un <strong>portfolio créatif</strong> ou d'un site de divertissement ("Prank") hébergé sur une infrastructure sécurisée (GitHub Pages). Il simule des éléments de danger pour l'effet visuel, mais ne contient pas de menace technique réelle.
+                </p>
+            </div>
+            
+            <!-- Risk Meter Chart Container -->
+            <div class="w-full md:w-64 flex flex-col items-center">
+                <div class="chart-container" style="height: 160px; max-height: 160px; max-width: 160px;">
+                    <canvas id="riskGauge"></canvas>
+                </div>
+                <p class="text-center font-bold text-emerald-600 mt-2">Niveau de Menace : 0/10</p>
+            </div>
+        </header>
+
+        <!-- Section 2: URL "Decryption" Investigation -->
+        <section class="space-y-4">
+            <div class="flex items-center justify-between">
+                <h2 class="text-2xl font-bold text-slate-800 flex items-center gap-2">
+                    <span class="text-amber-500">📂</span> Preuves Numériques (URLs)
+                </h2>
+                <span class="text-sm text-slate-500">Cliquez sur une carte pour analyser son contenu</span>
+            </div>
+            <p class="text-slate-600">
+                Vous avez identifié trois URLs suspectes. Ci-dessous, nous décomposons chaque lien pour révéler ce qu'il cache réellement derrière son nom "effrayant". Cette section sert à démystifier le jargon utilisé par l'auteur.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="evidence-grid">
+                <!-- Cards will be injected by JS -->
+            </div>
+        </section>
+
+        <!-- Section 3: Technical Analysis & Author Profile -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            
+            <!-- Technical Breakdown -->
+            <section class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                <div class="mb-6">
+                    <h2 class="text-xl font-bold text-slate-800 mb-2">🔎 Analyse Technique Comparative</h2>
+                    <p class="text-slate-600 text-sm">
+                        Pourquoi ce site n'est-il pas dangereux ? Comparaison entre une vraie cyber-attaque et ce site (GitHub Pages).
+                    </p>
+                </div>
+                <div class="chart-container">
+                    <canvas id="techComparisonChart"></canvas>
+                </div>
+                <div class="mt-4 bg-slate-50 p-4 rounded-lg text-sm border border-slate-100">
+                    <strong class="text-indigo-600">Note Technique :</strong> Le domaine <code>github.io</code> est utilisé pour l'hébergement de fichiers <strong>statiques</strong> (HTML, CSS, JS). Contrairement à un serveur de phishing dynamique, il ne peut généralement pas exécuter de scripts côté serveur pour voler des mots de passe silencieusement.
+                </div>
+            </section>
+
+            <!-- Author Profiling -->
+            <section class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 flex flex-col">
+                <div class="mb-6">
+                    <h2 class="text-xl font-bold text-slate-800 mb-2">👤 Profilage de l'Auteur</h2>
+                    <p class="text-slate-600 text-sm">
+                        Indices linguistiques et culturels trouvés dans les noms de domaine.
+                    </p>
+                </div>
+
+                <div class="flex-1 space-y-6">
+                    <!-- Clue 1 -->
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold shrink-0">
+                            ID
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-slate-800">Nom d'utilisateur : "ouaisfieu"</h3>
+                            <p class="text-slate-600 text-sm mt-1">
+                                <span class="font-mono bg-slate-100 px-1 py-0.5 rounded text-indigo-700">Ouais</span> (Oui) + <span class="font-mono bg-slate-100 px-1 py-0.5 rounded text-indigo-700">Fieu</span> (Garçon/Mec).
+                            </p>
+                            <p class="text-sm text-slate-500 mt-1 italic">
+                                "Fieu" est un argot typique de <strong>Belgique</strong> (Bruxelles/Wallonie). Indique probablement un développeur belge et non un groupe de hackers international.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Clue 2 -->
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center text-amber-600 font-bold shrink-0">
+                            TH
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-slate-800">Thématique : "X-Files" / "NSIDERS"</h3>
+                            <p class="text-slate-600 text-sm mt-1">
+                                Références à la culture pop des années 90 (Série TV X-Files, complots, aliens).
+                            </p>
+                            <div class="mt-2 flex flex-wrap gap-2">
+                                <span class="px-2 py-1 bg-slate-100 text-slate-600 text-xs rounded-md">Science-Fiction</span>
+                                <span class="px-2 py-1 bg-slate-100 text-slate-600 text-xs rounded-md">ARG (Jeu de Réalité Alternative)</span>
+                                <span class="px-2 py-1 bg-slate-100 text-slate-600 text-xs rounded-md">Portfolio Créatif</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-auto bg-green-50 p-4 rounded-lg border border-green-100">
+                        <h4 class="font-bold text-green-800 text-sm mb-1">Conclusion du Profilage</h4>
+                        <p class="text-green-700 text-xs">
+                            L'auteur est probablement un étudiant ou un développeur web belge expérimentant avec du design narratif. Pas de profil criminel détecté.
+                        </p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Section 4: What is an ARG? (Educational) -->
+        <section class="bg-indigo-900 text-white rounded-xl shadow-lg p-8 relative overflow-hidden">
+            <div class="absolute top-0 right-0 p-12 opacity-10 font-mono text-9xl font-bold select-none">ARG</div>
+            <div class="relative z-10 max-w-3xl">
+                <h2 class="text-2xl font-bold mb-4">C'est quoi "ce truc" ?</h2>
+                <p class="text-indigo-100 text-lg mb-6">
+                    Très probablement un <strong>A.R.G. (Alternate Reality Game)</strong> ou un portfolio expérimental.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-indigo-200">
+                    <div>
+                        <strong class="text-white block mb-1">Le Concept :</strong>
+                        Les créateurs construisent des sites web fictifs qui semblent "réels" (fuites de données, agences secrètes) pour raconter une histoire ou montrer leurs compétences en code.
+                    </div>
+                    <div>
+                        <strong class="text-white block mb-1">Pourquoi ça fait peur ?</strong>
+                        C'est fait pour ! L'utilisation de termes comme "LEAK" (Fuite) ou "ALERT" vise à immerger le visiteur dans une ambiance de film d'espionnage.
+                    </div>
+                </div>
+                <button onclick="scrollToTop()" class="mt-8 px-6 py-3 bg-white text-indigo-900 font-bold rounded-lg hover:bg-indigo-50 transition shadow-lg">
+                    Remonter au Dashboard
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-900 text-slate-400 py-12 border-t border-slate-800 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="mono-font mb-4">GENERATED REPORT ID: #BE-OUAISFIEU-SAFE</p>
+            <p class="text-sm">
+                Cette application est un outil d'analyse pédagogique généré par IA pour expliquer la nature des liens fournis.<br>
+                Toujours vérifier l'URL dans la barre d'adresse. <code>github.io</code> est un domaine sûr, mais le contenu dépend de l'auteur.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // State Management
+        const appState = {
+            analyzedCards: [],
+            threatLevel: 0
+        };
+
+        // Data Store: Evidence Cards
+        const evidenceData = [
+            {
+                id: 'url1',
+                url: '/nsiders/',
+                title: 'Dossier Racine (Nsiders)',
+                suspicion: 'Nom mystérieux. Organisation secrète ?',
+                reality: 'Page d\'accueil probable d\'un portfolio ou d\'un projet de groupe. "N-siders" (Insiders) est un jeu de mots courant pour les communautés.',
+                safe: true,
+                type: 'Hub'
+            },
+            {
+                id: 'url2',
+                url: '/x-files/',
+                title: 'Sous-Dossier X-Files',
+                suspicion: 'Référence à des fichiers classifiés/paranormaux.',
+                reality: 'Hommage à la culture pop. Contient probablement des images, des fan-arts ou des expériences de code webgl/canvas.',
+                safe: true,
+                type: 'Fan Art'
+            },
+            {
+                id: 'url3',
+                url: '/alert/leak/',
+                title: 'Alerte Fuite (Leak)',
+                suspicion: 'Message d\'alerte, fond rouge, compteur de piratage ?',
+                reality: 'Simulation visuelle. C\'est une animation CSS/JS destinée à surprendre l\'utilisateur. Aucune donnée ne sort de votre ordinateur.',
+                safe: true,
+                type: 'Simulation'
+            }
+        ];
+
+        // --- Core Interaction Handling ---
+
+        function initDashboard() {
+            renderEvidenceCards();
+            initRiskChart();
+            initTechChart();
+        }
+
+        // 1. Render Evidence Cards
+        function renderEvidenceCards() {
+            const grid = document.getElementById('evidence-grid');
+            grid.innerHTML = '';
+
+            evidenceData.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden card-hover cursor-pointer relative group';
+                card.id = `card-${item.id}`;
+                
+                // Initial State HTML (Encrypted/Scary view)
+                card.innerHTML = `
+                    <div class="scan-line"></div>
+                    <div class="p-6 h-full flex flex-col content-view">
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="mono-font text-xs font-bold px-2 py-1 bg-slate-100 rounded text-slate-500">${item.url}</span>
+                            <span class="text-xl status-icon">❓</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-800 mb-2 group-hover:text-indigo-600 transition-colors">${item.title}</h3>
+                        <div class="text-sm text-amber-600 font-medium mb-4 suspicion-text">
+                            ⚠️ Suspect : ${item.suspicion}
+                        </div>
+                        <div class="reality-text hidden text-sm text-slate-600 border-t border-slate-100 pt-3 mt-auto">
+                            <strong class="text-emerald-600 flex items-center gap-1"><span class="text-lg">✓</span> RÉALITÉ :</strong>
+                            ${item.reality}
+                        </div>
+                        <button class="mt-auto w-full py-2 bg-slate-800 text-white rounded font-semibold text-sm hover:bg-slate-700 transition action-btn">
+                            ANALYSER LE CONTENU
+                        </button>
+                    </div>
+                `;
+
+                // Add Click Event Listener
+                card.addEventListener('click', () => analyzeCard(item.id));
+                grid.appendChild(card);
+            });
+        }
+
+        // 2. Card Interaction Logic (Analyze/Decrypt)
+        function analyzeCard(id) {
+            const card = document.getElementById(`card-${id}`);
+            const item = evidenceData.find(d => d.id === id);
+            
+            if (appState.analyzedCards.includes(id)) return; // Already analyzed
+
+            // Visual effects for "Scanning"
+            card.classList.add('scanning');
+            const btn = card.querySelector('.action-btn');
+            btn.textContent = 'DÉCRYPTAGE EN COURS...';
+            btn.classList.replace('bg-slate-800', 'bg-amber-500');
+
+            setTimeout(() => {
+                // Update UI to "Safe" state
+                card.classList.remove('scanning');
+                card.classList.add('border-emerald-400', 'bg-emerald-50');
+                
+                card.querySelector('.suspicion-text').classList.add('line-through', 'opacity-50');
+                card.querySelector('.reality-text').classList.remove('hidden');
+                card.querySelector('.status-icon').textContent = '✅';
+                
+                btn.textContent = 'ANALYSE TERMINÉE : SÛR';
+                btn.classList.replace('bg-amber-500', 'bg-emerald-600');
+                btn.classList.add('cursor-default');
+
+                appState.analyzedCards.push(id);
+            }, 800); // Simulated delay
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // --- Chart.js Implementation ---
+
+        // Chart 1: Risk Gauge (Doughnut)
+        function initRiskChart() {
+            const ctx = document.getElementById('riskGauge').getContext('2d');
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Risque', 'Sécurité'],
+                    datasets: [{
+                        data: [0, 100],
+                        backgroundColor: ['#ef4444', '#10b981'],
+                        borderWidth: 0,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '75%',
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { enabled: false }
+                    },
+                    animation: {
+                        animateScale: true,
+                        animateRotate: true
+                    }
+                }
+            });
+        }
+
+        // Chart 2: Tech Comparison (Bar)
+        function initTechChart() {
+            const ctx = document.getElementById('techComparisonChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Risque Malware', 'Collecte Données', 'Effets Visuels'],
+                    datasets: [
+                        {
+                            label: 'Site Dangereux (Phishing)',
+                            data: [90, 95, 20],
+                            backgroundColor: '#ef4444',
+                            borderRadius: 4
+                        },
+                        {
+                            label: 'Ce Site (GitHub Pages)',
+                            data: [0, 5, 90], // 5% for minor IP logging by standard web servers, 0 malicious
+                            backgroundColor: '#10b981',
+                            borderRadius: 4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: { display: false },
+                            grid: { color: '#f1f5f9' }
+                        },
+                        x: {
+                            grid: { display: false }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                usePointStyle: true,
+                                boxWidth: 8
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Initialize App
+        document.addEventListener('DOMContentLoaded', initDashboard);
+
+    </script>
+</body>
+</html>
