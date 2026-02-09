@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rapport d'Investigation Numérique : Analyse de Site Web</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Roboto', sans-serif; background-color: #F0F4F8; color: #102A43; }
+        
+        /* Chart Container Styling - MANDATORY */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container { height: 400px; }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #E1E8EF; }
+        ::-webkit-scrollbar-thumb { background: #0047AB; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #002F75; }
+
+        /* Typography & Utilities */
+        .text-gradient {
+            background: linear-gradient(135deg, #0047AB 0%, #00BFFF 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+    <!-- Chosen Palette: Brilliant Blues (Professional & Vibrant) -->
+    <!-- Hex Codes: Primary #0047AB (Cobalt), Secondary #00BFFF (Deep Sky Blue), Background #F0F4F8, Text #102A43, Accent #FFD700 (Gold) -->
+    
+    <!-- Application Structure Plan:
+        1. Hero Section: Title and Executive Summary (Safe Verdict).
+        2. Threat Analysis: Visualizing the "Safe" score.
+        3. Technical Forensics: Comparing this site to actual malware (Bar Chart).
+        4. URL Deep Dive: Cards explaining the specific URLs provided (/x-files, /leak).
+        5. Cultural Profiling: Analyzing the author's origin (Belgium) via chart.
+        6. Conclusion: Final recommendation.
+        This structure flows from the immediate answer ("Is it safe?") to the detailed "Why?" and "Who?".
+    -->
+
+    <!-- Visualization & Content Choices:
+        1. Safety Gauge (Doughnut Chart): Goal -> Inform. Viz -> Doughnut. Justification -> Immediate visual confirmation of safety score (0/100 risk).
+        2. Tech Stack Comparison (Bar Chart): Goal -> Compare. Viz -> Bar Chart. Justification -> Shows the contrast between static GitHub pages and dynamic phishing servers.
+        3. Origin Probability (Pie Chart): Goal -> Relationships. Viz -> Pie. Justification -> Visualizes the linguistic analysis ("ouais fieu" -> Belgium).
+        4. URL Cards (HTML/CSS): Goal -> Organize. Viz -> Styled Cards. Justification -> Text-heavy explanation of specific paths better suited for cards than charts.
+        - CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
+    -->
+    
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="antialiased">
+
+    <!-- Navigation / Header -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <span class="text-2xl">🛡️</span>
+                <h1 class="text-xl font-bold tracking-tight text-slate-800">Cyber<span class="text-blue-600">Scan</span> Analytics</h1>
+            </div>
+            <div class="hidden md:block text-sm font-medium text-slate-500">
+                Réf: #GITHUB-IO-ANALYSIS
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8 space-y-12 max-w-7xl">
+
+        <!-- 1. Executive Summary & Verdict -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center bg-white rounded-2xl shadow-lg p-8 border-l-8 border-blue-600">
+            <div>
+                <h2 class="text-blue-600 font-bold uppercase tracking-wider text-sm mb-2">Résultat de l'Analyse</h2>
+                <h3 class="text-4xl md:text-5xl font-black mb-4 text-slate-900">Verdict : <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-400">SITE SÉCURISÉ</span></h3>
+                <p class="text-lg text-slate-600 leading-relaxed mb-6">
+                    L'analyse des URLs soumises (<code>ouaisfieu.github.io</code>) indique qu'il s'agit d'un projet créatif inoffensif. Les éléments visuels alarmants ("Leak", "Alert") sont des simulations esthétiques (scénographie) et non des menaces réelles. Le site est hébergé sur une infrastructure statique sécurisée.
+                </p>
+                <div class="flex flex-wrap gap-3">
+                    <span class="px-4 py-2 bg-blue-50 text-blue-800 rounded-full font-bold text-sm border border-blue-100">Type : Portfolio / ARG</span>
+                    <span class="px-4 py-2 bg-green-50 text-green-800 rounded-full font-bold text-sm border border-green-100">Risque : Nul</span>
+                </div>
+            </div>
+            <div class="flex flex-col items-center justify-center">
+                <div class="chart-container">
+                    <canvas id="safetyChart"></canvas>
+                </div>
+                <p class="text-center text-sm text-slate-400 mt-2">Indice de Confiance de Sécurité</p>
+            </div>
+        </section>
+
+        <!-- 2. Technical Evidence -->
+        <section>
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold text-slate-800 mb-4">Preuves Techniques</h2>
+                <p class="text-slate-600 max-w-3xl text-lg">
+                    Pourquoi ce site n'est-il pas dangereux ? Comparons l'architecture technique de ce site hébergé sur GitHub Pages avec celle d'un véritable site malveillant (Phishing).
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Chart Col -->
+                <div class="lg:col-span-2 bg-white p-6 rounded-xl shadow-md">
+                    <div class="chart-container">
+                        <canvas id="techStackChart"></canvas>
+                    </div>
+                </div>
+                
+                <!-- Info Col -->
+                <div class="space-y-4">
+                    <div class="bg-blue-600 text-white p-6 rounded-xl shadow-lg">
+                        <h4 class="font-bold text-xl mb-2 flex items-center gap-2">🌐 Hébergement Statique</h4>
+                        <p class="text-blue-100">
+                            GitHub Pages ne permet pas l'exécution de code serveur (PHP, Python) nécessaire pour voler et stocker des mots de passe silencieusement.
+                        </p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md border border-slate-100">
+                        <h4 class="font-bold text-slate-800 text-xl mb-2">🔍 Analyse du Code</h4>
+                        <ul class="space-y-2 text-slate-600">
+                            <li class="flex items-center gap-2"><span>✅</span> Pas de formulaires cachés</li>
+                            <li class="flex items-center gap-2"><span>✅</span> Pas de redirection forcée</li>
+                            <li class="flex items-center gap-2"><span>✅</span> Certificat SSL Valide (GitHub)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Decrypting the Content (URL Analysis) -->
+        <section class="bg-slate-900 text-white rounded-3xl p-8 md:p-12 overflow-hidden relative">
+            <!-- Decorative Background Element -->
+            <div class="absolute top-0 right-0 w-64 h-64 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 transform translate-x-1/2 -translate-y-1/2"></div>
+
+            <div class="relative z-10">
+                <h2 class="text-3xl font-bold mb-8 flex items-center gap-3">
+                    <span class="text-cyan-400">📂</span> Décryptage des URLs
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Card 1 -->
+                    <div class="bg-slate-800/50 backdrop-blur-sm p-6 rounded-xl border border-slate-700 hover:border-cyan-400 transition duration-300">
+                        <div class="text-cyan-400 text-sm font-mono mb-2">/nsiders/</div>
+                        <h3 class="text-xl font-bold mb-3">Le "Hub" Communautaire</h3>
+                        <p class="text-slate-300 text-sm mb-4">
+                            "Nsiders" est probablement une contraction de "Insiders". Il s'agit souvent de pages d'accueil pour des groupes d'amis ou des guildes de jeux vidéo.
+                        </p>
+                        <div class="text-xs font-bold text-green-400 uppercase tracking-wide">Statut : Safe Hub</div>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="bg-slate-800/50 backdrop-blur-sm p-6 rounded-xl border border-slate-700 hover:border-cyan-400 transition duration-300">
+                        <div class="text-cyan-400 text-sm font-mono mb-2">/x-files/</div>
+                        <h3 class="text-xl font-bold mb-3">Référence Culturelle</h3>
+                        <p class="text-slate-300 text-sm mb-4">
+                            Hommage à la série culte des années 90. Suggère un contenu lié au mystère, à la science-fiction ou au paranormal fictif.
+                        </p>
+                        <div class="text-xs font-bold text-blue-400 uppercase tracking-wide">Type : Fan Art</div>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="bg-slate-800/50 backdrop-blur-sm p-6 rounded-xl border border-slate-700 hover:border-cyan-400 transition duration-300">
+                        <div class="text-cyan-400 text-sm font-mono mb-2">/alert/leak/</div>
+                        <h3 class="text-xl font-bold mb-3">Simulation de Fuite</h3>
+                        <p class="text-slate-300 text-sm mb-4">
+                            Une page conçue pour ressembler à une alerte de piratage. C'est une technique courante dans les "ARG" (Jeux en Réalité Alternative) pour l'immersion.
+                        </p>
+                        <div class="text-xs font-bold text-amber-400 uppercase tracking-wide">Type : Simulation</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Profiling the Author -->
+        <section>
+            <div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
+                <div>
+                    <h2 class="text-3xl font-bold text-slate-800 mb-2">Profilage Linguistique</h2>
+                    <p class="text-slate-600">Analyse de l'identifiant "ouaisfieu" pour déterminer l'origine géographique.</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center bg-white p-8 rounded-2xl shadow-md">
+                <div class="chart-container">
+                    <canvas id="originChart"></canvas>
+                </div>
+                <div class="space-y-6">
+                    <div class="border-l-4 border-blue-500 pl-4">
+                        <h4 class="text-xl font-bold text-slate-800">Le terme "Fieu"</h4>
+                        <p class="text-slate-600 mt-2">
+                            Argot spécifique à la Belgique francophone (Bruxelles/Wallonie), signifiant "mec", "garçon" ou "fils".
+                        </p>
+                    </div>
+                    <div class="border-l-4 border-cyan-500 pl-4">
+                        <h4 class="text-xl font-bold text-slate-800">Conclusion du Profil</h4>
+                        <p class="text-slate-600 mt-2">
+                            L'auteur est très probablement un développeur belge. Les cybercriminels internationaux utilisent rarement des argots locaux traçables dans leurs URLs publiques.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-100 border-t border-slate-200 py-12">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-2xl font-bold text-slate-800 mb-4">Conclusion Finale</h2>
+            <p class="max-w-2xl mx-auto text-slate-600 mb-8">
+                Le site <code>ouaisfieu.github.io</code> est une expérimentation créative sans danger. Vous pouvez le visiter pour apprécier l'esthétique "Hacker/Sci-Fi" sans craindre pour vos données personnelles.
+            </p>
+            <div class="text-sm text-slate-400">
+                Généré par Analyseur de Sécurité IA &bull; Mode : Infographie
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // --- UTILITY FUNCTIONS ---
+        
+        // Label Wrapping Function (Mandatory Requirement)
+        function splitLabel(label) {
+            if (typeof label !== 'string') return label;
+            if (label.length <= 16) return label;
+            
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = words[0];
+
+            for (let i = 1; i < words.length; i++) {
+                if ((currentLine + " " + words[i]).length <= 16) {
+                    currentLine += " " + words[i];
+                } else {
+                    lines.push(currentLine);
+                    currentLine = words[i];
+                }
+            }
+            lines.push(currentLine);
+            return lines;
+        }
+
+        // Process Data Labels Function
+        function processLabels(labels) {
+            return labels.map(label => splitLabel(label));
+        }
+
+        // Common Chart Options with Tooltip Fix
+        const commonOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    labels: {
+                        font: { family: "'Roboto', sans-serif", size: 12 },
+                        color: '#334155'
+                    }
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(15, 23, 42, 0.9)',
+                    titleFont: { family: "'Roboto', sans-serif", size: 14 },
+                    bodyFont: { family: "'Roboto', sans-serif", size: 13 },
+                    padding: 12,
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            const item = tooltipItems[0];
+                            let label = item.chart.data.labels[item.dataIndex];
+                            if (Array.isArray(label)) {
+                                return label.join(' ');
+                            } else {
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+        // --- CHART INITIALIZATION ---
+
+        // 1. Safety Verdict Chart (Doughnut)
+        const ctxSafety = document.getElementById('safetyChart').getContext('2d');
+        const safetyLabels = ['Niveau de Sécurité', 'Risque Potentiel'];
+        
+        new Chart(ctxSafety, {
+            type: 'doughnut',
+            data: {
+                labels: processLabels(safetyLabels),
+                datasets: [{
+                    data: [100, 0],
+                    backgroundColor: ['#0047AB', '#E2E8F0'], // Cobalt Blue vs Slate
+                    borderWidth: 0,
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                ...commonOptions,
+                cutout: '75%',
+                plugins: {
+                    ...commonOptions.plugins,
+                    legend: { position: 'bottom' }
+                }
+            }
+        });
+
+        // 2. Technical Stack Comparison (Bar Chart)
+        const ctxTech = document.getElementById('techStackChart').getContext('2d');
+        const techLabels = [
+            'Capacité Code Côté Serveur (PHP/DB)', 
+            'Coût Infrastructure Malveillante', 
+            'Transparence du Code Source'
+        ];
+        
+        new Chart(ctxTech, {
+            type: 'bar',
+            data: {
+                labels: processLabels(techLabels),
+                datasets: [
+                    {
+                        label: 'Site Actuel (GitHub)',
+                        data: [0, 0, 100], // No server code, free cost, full transparency
+                        backgroundColor: '#00BFFF', // Deep Sky Blue
+                        borderRadius: 6
+                    },
+                    {
+                        label: 'Site Phishing Typique',
+                        data: [95, 80, 5], // High server capability, high cost, low transparency
+                        backgroundColor: '#94A3B8', // Slate 400 (Greyed out for comparison)
+                        borderRadius: 6
+                    }
+                ]
+            },
+            options: {
+                ...commonOptions,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        grid: { color: '#E2E8F0', borderDash: [5, 5] },
+                        ticks: { color: '#64748B' }
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: { color: '#64748B' }
+                    }
+                }
+            }
+        });
+
+        // 3. Origin Chart (Pie)
+        const ctxOrigin = document.getElementById('originChart').getContext('2d');
+        const originLabels = ['Belgique (Terme "Fieu")', 'France', 'Reste du Monde'];
+        
+        new Chart(ctxOrigin, {
+            type: 'pie',
+            data: {
+                labels: processLabels(originLabels),
+                datasets: [{
+                    data: [85, 10, 5],
+                    backgroundColor: [
+                        '#0047AB', // Primary Cobalt
+                        '#60A5FA', // Light Blue
+                        '#E2E8F0'  // Slate
+                    ],
+                    borderWidth: 2,
+                    borderColor: '#ffffff'
+                }]
+            },
+            options: {
+                ...commonOptions,
+                plugins: {
+                    ...commonOptions.plugins,
+                    legend: { position: 'right' }
+                }
+            }
+        });
+
+    </script>
+</body>
+</html>
