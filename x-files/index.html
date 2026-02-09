@@ -1,0 +1,2031 @@
+<!DOCTYPE html>
+<html lang="fr" prefix="og: https://ogp.me/ns#" itemscope itemtype="https://schema.org/WebPage">
+<head>
+    <!-- ═══════════════════════════════════════════════════════════════════════
+    ╔═╗╦ ╦╔═╗╦╔═╗╔═╗╦╔═╗╦ ╦
+    ║ ║║ ║╠═╣║╚═╗╠╣ ║║╣ ║ ║
+    ╚═╝╚═╝╩ ╩╩╚═╝╚  ╩╚═╝╚═╝
+    
+    "Dans un monde de mensonges universels, dire la vérité est un acte révolutionnaire."
+    — George Orwell, 1984
+    
+    Fork · Hack · Spread
+    ═══════════════════════════════════════════════════════════════════════ -->
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <!-- ═══════════════ PRIMARY META TAGS ═══════════════ -->
+    <title>ouaisfieu · Intelligence Citoyenne Belge | Contre-Institution Numérique</title>
+    <meta name="title" content="ouaisfieu · Intelligence Citoyenne Belge | Contre-Institution Numérique">
+    <meta name="description" content="Observatoire citoyen indépendant analysant la démocratie belge. Documentation systématique de la particratie, défense des droits constitutionnels, éducation permanente. Fork·Hack·Spread.">
+    <meta name="keywords" content="intelligence citoyenne, Belgique, particratie, démocratie, watchdog citoyen, éducation permanente, droits constitutionnels, Arizona gouvernement, OSINT citoyen, contre-institution">
+    <meta name="author" content="ouaisfieu">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="language" content="French">
+    <meta name="revisit-after" content="3 days">
+    <meta name="geo.region" content="BE-BRU">
+    <meta name="geo.placename" content="Bruxelles">
+    
+    <!-- ═══════════════ CANONICAL & ALTERNATE ═══════════════ -->
+    <link rel="canonical" href="https://ouaisfi.eu/">
+    <link rel="alternate" hreflang="fr" href="https://ouaisfi.eu/">
+    <link rel="alternate" hreflang="x-default" href="https://ouaisfi.eu/">
+    
+    <!-- ═══════════════ OPEN GRAPH / FACEBOOK ═══════════════ -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ouaisfi.eu/">
+    <meta property="og:title" content="ouaisfieu · Intelligence Citoyenne Belge">
+    <meta property="og:description" content="Observatoire citoyen indépendant. Documenter. Analyser. Résister. La démocratie belge mérite mieux que le silence.">
+    <meta property="og:image" content="https://ouaisfi.eu/assets/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="ouaisfieu - Intelligence Citoyenne Belge - Fork Hack Spread">
+    <meta property="og:locale" content="fr_BE">
+    <meta property="og:site_name" content="ouaisfieu">
+    
+    <!-- ═══════════════ TWITTER CARDS ═══════════════ -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://ouaisfi.eu/">
+    <meta name="twitter:title" content="ouaisfieu · Intelligence Citoyenne Belge">
+    <meta name="twitter:description" content="Observatoire citoyen indépendant. Documenter. Analyser. Résister. Fork·Hack·Spread.">
+    <meta name="twitter:image" content="https://ouaisfi.eu/assets/twitter-card.png">
+    <meta name="twitter:image:alt" content="ouaisfieu - Contre-Institution Numérique Belge">
+    <meta name="twitter:creator" content="@ouaisfieu">
+    <meta name="twitter:site" content="@ouaisfieu">
+    
+    <!-- ═══════════════ FAVICONS & PWA ═══════════════ -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔍</text></svg>">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <meta name="theme-color" content="#0a0a0f">
+    <meta name="msapplication-TileColor" content="#0a0a0f">
+    
+    <!-- ═══════════════ SCHEMA.ORG JSON-LD ═══════════════ -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "Organization",
+                "@id": "https://ouaisfi.eu/#organization",
+                "name": "ouaisfieu",
+                "alternateName": ["ouaisfi.eu", "Ouais Fieu", "Intelligence Citoyenne Belge"],
+                "url": "https://ouaisfi.eu",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://ouaisfi.eu/assets/logo.png",
+                    "width": 512,
+                    "height": 512
+                },
+                "description": "Observatoire citoyen indépendant analysant le fonctionnement de la démocratie belge. Documentation systématique, analyse critique, éducation permanente.",
+                "foundingDate": "2023",
+                "foundingLocation": {
+                    "@type": "Place",
+                    "name": "Bruxelles",
+                    "address": {
+                        "@type": "PostalAddress",
+                        "addressLocality": "Bruxelles",
+                        "addressRegion": "Région de Bruxelles-Capitale",
+                        "addressCountry": "BE"
+                    }
+                },
+                "areaServed": {
+                    "@type": "Country",
+                    "name": "Belgique",
+                    "identifier": "BE"
+                },
+                "knowsAbout": [
+                    "Particratie belge",
+                    "Intelligence citoyenne",
+                    "Démocratie participative",
+                    "Droits constitutionnels belges",
+                    "Éducation permanente",
+                    "OSINT citoyen",
+                    "Politique sociale belge",
+                    "Gouvernement Arizona"
+                ],
+                "slogan": "Fork · Hack · Spread",
+                "sameAs": [
+                    "https://github.com/ouaisfieu",
+                    "https://ouaisfieu.github.io"
+                ],
+                "contactPoint": {
+                    "@type": "ContactPoint",
+                    "contactType": "general",
+                    "availableLanguage": ["French", "Dutch", "English"]
+                }
+            },
+            {
+                "@type": "WebSite",
+                "@id": "https://ouaisfi.eu/#website",
+                "url": "https://ouaisfi.eu",
+                "name": "ouaisfieu - Intelligence Citoyenne Belge",
+                "description": "Contre-institution numérique pour la vigilance démocratique en Belgique",
+                "publisher": {"@id": "https://ouaisfi.eu/#organization"},
+                "potentialAction": {
+                    "@type": "SearchAction",
+                    "target": {
+                        "@type": "EntryPoint",
+                        "urlTemplate": "https://ouaisfi.eu/recherche?q={search_term_string}"
+                    },
+                    "query-input": "required name=search_term_string"
+                },
+                "inLanguage": "fr-BE"
+            },
+            {
+                "@type": "WebPage",
+                "@id": "https://ouaisfi.eu/#webpage",
+                "url": "https://ouaisfi.eu",
+                "name": "ouaisfieu · Intelligence Citoyenne Belge | Accueil",
+                "isPartOf": {"@id": "https://ouaisfi.eu/#website"},
+                "about": {"@id": "https://ouaisfi.eu/#organization"},
+                "description": "Page d'accueil de l'observatoire citoyen ouaisfieu. Documentation, analyses et ressources pour comprendre et défendre la démocratie belge.",
+                "breadcrumb": {"@id": "https://ouaisfi.eu/#breadcrumb"},
+                "primaryImageOfPage": {
+                    "@type": "ImageObject",
+                    "url": "https://ouaisfi.eu/assets/hero.png"
+                },
+                "speakable": {
+                    "@type": "SpeakableSpecification",
+                    "cssSelector": [".hero-tagline", ".mission-statement", "h1", "h2"]
+                },
+                "mainEntity": {"@id": "https://ouaisfi.eu/#organization"}
+            },
+            {
+                "@type": "BreadcrumbList",
+                "@id": "https://ouaisfi.eu/#breadcrumb",
+                "itemListElement": [
+                    {
+                        "@type": "ListItem",
+                        "position": 1,
+                        "name": "Accueil",
+                        "item": "https://ouaisfi.eu/"
+                    }
+                ]
+            },
+            {
+                "@type": "ItemList",
+                "@id": "https://ouaisfi.eu/#services",
+                "name": "Axes d'action ouaisfieu",
+                "description": "Les domaines d'intervention de l'intelligence citoyenne belge",
+                "itemListElement": [
+                    {
+                        "@type": "ListItem",
+                        "position": 1,
+                        "name": "Documentation Systématique",
+                        "description": "Analyse factuelle et sourcée des dysfonctionnements démocratiques belges"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 2,
+                        "name": "Veille Citoyenne",
+                        "description": "Monitoring continu des décisions politiques et de leurs impacts sociaux"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 3,
+                        "name": "Éducation Permanente",
+                        "description": "Ressources pédagogiques pour comprendre les mécanismes du pouvoir"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 4,
+                        "name": "Outillage Citoyen",
+                        "description": "Outils reproductibles pour l'action collective et la défense des droits"
+                    }
+                ]
+            },
+            {
+                "@type": "FAQPage",
+                "@id": "https://ouaisfi.eu/#faq",
+                "mainEntity": [
+                    {
+                        "@type": "Question",
+                        "name": "Qu'est-ce que la particratie belge ?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "La particratie désigne le système politique belge où les partis contrôlent l'ensemble des institutions, au-delà du cadre constitutionnel. Les parlementaires votent selon les directives partisanes plutôt que selon leur conscience ou l'intérêt de leurs électeurs, violant l'article 42 de la Constitution qui interdit le mandat impératif."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "Qu'est-ce que l'intelligence citoyenne ?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "L'intelligence citoyenne transpose les méthodes de l'intelligence économique au service de la société civile. Elle combine veille informationnelle, analyse stratégique et éducation populaire pour permettre aux citoyens de comprendre et d'agir sur les mécanismes du pouvoir."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "Que signifie Fork·Hack·Spread ?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Fork·Hack·Spread est la méthodologie ouaisfieu inspirée de la culture open source. Fork : dupliquer et adapter les outils. Hack : détourner les systèmes pour les améliorer. Spread : diffuser les connaissances librement. Chaque analyse, chaque outil est conçu pour être reproductible et améliorable par tous."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "Comment contribuer à ouaisfieu ?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Plusieurs façons de contribuer : partager les analyses, signaler des dysfonctionnements, proposer des corrections, forker les outils sur GitHub, ou simplement s'informer et informer son entourage. La résistance citoyenne commence par la connaissance."
+                        }
+                    }
+                ]
+            },
+            {
+                "@type": "CreativeWork",
+                "@id": "https://ouaisfi.eu/#corpus",
+                "name": "Corpus analytique ouaisfieu",
+                "author": {"@id": "https://ouaisfi.eu/#organization"},
+                "about": ["Démocratie belge", "Particratie", "Droits sociaux", "Constitution belge"],
+                "genre": ["Analyse politique", "Éducation citoyenne", "Documentation sociale"],
+                "inLanguage": "fr",
+                "isAccessibleForFree": true,
+                "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+                "numberOfItems": "70+"
+            }
+        ]
+    }
+    </script>
+    
+    <!-- ═══════════════ PRECONNECT & PRELOAD ═══════════════ -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+    /* ═══════════════════════════════════════════════════════════════════════
+       ╔═╗╦ ╦╔═╗╦╔═╗╔═╗╦╔═╗╦ ╦  ·  DESIGN SYSTEM
+       ║ ║║ ║╠═╣║╚═╗╠╣ ║║╣ ║ ║  ·  Cyberpunk Citoyen
+       ╚═╝╚═╝╩ ╩╩╚═╝╚  ╩╚═╝╚═╝  ·  "Ideas are bulletproof"
+       ═══════════════════════════════════════════════════════════════════════ */
+    
+    :root {
+        /* Palette principale */
+        --mint: #48bb78;
+        --mint-glow: #68d391;
+        --mint-dark: #276749;
+        --lilac: #9f7aea;
+        --lilac-glow: #b794f4;
+        --lilac-dark: #6b46c1;
+        
+        /* Fond cyberpunk */
+        --void: #0a0a0f;
+        --void-light: #12121a;
+        --void-lighter: #1a1a25;
+        --terminal: #0d1117;
+        
+        /* Texte */
+        --text-primary: #e2e8f0;
+        --text-secondary: #a0aec0;
+        --text-muted: #718096;
+        
+        /* Accents */
+        --warning: #f6ad55;
+        --danger: #fc8181;
+        --success: var(--mint);
+        
+        /* Typographie */
+        --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        --font-display: 'Space Grotesk', system-ui, sans-serif;
+        --font-body: 'Crimson Pro', Georgia, serif;
+        
+        /* Spacing */
+        --space-xs: 0.25rem;
+        --space-sm: 0.5rem;
+        --space-md: 1rem;
+        --space-lg: 2rem;
+        --space-xl: 4rem;
+        --space-2xl: 8rem;
+        
+        /* Animation */
+        --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+        --ease-in-out-circ: cubic-bezier(0.85, 0, 0.15, 1);
+    }
+    
+    /* ═══════════════ RESET & BASE ═══════════════ */
+    *, *::before, *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+    
+    html {
+        scroll-behavior: smooth;
+        font-size: 16px;
+    }
+    
+    body {
+        font-family: var(--font-body);
+        background: var(--void);
+        color: var(--text-primary);
+        line-height: 1.7;
+        overflow-x: hidden;
+        min-height: 100vh;
+    }
+    
+    ::selection {
+        background: var(--lilac);
+        color: var(--void);
+    }
+    
+    /* ═══════════════ NOISE OVERLAY ═══════════════ */
+    body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        opacity: 0.03;
+        pointer-events: none;
+        z-index: 1000;
+    }
+    
+    /* ═══════════════ SCANLINES ═══════════════ */
+    body::after {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 2px,
+            rgba(0, 0, 0, 0.1) 2px,
+            rgba(0, 0, 0, 0.1) 4px
+        );
+        pointer-events: none;
+        z-index: 999;
+        opacity: 0.4;
+    }
+    
+    /* ═══════════════ GRID BACKGROUND ═══════════════ */
+    .grid-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: 
+            linear-gradient(rgba(72, 187, 120, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(72, 187, 120, 0.03) 1px, transparent 1px);
+        background-size: 50px 50px;
+        z-index: -1;
+    }
+    
+    /* ═══════════════ TYPOGRAPHY ═══════════════ */
+    h1, h2, h3, h4, h5, h6 {
+        font-family: var(--font-display);
+        font-weight: 700;
+        line-height: 1.2;
+        letter-spacing: -0.02em;
+    }
+    
+    .mono {
+        font-family: var(--font-mono);
+    }
+    
+    a {
+        color: var(--mint);
+        text-decoration: none;
+        transition: all 0.3s var(--ease-out-expo);
+    }
+    
+    a:hover {
+        color: var(--mint-glow);
+        text-shadow: 0 0 20px var(--mint);
+    }
+    
+    /* ═══════════════ CONTAINER ═══════════════ */
+    .container {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 var(--space-lg);
+    }
+    
+    /* ═══════════════ HEADER / NAV ═══════════════ */
+    header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        padding: var(--space-md) 0;
+        background: linear-gradient(to bottom, var(--void), transparent);
+        backdrop-filter: blur(10px);
+    }
+    
+    nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .logo {
+        font-family: var(--font-mono);
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--mint);
+        display: flex;
+        align-items: center;
+        gap: var(--space-sm);
+    }
+    
+    .logo-symbol {
+        width: 32px;
+        height: 32px;
+        border: 2px solid var(--mint);
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        animation: pulse-glow 2s ease-in-out infinite;
+    }
+    
+    @keyframes pulse-glow {
+        0%, 100% { box-shadow: 0 0 5px var(--mint), inset 0 0 5px transparent; }
+        50% { box-shadow: 0 0 20px var(--mint), inset 0 0 10px rgba(72, 187, 120, 0.3); }
+    }
+    
+    .nav-links {
+        display: flex;
+        gap: var(--space-lg);
+        list-style: none;
+    }
+    
+    .nav-links a {
+        font-family: var(--font-mono);
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        position: relative;
+    }
+    
+    .nav-links a::after {
+        content: '';
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 0;
+        height: 1px;
+        background: var(--mint);
+        transition: width 0.3s var(--ease-out-expo);
+    }
+    
+    .nav-links a:hover::after {
+        width: 100%;
+    }
+    
+    /* ═══════════════ HERO SECTION ═══════════════ */
+    .hero {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding-top: var(--space-2xl);
+        position: relative;
+    }
+    
+    .hero-content {
+        position: relative;
+        z-index: 10;
+    }
+    
+    .terminal-header {
+        font-family: var(--font-mono);
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        margin-bottom: var(--space-md);
+        display: flex;
+        align-items: center;
+        gap: var(--space-sm);
+    }
+    
+    .terminal-dots {
+        display: flex;
+        gap: 6px;
+    }
+    
+    .terminal-dots span {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+    }
+    
+    .terminal-dots span:nth-child(1) { background: #ff5f56; }
+    .terminal-dots span:nth-child(2) { background: #ffbd2e; }
+    .terminal-dots span:nth-child(3) { background: #27ca40; }
+    
+    .glitch-container {
+        position: relative;
+        margin-bottom: var(--space-lg);
+    }
+    
+    .hero-title {
+        font-size: clamp(3rem, 10vw, 7rem);
+        font-weight: 700;
+        background: linear-gradient(135deg, var(--mint) 0%, var(--lilac) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        position: relative;
+        animation: title-reveal 1.5s var(--ease-out-expo) forwards;
+    }
+    
+    @keyframes title-reveal {
+        0% { 
+            opacity: 0;
+            transform: translateY(30px);
+            filter: blur(10px);
+        }
+        100% { 
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+    }
+    
+    .hero-title::before,
+    .hero-title::after {
+        content: 'ouaisfieu';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, var(--mint) 0%, var(--lilac) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    .hero-title::before {
+        animation: glitch-1 3s infinite linear alternate-reverse;
+        clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+    }
+    
+    .hero-title::after {
+        animation: glitch-2 2s infinite linear alternate-reverse;
+        clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
+    }
+    
+    @keyframes glitch-1 {
+        0%, 90%, 100% { transform: translate(0); }
+        92% { transform: translate(-3px, 1px); }
+        94% { transform: translate(3px, -1px); }
+        96% { transform: translate(-2px, 2px); }
+        98% { transform: translate(2px, -2px); }
+    }
+    
+    @keyframes glitch-2 {
+        0%, 90%, 100% { transform: translate(0); }
+        91% { transform: translate(2px, -1px); }
+        93% { transform: translate(-2px, 1px); }
+        95% { transform: translate(1px, 2px); }
+        97% { transform: translate(-1px, -1px); }
+    }
+    
+    .hero-tagline {
+        font-family: var(--font-display);
+        font-size: clamp(1.25rem, 3vw, 1.75rem);
+        color: var(--text-secondary);
+        margin-bottom: var(--space-lg);
+        max-width: 600px;
+        animation: fade-up 1s 0.3s var(--ease-out-expo) both;
+    }
+    
+    @keyframes fade-up {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .typing-text {
+        font-family: var(--font-mono);
+        font-size: 1rem;
+        color: var(--mint);
+        margin-bottom: var(--space-xl);
+        display: flex;
+        align-items: center;
+        gap: var(--space-sm);
+        animation: fade-up 1s 0.5s var(--ease-out-expo) both;
+    }
+    
+    .typing-text::before {
+        content: '>';
+        color: var(--lilac);
+    }
+    
+    .cursor {
+        display: inline-block;
+        width: 10px;
+        height: 1.2em;
+        background: var(--mint);
+        animation: blink 1s step-end infinite;
+    }
+    
+    @keyframes blink {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0; }
+    }
+    
+    /* ═══════════════ QUOTE BLOCKS ═══════════════ */
+    .quote-matrix {
+        border-left: 3px solid var(--mint);
+        padding-left: var(--space-lg);
+        margin: var(--space-xl) 0;
+        font-style: italic;
+        color: var(--text-secondary);
+        position: relative;
+        animation: fade-up 1s 0.7s var(--ease-out-expo) both;
+    }
+    
+    .quote-matrix cite {
+        display: block;
+        margin-top: var(--space-sm);
+        font-family: var(--font-mono);
+        font-size: 0.85rem;
+        color: var(--lilac);
+        font-style: normal;
+    }
+    
+    /* ═══════════════ CTA BUTTONS ═══════════════ */
+    .cta-group {
+        display: flex;
+        gap: var(--space-md);
+        flex-wrap: wrap;
+        animation: fade-up 1s 0.9s var(--ease-out-expo) both;
+    }
+    
+    .btn {
+        font-family: var(--font-mono);
+        font-size: 0.9rem;
+        padding: var(--space-md) var(--space-lg);
+        border: none;
+        cursor: pointer;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        transition: all 0.3s var(--ease-out-expo);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .btn-primary {
+        background: linear-gradient(135deg, var(--mint) 0%, var(--mint-dark) 100%);
+        color: var(--void);
+    }
+    
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 40px rgba(72, 187, 120, 0.4);
+        color: var(--void);
+    }
+    
+    .btn-secondary {
+        background: transparent;
+        border: 1px solid var(--lilac);
+        color: var(--lilac);
+    }
+    
+    .btn-secondary:hover {
+        background: var(--lilac);
+        color: var(--void);
+        box-shadow: 0 10px 40px rgba(159, 122, 234, 0.3);
+    }
+    
+    .btn::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        transition: width 0.6s, height 0.6s;
+    }
+    
+    .btn:active::after {
+        width: 300px;
+        height: 300px;
+    }
+    
+    /* ═══════════════ MANIFESTO SECTION ═══════════════ */
+    .manifesto {
+        padding: var(--space-2xl) 0;
+        position: relative;
+    }
+    
+    .manifesto::before {
+        content: '01';
+        position: absolute;
+        top: var(--space-xl);
+        left: -20px;
+        font-family: var(--font-mono);
+        font-size: 8rem;
+        font-weight: 700;
+        color: var(--void-lighter);
+        z-index: -1;
+    }
+    
+    .section-label {
+        font-family: var(--font-mono);
+        font-size: 0.75rem;
+        color: var(--mint);
+        text-transform: uppercase;
+        letter-spacing: 0.3em;
+        margin-bottom: var(--space-md);
+        display: flex;
+        align-items: center;
+        gap: var(--space-md);
+    }
+    
+    .section-label::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: linear-gradient(90deg, var(--mint), transparent);
+    }
+    
+    .section-title {
+        font-size: clamp(2rem, 5vw, 3.5rem);
+        margin-bottom: var(--space-lg);
+        color: var(--text-primary);
+    }
+    
+    .section-title .highlight {
+        color: var(--lilac);
+    }
+    
+    .manifesto-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: var(--space-lg);
+        margin-top: var(--space-xl);
+    }
+    
+    .manifesto-card {
+        background: var(--void-light);
+        border: 1px solid var(--void-lighter);
+        padding: var(--space-lg);
+        position: relative;
+        transition: all 0.4s var(--ease-out-expo);
+    }
+    
+    .manifesto-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: linear-gradient(90deg, var(--mint), var(--lilac));
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.4s var(--ease-out-expo);
+    }
+    
+    .manifesto-card:hover {
+        transform: translateY(-5px);
+        border-color: var(--mint);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+    
+    .manifesto-card:hover::before {
+        transform: scaleX(1);
+    }
+    
+    .card-icon {
+        font-size: 2rem;
+        margin-bottom: var(--space-md);
+        display: block;
+    }
+    
+    .card-title {
+        font-family: var(--font-display);
+        font-size: 1.25rem;
+        color: var(--text-primary);
+        margin-bottom: var(--space-sm);
+    }
+    
+    .card-text {
+        color: var(--text-secondary);
+        font-size: 1rem;
+    }
+    
+    .card-reference {
+        font-family: var(--font-mono);
+        font-size: 0.7rem;
+        color: var(--text-muted);
+        margin-top: var(--space-md);
+        padding-top: var(--space-sm);
+        border-top: 1px dashed var(--void-lighter);
+    }
+    
+    /* ═══════════════ PILLARS SECTION ═══════════════ */
+    .pillars {
+        padding: var(--space-2xl) 0;
+        background: var(--void-light);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .pillars::before {
+        content: '02';
+        position: absolute;
+        top: var(--space-xl);
+        right: -20px;
+        font-family: var(--font-mono);
+        font-size: 8rem;
+        font-weight: 700;
+        color: var(--void);
+        z-index: 0;
+    }
+    
+    .pillar-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1px;
+        background: var(--void-lighter);
+        margin-top: var(--space-xl);
+    }
+    
+    @media (max-width: 768px) {
+        .pillar-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+    
+    .pillar {
+        background: var(--void-light);
+        padding: var(--space-xl);
+        position: relative;
+        transition: all 0.4s var(--ease-out-expo);
+    }
+    
+    .pillar:hover {
+        background: var(--void-lighter);
+    }
+    
+    .pillar-number {
+        font-family: var(--font-mono);
+        font-size: 4rem;
+        font-weight: 700;
+        color: var(--void-lighter);
+        line-height: 1;
+        margin-bottom: var(--space-md);
+        transition: color 0.4s var(--ease-out-expo);
+    }
+    
+    .pillar:hover .pillar-number {
+        color: var(--mint);
+    }
+    
+    .pillar-title {
+        font-family: var(--font-display);
+        font-size: 1.5rem;
+        color: var(--text-primary);
+        margin-bottom: var(--space-md);
+    }
+    
+    .pillar-cmd {
+        font-family: var(--font-mono);
+        font-size: 0.8rem;
+        color: var(--lilac);
+        margin-bottom: var(--space-md);
+    }
+    
+    .pillar-text {
+        color: var(--text-secondary);
+    }
+    
+    /* ═══════════════ STATS SECTION ═══════════════ */
+    .stats {
+        padding: var(--space-2xl) 0;
+        background: linear-gradient(180deg, var(--void-light) 0%, var(--void) 100%);
+    }
+    
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: var(--space-lg);
+        text-align: center;
+    }
+    
+    .stat-item {
+        padding: var(--space-lg);
+    }
+    
+    .stat-number {
+        font-family: var(--font-mono);
+        font-size: 3.5rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, var(--mint) 0%, var(--lilac) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        line-height: 1;
+    }
+    
+    .stat-label {
+        font-family: var(--font-display);
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+        margin-top: var(--space-sm);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+    }
+    
+    /* ═══════════════ ARSENAL SECTION ═══════════════ */
+    .arsenal {
+        padding: var(--space-2xl) 0;
+        position: relative;
+    }
+    
+    .arsenal::before {
+        content: '03';
+        position: absolute;
+        top: var(--space-xl);
+        left: -20px;
+        font-family: var(--font-mono);
+        font-size: 8rem;
+        font-weight: 700;
+        color: var(--void-lighter);
+        z-index: -1;
+    }
+    
+    .arsenal-intro {
+        max-width: 700px;
+        margin-bottom: var(--space-xl);
+    }
+    
+    .arsenal-intro p {
+        font-size: 1.15rem;
+        color: var(--text-secondary);
+    }
+    
+    .weapons-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: var(--space-md);
+    }
+    
+    .weapon {
+        background: var(--terminal);
+        border: 1px solid var(--void-lighter);
+        padding: var(--space-lg);
+        font-family: var(--font-mono);
+        font-size: 0.85rem;
+        transition: all 0.3s var(--ease-out-expo);
+    }
+    
+    .weapon:hover {
+        border-color: var(--mint);
+        transform: translateX(5px);
+    }
+    
+    .weapon-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: var(--space-md);
+        padding-bottom: var(--space-sm);
+        border-bottom: 1px solid var(--void-lighter);
+    }
+    
+    .weapon-name {
+        color: var(--mint);
+        font-weight: 700;
+    }
+    
+    .weapon-tag {
+        font-size: 0.7rem;
+        padding: 2px 8px;
+        background: var(--lilac-dark);
+        color: var(--text-primary);
+        border-radius: 2px;
+    }
+    
+    .weapon-desc {
+        color: var(--text-secondary);
+        line-height: 1.6;
+    }
+    
+    /* ═══════════════ RESISTANCE SECTION ═══════════════ */
+    .resistance {
+        padding: var(--space-2xl) 0;
+        background: var(--void-light);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .resistance::before {
+        content: '"WHO WATCHES THE WATCHMEN?"';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) rotate(-5deg);
+        font-family: var(--font-mono);
+        font-size: clamp(2rem, 8vw, 6rem);
+        font-weight: 700;
+        color: var(--void);
+        white-space: nowrap;
+        z-index: 0;
+        opacity: 0.5;
+    }
+    
+    .resistance .container {
+        position: relative;
+        z-index: 1;
+    }
+    
+    .war-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--space-lg);
+        margin-top: var(--space-xl);
+    }
+    
+    @media (max-width: 900px) {
+        .war-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+    
+    .war-card {
+        background: rgba(10, 10, 15, 0.8);
+        backdrop-filter: blur(10px);
+        border: 1px solid var(--void-lighter);
+        padding: var(--space-xl);
+        text-align: center;
+        transition: all 0.4s var(--ease-out-expo);
+    }
+    
+    .war-card:hover {
+        transform: translateY(-10px);
+        border-color: var(--lilac);
+        box-shadow: 0 20px 60px rgba(159, 122, 234, 0.2);
+    }
+    
+    .war-icon {
+        font-size: 3rem;
+        margin-bottom: var(--space-md);
+    }
+    
+    .war-title {
+        font-family: var(--font-display);
+        font-size: 1.25rem;
+        color: var(--lilac);
+        margin-bottom: var(--space-sm);
+    }
+    
+    .war-subtitle {
+        font-family: var(--font-mono);
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        margin-bottom: var(--space-md);
+    }
+    
+    .war-text {
+        color: var(--text-secondary);
+        font-size: 0.95rem;
+    }
+    
+    /* ═══════════════ FAQ SECTION ═══════════════ */
+    .faq {
+        padding: var(--space-2xl) 0;
+    }
+    
+    .faq-grid {
+        display: grid;
+        gap: var(--space-md);
+        margin-top: var(--space-xl);
+    }
+    
+    .faq-item {
+        background: var(--void-light);
+        border: 1px solid var(--void-lighter);
+        padding: var(--space-lg);
+        cursor: pointer;
+        transition: all 0.3s var(--ease-out-expo);
+    }
+    
+    .faq-item:hover {
+        border-color: var(--mint);
+    }
+    
+    .faq-question {
+        font-family: var(--font-display);
+        font-size: 1.1rem;
+        color: var(--text-primary);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .faq-question::after {
+        content: '+';
+        font-family: var(--font-mono);
+        font-size: 1.5rem;
+        color: var(--mint);
+        transition: transform 0.3s;
+    }
+    
+    .faq-item.active .faq-question::after {
+        transform: rotate(45deg);
+    }
+    
+    .faq-answer {
+        color: var(--text-secondary);
+        margin-top: var(--space-md);
+        padding-top: var(--space-md);
+        border-top: 1px dashed var(--void-lighter);
+        display: none;
+    }
+    
+    .faq-item.active .faq-answer {
+        display: block;
+        animation: fade-up 0.3s var(--ease-out-expo);
+    }
+    
+    /* ═══════════════ CTA FINAL ═══════════════ */
+    .final-cta {
+        padding: var(--space-2xl) 0;
+        text-align: center;
+        background: linear-gradient(180deg, var(--void) 0%, var(--void-light) 50%, var(--void) 100%);
+        position: relative;
+    }
+    
+    .final-cta::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(circle, rgba(72, 187, 120, 0.1) 0%, transparent 70%);
+        border-radius: 50%;
+    }
+    
+    .cta-title {
+        font-size: clamp(2rem, 5vw, 4rem);
+        margin-bottom: var(--space-md);
+    }
+    
+    .cta-title .mint { color: var(--mint); }
+    .cta-title .lilac { color: var(--lilac); }
+    
+    .cta-subtitle {
+        font-family: var(--font-mono);
+        font-size: 1rem;
+        color: var(--text-secondary);
+        margin-bottom: var(--space-xl);
+    }
+    
+    /* ═══════════════ FOOTER ═══════════════ */
+    footer {
+        padding: var(--space-xl) 0;
+        border-top: 1px solid var(--void-lighter);
+        background: var(--void);
+    }
+    
+    .footer-content {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 1fr;
+        gap: var(--space-xl);
+    }
+    
+    @media (max-width: 768px) {
+        .footer-content {
+            grid-template-columns: 1fr;
+            gap: var(--space-lg);
+        }
+    }
+    
+    .footer-brand p {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        margin-top: var(--space-md);
+        max-width: 300px;
+    }
+    
+    .footer-title {
+        font-family: var(--font-mono);
+        font-size: 0.75rem;
+        color: var(--mint);
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        margin-bottom: var(--space-md);
+    }
+    
+    .footer-links {
+        list-style: none;
+    }
+    
+    .footer-links li {
+        margin-bottom: var(--space-sm);
+    }
+    
+    .footer-links a {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+    }
+    
+    .footer-bottom {
+        margin-top: var(--space-xl);
+        padding-top: var(--space-lg);
+        border-top: 1px solid var(--void-lighter);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: var(--space-md);
+    }
+    
+    .footer-copy {
+        font-family: var(--font-mono);
+        font-size: 0.75rem;
+        color: var(--text-muted);
+    }
+    
+    .footer-license {
+        display: flex;
+        align-items: center;
+        gap: var(--space-sm);
+        font-family: var(--font-mono);
+        font-size: 0.75rem;
+        color: var(--text-muted);
+    }
+    
+    .footer-license a {
+        color: var(--lilac);
+    }
+    
+    /* ═══════════════ EASTER EGG: KONAMI CODE ═══════════════ */
+    .matrix-rain {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 9999;
+    }
+    
+    .matrix-rain.active {
+        display: block;
+    }
+    
+    /* ═══════════════ SCROLL INDICATOR ═══════════════ */
+    .scroll-indicator {
+        position: absolute;
+        bottom: var(--space-xl);
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--space-sm);
+        animation: fade-up 1s 1.2s var(--ease-out-expo) both;
+    }
+    
+    .scroll-indicator span {
+        font-family: var(--font-mono);
+        font-size: 0.7rem;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+    }
+    
+    .scroll-line {
+        width: 1px;
+        height: 60px;
+        background: linear-gradient(to bottom, var(--mint), transparent);
+        animation: scroll-bounce 2s ease-in-out infinite;
+    }
+    
+    @keyframes scroll-bounce {
+        0%, 100% { transform: scaleY(1); opacity: 1; }
+        50% { transform: scaleY(0.5); opacity: 0.5; }
+    }
+    
+    /* ═══════════════ RESPONSIVE ═══════════════ */
+    @media (max-width: 768px) {
+        .nav-links {
+            display: none;
+        }
+        
+        .hero-title {
+            font-size: clamp(2.5rem, 12vw, 4rem);
+        }
+        
+        .cta-group {
+            flex-direction: column;
+        }
+        
+        .btn {
+            width: 100%;
+            text-align: center;
+        }
+    }
+    
+    /* ═══════════════ PRINT STYLES ═══════════════ */
+    @media print {
+        body::before,
+        body::after,
+        .grid-bg,
+        header,
+        .scroll-indicator {
+            display: none;
+        }
+        
+        body {
+            background: white;
+            color: black;
+        }
+        
+        .hero-title {
+            -webkit-text-fill-color: black;
+            background: none;
+        }
+    }
+    </style>
+</head>
+
+<body>
+    <!-- Background grid -->
+    <div class="grid-bg" aria-hidden="true"></div>
+    
+    <!-- Matrix rain easter egg canvas -->
+    <canvas class="matrix-rain" aria-hidden="true"></canvas>
+    
+    <!-- ═══════════════ HEADER ═══════════════ -->
+    <header role="banner">
+        <div class="container">
+            <nav role="navigation" aria-label="Navigation principale">
+                <a href="/" class="logo" aria-label="ouaisfieu - Accueil">
+                    <span class="logo-symbol" aria-hidden="true">◉</span>
+                    <span>ouaisfieu</span>
+                </a>
+                <ul class="nav-links">
+                    <li><a href="#manifeste">Manifeste</a></li>
+                    <li><a href="#methode">Méthode</a></li>
+                    <li><a href="#arsenal">Arsenal</a></li>
+                    <li><a href="#resistance">Résistance</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- ═══════════════ HERO ═══════════════ -->
+    <main>
+        <section class="hero" itemscope itemtype="https://schema.org/WPHeader">
+            <div class="container">
+                <div class="hero-content">
+                    <div class="terminal-header" aria-hidden="true">
+                        <div class="terminal-dots">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <span>citizen@ouaisfieu:~$ ./wake_up.sh</span>
+                    </div>
+                    
+                    <div class="glitch-container">
+                        <h1 class="hero-title" itemprop="headline">ouaisfieu</h1>
+                    </div>
+                    
+                    <p class="hero-tagline" itemprop="description">
+                        <strong>Intelligence citoyenne belge.</strong> Documenter les dysfonctionnements. 
+                        Analyser les mécanismes du pouvoir. Armer les consciences.
+                    </p>
+                    
+                    <div class="typing-text" aria-live="polite">
+                        <span id="typed-text">Fork · Hack · Spread</span>
+                        <span class="cursor" aria-hidden="true"></span>
+                    </div>
+                    
+                    <blockquote class="quote-matrix">
+                        <p>"Dans un monde de tromperie généralisée, dire la vérité est un acte révolutionnaire."</p>
+                        <cite>— George Orwell, 1984</cite>
+                    </blockquote>
+                    
+                    <div class="cta-group">
+                        <a href="#manifeste" class="btn btn-primary">Entrer dans la Matrice</a>
+                        <a href="https://github.com/ouaisfieu" class="btn btn-secondary" rel="noopener noreferrer" target="_blank">Fork le Système</a>
+                    </div>
+                </div>
+                
+                <div class="scroll-indicator" aria-hidden="true">
+                    <span>Scroll</span>
+                    <div class="scroll-line"></div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- ═══════════════ MANIFESTE ═══════════════ -->
+        <section id="manifeste" class="manifesto" aria-labelledby="manifesto-title">
+            <div class="container">
+                <div class="section-label">
+                    <span>// MANIFESTE</span>
+                </div>
+                <h2 id="manifesto-title" class="section-title">
+                    Nous sommes les <span class="highlight">Watchmen</span><br>
+                    de la démocratie belge
+                </h2>
+                
+                <p class="manifesto-intro" style="max-width: 700px; color: var(--text-secondary); font-size: 1.15rem; margin-bottom: var(--space-xl);">
+                    Comme dans <em>V for Vendetta</em>, nous croyons que les idées sont à l'épreuve des balles. 
+                    Comme Neo dans <em>The Matrix</em>, nous avons choisi la pilule rouge. 
+                    Comme <em>Mr. Robot</em>, nous savons que le système peut être hacké — mais par l'information, pas par la destruction.
+                </p>
+                
+                <div class="manifesto-grid" itemscope itemtype="https://schema.org/ItemList">
+                    <article class="manifesto-card" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                        <meta itemprop="position" content="1">
+                        <span class="card-icon">🔴</span>
+                        <h3 class="card-title" itemprop="name">La Pilule Rouge</h3>
+                        <p class="card-text" itemprop="description">
+                            Voir la réalité derrière la simulation médiatique. La particratie n'est pas une opinion — 
+                            c'est un fait documentable. Nous produisons les preuves que le système cache.
+                        </p>
+                        <span class="card-reference">// Réf: The Matrix (1999)</span>
+                    </article>
+                    
+                    <article class="manifesto-card" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                        <meta itemprop="position" content="2">
+                        <span class="card-icon">🎭</span>
+                        <h3 class="card-title" itemprop="name">Ideas Are Bulletproof</h3>
+                        <p class="card-text" itemprop="description">
+                            On peut faire taire une voix, mais pas une idée qui s'est répandue. 
+                            Chaque document que nous produisons est conçu pour être forké, adapté, propagé.
+                        </p>
+                        <span class="card-reference">// Réf: V for Vendetta (2005)</span>
+                    </article>
+                    
+                    <article class="manifesto-card" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                        <meta itemprop="position" content="3">
+                        <span class="card-icon">💻</span>
+                        <h3 class="card-title" itemprop="name">Hack the System</h3>
+                        <p class="card-text" itemprop="description">
+                            Pas besoin de détruire pour transformer. L'information est le vrai pouvoir. 
+                            Nous infiltrons les failles du système avec des données, pas des virus.
+                        </p>
+                        <span class="card-reference">// Réf: Mr. Robot (2015-2019)</span>
+                    </article>
+                    
+                    <article class="manifesto-card" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                        <meta itemprop="position" content="4">
+                        <span class="card-icon">👁️</span>
+                        <h3 class="card-title" itemprop="name">Who Watches the Watchmen?</h3>
+                        <p class="card-text" itemprop="description">
+                            La question éternelle d'Alan Moore. Si les élus ne sont plus contrôlés, 
+                            alors les citoyens doivent devenir les gardiens. Nous sommes ce contre-pouvoir.
+                        </p>
+                        <span class="card-reference">// Réf: Watchmen (1986)</span>
+                    </article>
+                    
+                    <article class="manifesto-card" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                        <meta itemprop="position" content="5">
+                        <span class="card-icon">⚔️</span>
+                        <h3 class="card-title" itemprop="name">Rebel Alliance</h3>
+                        <p class="card-text" itemprop="description">
+                            Face à l'Empire particratique, nous sommes la rébellion. Sous-équipés mais déterminés. 
+                            Un budget de 870€ contre des millions. L'espoir comme arme de destruction massive.
+                        </p>
+                        <span class="card-reference">// Réf: Star Wars (1977-...)</span>
+                    </article>
+                    
+                    <article class="manifesto-card" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                        <meta itemprop="position" content="6">
+                        <span class="card-icon">🤖</span>
+                        <h3 class="card-title" itemprop="name">Human + Machine</h3>
+                        <p class="card-text" itemprop="description">
+                            Contrairement à Skynet, notre IA travaille AVEC les humains. Claude n'est pas un outil — 
+                            c'est un co-créateur. La symbiose plutôt que la domination.
+                        </p>
+                        <span class="card-reference">// Réf: Terminator (inversé)</span>
+                    </article>
+                </div>
+            </div>
+        </section>
+        
+        <!-- ═══════════════ MÉTHODE: FORK HACK SPREAD ═══════════════ -->
+        <section id="methode" class="pillars" aria-labelledby="pillars-title">
+            <div class="container">
+                <div class="section-label">
+                    <span>// MÉTHODOLOGIE</span>
+                </div>
+                <h2 id="pillars-title" class="section-title">
+                    <span class="highlight">Fork</span> · Hack · Spread
+                </h2>
+                
+                <div class="pillar-grid">
+                    <article class="pillar">
+                        <div class="pillar-number">01</div>
+                        <h3 class="pillar-title">FORK</h3>
+                        <code class="pillar-cmd">$ git clone resistance</code>
+                        <p class="pillar-text">
+                            Tout ce que nous créons est libre et reproductible. Pas de propriété intellectuelle sur la vérité. 
+                            Prenez nos analyses, adaptez-les à votre contexte, améliorez-les. 
+                            Le code source de la démocratie doit être open source.
+                        </p>
+                    </article>
+                    
+                    <article class="pillar">
+                        <div class="pillar-number">02</div>
+                        <h3 class="pillar-title">HACK</h3>
+                        <code class="pillar-cmd">$ sudo exploit --target=particratie</code>
+                        <p class="pillar-text">
+                            Détourner les outils du système contre lui-même. Utiliser les données publiques que les élus 
+                            ne lisent pas. Transformer le droit constitutionnel en arme citoyenne. 
+                            Chaque faille légale est une porte d'entrée.
+                        </p>
+                    </article>
+                    
+                    <article class="pillar">
+                        <div class="pillar-number">03</div>
+                        <h3 class="pillar-title">SPREAD</h3>
+                        <code class="pillar-cmd">$ broadcast --mode=viral --ethics=true</code>
+                        <p class="pillar-text">
+                            L'information n'a de pouvoir que si elle circule. Nos documents sont optimisés pour 
+                            être partagés, compris, utilisés. De l'éducation permanente au tribunal : 
+                            chaque format a son public.
+                        </p>
+                    </article>
+                </div>
+            </div>
+        </section>
+        
+        <!-- ═══════════════ STATS ═══════════════ -->
+        <section class="stats" aria-label="Statistiques du projet">
+            <div class="container">
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number">70+</div>
+                        <div class="stat-label">Documents analytiques</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">870€</div>
+                        <div class="stat-label">Budget total (2.5 ans)</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">11</div>
+                        <div class="stat-label">Plateformes actives</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">0</div>
+                        <div class="stat-label">Trackers & cookies</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- ═══════════════ ARSENAL ═══════════════ -->
+        <section id="arsenal" class="arsenal" aria-labelledby="arsenal-title">
+            <div class="container">
+                <div class="section-label">
+                    <span>// ARSENAL CITOYEN</span>
+                </div>
+                <h2 id="arsenal-title" class="section-title">
+                    Weapons of Mass <span class="highlight">Instruction</span>
+                </h2>
+                
+                <div class="arsenal-intro">
+                    <p>
+                        Nos armes ne tuent pas — elles éveillent. Chaque document est une munition 
+                        pour le débat démocratique. Comme dirait Q dans James Bond : 
+                        "Essayez de les ramener en un seul morceau, 007."
+                    </p>
+                </div>
+                
+                <div class="weapons-grid">
+                    <article class="weapon">
+                        <div class="weapon-header">
+                            <span class="weapon-name">particratie.exe</span>
+                            <span class="weapon-tag">CRITIQUE</span>
+                        </div>
+                        <p class="weapon-desc">
+                            Analyse systémique du contrôle partisan sur la démocratie belge. 
+                            Article 42 de la Constitution vs réalité du terrain.
+                        </p>
+                    </article>
+                    
+                    <article class="weapon">
+                        <div class="weapon-header">
+                            <span class="weapon-name">arizona-impact.py</span>
+                            <span class="weapon-tag">PROJECTION</span>
+                        </div>
+                        <p class="weapon-desc">
+                            Modélisation des impacts sociaux du gouvernement Arizona jusqu'en 2042. 
+                            Données SPF, projections démographiques, scénarios catastrophe.
+                        </p>
+                    </article>
+                    
+                    <article class="weapon">
+                        <div class="weapon-header">
+                            <span class="weapon-name">deborsu-counter.md</span>
+                            <span class="weapon-tag">RIPOSTE</span>
+                        </div>
+                        <p class="weapon-desc">
+                            Contre-narratif documenté à l'affaire "Tous Fraudeurs". 
+                            Déconstruction méthodique de la stigmatisation médiatique.
+                        </p>
+                    </article>
+                    
+                    <article class="weapon">
+                        <div class="weapon-header">
+                            <span class="weapon-name">cpas-pressure.sh</span>
+                            <span class="weapon-tag">ACTION</span>
+                        </div>
+                        <p class="weapon-desc">
+                            Toolkit pour la pression municipale. Scripts de calcul d'impact par commune, 
+                            modèles de courriers, arguments juridiques.
+                        </p>
+                    </article>
+                    
+                    <article class="weapon">
+                        <div class="weapon-header">
+                            <span class="weapon-name">trois-guerres.json</span>
+                            <span class="weapon-tag">STRATÉGIE</span>
+                        </div>
+                        <p class="weapon-desc">
+                            Transposition de la doctrine militaire chinoise à la résistance civique : 
+                            guerre d'opinion, guerre psychologique, guerre juridique.
+                        </p>
+                    </article>
+                    
+                    <article class="weapon">
+                        <div class="weapon-header">
+                            <span class="weapon-name">osint-citoyen.kit</span>
+                            <span class="weapon-tag">VEILLE</span>
+                        </div>
+                        <p class="weapon-desc">
+                            Méthodologie de renseignement open source adaptée à la société civile. 
+                            Sources publiques, techniques de recoupement, éthique de la veille.
+                        </p>
+                    </article>
+                </div>
+            </div>
+        </section>
+        
+        <!-- ═══════════════ TROIS GUERRES CIVIQUES ═══════════════ -->
+        <section id="resistance" class="resistance" aria-labelledby="resistance-title">
+            <div class="container">
+                <div class="section-label">
+                    <span>// STRATÉGIE DE RÉSISTANCE</span>
+                </div>
+                <h2 id="resistance-title" class="section-title">
+                    Les Trois <span class="highlight">Guerres Civiques</span>
+                </h2>
+                
+                <div class="war-grid">
+                    <article class="war-card">
+                        <div class="war-icon">📢</div>
+                        <h3 class="war-title">Guerre d'Opinion</h3>
+                        <p class="war-subtitle">輿論戰 (Yúlùn Zhàn)</p>
+                        <p class="war-text">
+                            Façonner le récit public par l'information factuelle. 
+                            Contrer la propagande par la documentation. 
+                            Chaque citoyen informé est un relais.
+                        </p>
+                    </article>
+                    
+                    <article class="war-card">
+                        <div class="war-icon">🧠</div>
+                        <h3 class="war-title">Guerre Psychologique</h3>
+                        <p class="war-subtitle">心理戰 (Xīnlǐ Zhàn)</p>
+                        <p class="war-text">
+                            Briser la "dé-sidération" citoyenne. Rendre le scandale visible. 
+                            Transformer l'indifférence en indignation constructive. 
+                            Réveiller la capacité d'agir.
+                        </p>
+                    </article>
+                    
+                    <article class="war-card">
+                        <div class="war-icon">⚖️</div>
+                        <h3 class="war-title">Guerre Juridique</h3>
+                        <p class="war-subtitle">法律戰 (Fǎlǜ Zhàn)</p>
+                        <p class="war-text">
+                            Saturation judiciaire par le droit. Utiliser la Constitution 
+                            contre ceux qui la violent. Chaque recours est une victoire, 
+                            gagnée ou non.
+                        </p>
+                    </article>
+                </div>
+            </div>
+        </section>
+        
+        <!-- ═══════════════ FAQ ═══════════════ -->
+        <section id="faq" class="faq" aria-labelledby="faq-title">
+            <div class="container">
+                <div class="section-label">
+                    <span>// QUESTIONS FRÉQUENTES</span>
+                </div>
+                <h2 id="faq-title" class="section-title">
+                    <span class="highlight">README</span>.md
+                </h2>
+                
+                <div class="faq-grid" itemscope itemtype="https://schema.org/FAQPage">
+                    <article class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                        <h3 class="faq-question" itemprop="name">Qu'est-ce que la particratie belge ?</h3>
+                        <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                            <p itemprop="text">
+                                La particratie désigne le système politique belge où les partis contrôlent 
+                                l'ensemble des institutions, au-delà du cadre constitutionnel. Les parlementaires 
+                                votent selon les directives partisanes plutôt que selon leur conscience ou 
+                                l'intérêt de leurs électeurs, violant l'article 42 de la Constitution qui 
+                                interdit le mandat impératif. C'est comme la Matrice : tant que vous ne la voyez 
+                                pas, vous croyez vivre en démocratie.
+                            </p>
+                        </div>
+                    </article>
+                    
+                    <article class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                        <h3 class="faq-question" itemprop="name">Qu'est-ce que l'intelligence citoyenne ?</h3>
+                        <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                            <p itemprop="text">
+                                L'intelligence citoyenne transpose les méthodes de l'intelligence économique 
+                                au service de la société civile. Elle combine veille informationnelle, analyse 
+                                stratégique et éducation populaire pour permettre aux citoyens de comprendre 
+                                et d'agir sur les mécanismes du pouvoir. Pensez à OSINT, mais pour défendre 
+                                vos droits plutôt que pour espionner.
+                            </p>
+                        </div>
+                    </article>
+                    
+                    <article class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                        <h3 class="faq-question" itemprop="name">Pourquoi "ouaisfieu" ?</h3>
+                        <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                            <p itemprop="text">
+                                "Ouais fieu" (ou "wè fieu") est une expression bruxelloise/belge qui signifie 
+                                quelque chose comme "ouais mec" ou "eh ben oui". C'est une manière populaire 
+                                de confirmer quelque chose avec une pointe d'ironie ou de lassitude. 
+                                C'est notre façon de dire : "Oui, on sait, le système est pourri. Et maintenant, 
+                                on fait quoi ?"
+                            </p>
+                        </div>
+                    </article>
+                    
+                    <article class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                        <h3 class="faq-question" itemprop="name">Comment contribuer ?</h3>
+                        <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                            <p itemprop="text">
+                                Plusieurs façons de rejoindre la Rébellion : partager les analyses 
+                                (le Spread de notre méthodologie), signaler des dysfonctionnements, proposer 
+                                des corrections sur GitHub (le Fork), ou simplement s'informer et informer 
+                                son entourage. Pas besoin d'être un Jedi — chaque action compte.
+                            </p>
+                        </div>
+                    </article>
+                    
+                    <article class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                        <h3 class="faq-question" itemprop="name">C'est légal tout ça ?</h3>
+                        <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                            <p itemprop="text">
+                                100% légal. Nous n'utilisons que des sources publiques, des données ouvertes, 
+                                et des mécanismes juridiques existants. La Constitution belge garantit la 
+                                liberté d'expression et le droit de pétition. Nous ne hackons pas des serveurs — 
+                                nous hackons les consciences avec des faits vérifiables. Comme dirait un avocat : 
+                                "Si c'est dans la loi, c'est dans la loi."
+                            </p>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+        
+        <!-- ═══════════════ CTA FINAL ═══════════════ -->
+        <section class="final-cta" aria-labelledby="final-cta-title">
+            <div class="container">
+                <h2 id="final-cta-title" class="cta-title">
+                    <span class="mint">Wake</span> <span class="lilac">Up.</span>
+                </h2>
+                <p class="cta-subtitle">
+                    "This is your last chance. After this, there is no turning back."
+                </p>
+                <div class="cta-group" style="justify-content: center;">
+                    <a href="https://github.com/ouaisfieu" class="btn btn-primary">Rejoindre la Résistance</a>
+                    <a href="#manifeste" class="btn btn-secondary">Relire le Manifeste</a>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- ═══════════════ FOOTER ═══════════════ -->
+    <footer role="contentinfo" itemscope itemtype="https://schema.org/WPFooter">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="/" class="logo">
+                        <span class="logo-symbol">◉</span>
+                        <span>ouaisfieu</span>
+                    </a>
+                    <p>
+                        Intelligence citoyenne belge. Contre-institution numérique pour la vigilance démocratique.
+                        Fork · Hack · Spread.
+                    </p>
+                </div>
+                
+                <nav aria-label="Liens du projet">
+                    <h4 class="footer-title">Projet</h4>
+                    <ul class="footer-links">
+                        <li><a href="#manifeste">Manifeste</a></li>
+                        <li><a href="#methode">Méthodologie</a></li>
+                        <li><a href="#arsenal">Arsenal</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                    </ul>
+                </nav>
+                
+                <nav aria-label="Ressources">
+                    <h4 class="footer-title">Ressources</h4>
+                    <ul class="footer-links">
+                        <li><a href="https://dl.ouaisfi.eu" rel="noopener">Data Repository</a></li>
+                        <li><a href="https://github.com/ouaisfieu" rel="noopener">GitHub</a></li>
+                        <li><a href="/analyses">Analyses</a></li>
+                        <li><a href="/veille">Veille</a></li>
+                    </ul>
+                </nav>
+                
+                <nav aria-label="Contact">
+                    <h4 class="footer-title">Contact</h4>
+                    <ul class="footer-links">
+                        <li><a href="mailto:contact@ouaisfi.eu">Email</a></li>
+                        <li><a href="https://mastodon.social/@ouaisfieu" rel="me noopener">Mastodon</a></li>
+                        <li><a href="/mentions-legales">Mentions légales</a></li>
+                    </ul>
+                </nav>
+            </div>
+            
+            <div class="footer-bottom">
+                <p class="footer-copy">
+                    © 2023-2026 ouaisfieu · Bruxelles, Belgique · Fait avec 🔥 et Claude
+                </p>
+                <div class="footer-license">
+                    <span>Licence</span>
+                    <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="license noopener" target="_blank">CC BY-SA 4.0</a>
+                    <span>·</span>
+                    <span>Fork encouraged</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- ═══════════════ SCRIPTS ═══════════════ -->
+    <script>
+    // FAQ Toggle
+    document.querySelectorAll('.faq-item').forEach(item => {
+        item.addEventListener('click', () => {
+            item.classList.toggle('active');
+        });
+    });
+    
+    // Typing effect for hero
+    const phrases = [
+        'Fork · Hack · Spread',
+        'Documenter · Analyser · Résister',
+        'Wake Up, Neo.',
+        'Ideas are bulletproof.',
+        'Who watches the watchmen?',
+        'La résistance est fertile.',
+        'Ctrl+Alt+Démocratie'
+    ];
+    
+    let phraseIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    const typedText = document.getElementById('typed-text');
+    
+    function type() {
+        const currentPhrase = phrases[phraseIndex];
+        
+        if (isDeleting) {
+            typedText.textContent = currentPhrase.substring(0, charIndex - 1);
+            charIndex--;
+        } else {
+            typedText.textContent = currentPhrase.substring(0, charIndex + 1);
+            charIndex++;
+        }
+        
+        if (!isDeleting && charIndex === currentPhrase.length) {
+            setTimeout(() => isDeleting = true, 2000);
+        } else if (isDeleting && charIndex === 0) {
+            isDeleting = false;
+            phraseIndex = (phraseIndex + 1) % phrases.length;
+        }
+        
+        const speed = isDeleting ? 50 : 100;
+        setTimeout(type, speed);
+    }
+    
+    setTimeout(type, 2000);
+    
+    // Konami Code Easter Egg (Matrix Rain)
+    const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+    let konamiIndex = 0;
+    
+    document.addEventListener('keydown', (e) => {
+        if (e.key === konamiCode[konamiIndex]) {
+            konamiIndex++;
+            if (konamiIndex === konamiCode.length) {
+                activateMatrixRain();
+                konamiIndex = 0;
+            }
+        } else {
+            konamiIndex = 0;
+        }
+    });
+    
+    function activateMatrixRain() {
+        const canvas = document.querySelector('.matrix-rain');
+        canvas.classList.add('active');
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        const chars = 'ouaisfieu·FORK·HACK·SPREAD·アイウエオカキクケコサシスセソタチツテト0123456789';
+        const fontSize = 14;
+        const columns = canvas.width / fontSize;
+        const drops = Array(Math.floor(columns)).fill(1);
+        
+        function draw() {
+            ctx.fillStyle = 'rgba(10, 10, 15, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = '#48bb78';
+            ctx.font = `${fontSize}px JetBrains Mono, monospace`;
+            
+            for (let i = 0; i < drops.length; i++) {
+                const char = chars[Math.floor(Math.random() * chars.length)];
+                ctx.fillText(char, i * fontSize, drops[i] * fontSize);
+                
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+        
+        const interval = setInterval(draw, 33);
+        
+        setTimeout(() => {
+            clearInterval(interval);
+            canvas.classList.remove('active');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }, 10000);
+    }
+    
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    });
+    
+    // Intersection Observer for scroll animations
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, observerOptions);
+    
+    document.querySelectorAll('.manifesto-card, .pillar, .weapon, .war-card, .faq-item').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)';
+        el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+        observer.observe(el);
+    });
+    </script>
+</body>
+</html>
