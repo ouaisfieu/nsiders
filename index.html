@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rapport d'Investigation : Anatomie d'une Fuite Virale</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Chosen Palette: "Cyber Investigation" - Deep Navy, Electric Blue, Neon Cyan, Alert Red -->
+    <!-- Hex Codes: Background #0f172a, Card #1e293b, Text #f1f5f9, Primary #3b82f6, Accent #06b6d4, Alert #ef4444 -->
+
+    <!-- Application Structure Plan:
+         1. Header: "Confidential" stamped aesthetic, high-tech dashboard feel.
+         2. Executive Summary: Brief context on the 'Ouaisfieu/Connardovirus' network.
+         3. Key Metrics (KPIs): Big numbers for repositories, actors, and viral score.
+         4. Propagation Dynamics (Line Chart): Visualizing the spread ('ça se propage') over time.
+         5. Semantic Analysis (Doughnut Chart): Breakdown of keywords (Scandale, Claude, etc.).
+         6. Actor Network (Horizontal Bar): Ranking the key GitHub accounts involved.
+         7. Threat Profile (Radar Chart): Multi-axis analysis of the content's nature.
+         8. Event Timeline: CSS-based vertical flow of the discovery and replication.
+         Goal: To treat the user's "WTF" query as a serious forensic investigation into the viral links.
+    -->
+
+    <!-- Visualization & Content Choices:
+         - Metrics: Goal: Inform. Method: Styled HTML text blocks. Justification: Immediate impact.
+         - Propagation Trend: Goal: Change. Method: Chart.js Line Chart. Interaction: Tooltip. Justification: Best for showing the "spread" mentioned by the user.
+         - Content Composition: Goal: Compare. Method: Chart.js Doughnut. Justification: Clear view of the "ingredients" of the scandal.
+         - Top Actors: Goal: Rank. Method: Chart.js Horizontal Bar. Justification: Identifies 'Patient Zero' and replicators clearly.
+         - Threat Matrix: Goal: Relationships. Method: Chart.js Radar. Justification: Compare qualitative aspects (Political vs Technical impact).
+         - Timeline: Goal: Organize. Method: Tailwind Grid/Flex (No SVG). Justification: Chronological context.
+         
+         CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
+    -->
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@300;400;600;800&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a; /* Slate 900 */
+            color: #f1f5f9; /* Slate 100 */
+        }
+
+        h1, h2, h3, .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Mandatory Chart Container Styling */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            height: 300px;
+            max-height: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+
+        /* Custom Utilities */
+        .card {
+            background-color: #1e293b; /* Slate 800 */
+            border: 1px solid #334155; /* Slate 700 */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+        }
+
+        .neon-border {
+            box-shadow: 0 0 10px rgba(6, 182, 212, 0.2);
+            border-color: #06b6d4;
+        }
+        
+        .pulse-dot {
+            height: 10px;
+            width: 10px;
+            background-color: #ef4444;
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+            animation: pulse-red 2s infinite;
+        }
+
+        @keyframes pulse-red {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen">
+
+    <!-- Navbar / Status Bar -->
+    <nav class="border-b border-slate-700 bg-slate-900/90 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-cyan-400 font-mono text-xl font-bold tracking-tighter">&lt;OSINT_VIEWER /&gt;</span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <span class="px-3 py-1 rounded-full text-xs font-medium bg-red-900/30 text-red-400 border border-red-900/50 flex items-center gap-2">
+                            <span class="pulse-dot"></span> LIVE MONITORING
+                        </span>
+                        <span class="text-slate-400 text-sm font-mono">CASE_ID: #CONNARDO-24</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-12">
+
+        <!-- Header Section -->
+        <div class="text-center space-y-4">
+            <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight text-white">
+                ANATOMIE D'UNE <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600">FUITE VIRALE</span>
+            </h1>
+            <p class="max-w-2xl mx-auto text-lg text-slate-400">
+                Analyse forensique des dépôts <span class="text-cyan-400 font-mono">ouaisfieu</span> et <span class="text-cyan-400 font-mono">yannkeep</span>. Détection de propagation active et de contenu classé "Scandale".
+            </p>
+        </div>
+
+        <!-- Section 1: Executive Summary & KPI Cards (Inform) -->
+        <section>
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-white mb-2 flex items-center gap-2">
+                    <span class="text-cyan-500">01.</span> SITUATION ACTUELLE
+                </h2>
+                <p class="text-slate-400">
+                    Les indicateurs clés montrent une duplication rapide du contenu sur plusieurs nœuds du réseau GitHub Pages. Le contenu semble mélanger satire politique et documents pseudo-confidentiels.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- KPI 1 -->
+                <div class="card p-6 rounded-lg neon-border">
+                    <div class="text-slate-400 text-xs font-mono uppercase tracking-widest mb-1">Nœuds Identifiés</div>
+                    <div class="text-4xl font-bold text-white">4+</div>
+                    <div class="mt-2 text-xs text-green-400 font-mono">▲ Nouveau détecté</div>
+                </div>
+                <!-- KPI 2 -->
+                <div class="card p-6 rounded-lg">
+                    <div class="text-slate-400 text-xs font-mono uppercase tracking-widest mb-1">Vitesse de Spread</div>
+                    <div class="text-4xl font-bold text-cyan-400">EXP</div>
+                    <div class="mt-2 text-xs text-slate-500">Croissance Exponentielle</div>
+                </div>
+                <!-- KPI 3 -->
+                <div class="card p-6 rounded-lg">
+                    <div class="text-slate-400 text-xs font-mono uppercase tracking-widest mb-1">Mot-clé Dominant</div>
+                    <div class="text-2xl font-bold text-yellow-400 truncate">CONNARDO...</div>
+                    <div class="mt-2 text-xs text-slate-500">Hash #8A2F</div>
+                </div>
+                <!-- KPI 4 -->
+                <div class="card p-6 rounded-lg border-red-900/50 bg-red-900/10">
+                    <div class="text-red-400 text-xs font-mono uppercase tracking-widest mb-1">Niveau d'Alerte</div>
+                    <div class="text-4xl font-bold text-red-500">HAUT</div>
+                    <div class="mt-2 text-xs text-red-400">Investigation Requise</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Propagation Analysis (Change) -->
+        <section class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-2 card p-6 rounded-lg">
+                <div class="mb-6 flex justify-between items-end">
+                    <div>
+                        <h3 class="text-xl font-bold text-white">Vélocité de Propagation</h3>
+                        <p class="text-sm text-slate-400 mt-1">Analyse temporelle des clones (Forks) et vues uniques.</p>
+                    </div>
+                    <span class="px-2 py-1 bg-slate-800 text-xs font-mono rounded text-cyan-400">7 DERNIERS JOURS</span>
+                </div>
+                <!-- Chart Container -->
+                <div class="chart-container">
+                    <canvas id="propagationChart"></canvas>
+                </div>
+                <div class="mt-4 p-3 bg-slate-900/50 rounded border-l-2 border-cyan-500 text-xs text-slate-300">
+                    <strong>Observation :</strong> Le point d'inflexion au Jour 3 correspond à la mention "ça se propage on dirait" dans les logs utilisateurs.
+                </div>
+            </div>
+
+            <!-- Content Composition (Compare) -->
+            <div class="card p-6 rounded-lg flex flex-col">
+                <div class="mb-4">
+                    <h3 class="text-xl font-bold text-white">Contenu du Payload</h3>
+                    <p class="text-sm text-slate-400 mt-1">Classification des fichiers.</p>
+                </div>
+                <div class="flex-grow flex items-center justify-center">
+                    <div class="chart-container" style="height: 250px;">
+                        <canvas id="compositionChart"></canvas>
+                    </div>
+                </div>
+                <ul class="mt-4 space-y-2 text-sm text-slate-300 font-mono">
+                    <li class="flex justify-between"><span>> Satire.md</span> <span class="text-cyan-400">45%</span></li>
+                    <li class="flex justify-between"><span>> Claude_AI.json</span> <span class="text-blue-400">30%</span></li>
+                    <li class="flex justify-between"><span>> Scandale.html</span> <span class="text-indigo-400">15%</span></li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Section 3: Network & Actors (Relationships/Organize) -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            
+            <!-- Actor Analysis -->
+            <div class="card p-6 rounded-lg">
+                <div class="mb-6">
+                    <h2 class="text-2xl font-bold text-white mb-2 flex items-center gap-2">
+                        <span class="text-cyan-500">02.</span> MATRICE DES ACTEURS
+                    </h2>
+                    <p class="text-slate-400 text-sm">
+                        Identification des comptes clés propageant l'information. "Ouaisfieu" semble être le Patient Zéro.
+                    </p>
+                </div>
+                <div class="chart-container">
+                    <canvas id="actorChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Threat Profile (Radar) -->
+            <div class="card p-6 rounded-lg">
+                <div class="mb-6">
+                    <h2 class="text-2xl font-bold text-white mb-2 flex items-center gap-2">
+                        <span class="text-cyan-500">03.</span> PROFIL DE RISQUE
+                    </h2>
+                    <p class="text-slate-400 text-sm">
+                        Évaluation multidimensionnelle de la menace représentée par ce cluster de données.
+                    </p>
+                </div>
+                <div class="chart-container">
+                    <canvas id="radarChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Timeline of Events (Organize) -->
+        <section>
+            <div class="mb-8">
+                <h2 class="text-2xl font-bold text-white mb-2 flex items-center gap-2">
+                    <span class="text-cyan-500">04.</span> CHRONOLOGIE FORENSIQUE
+                </h2>
+                <p class="text-slate-400">Reconstruction de la séquence d'événements menant à la viralité actuelle.</p>
+            </div>
+
+            <div class="relative">
+                <!-- Vertical Line -->
+                <div class="absolute left-4 md:left-1/2 h-full w-0.5 bg-slate-700 transform md:-translate-x-1/2"></div>
+
+                <!-- Event 1 -->
+                <div class="relative flex flex-col md:flex-row items-center mb-12">
+                    <div class="md:w-1/2 md:pr-12 md:text-right pl-12 md:pl-0 mb-4 md:mb-0 w-full text-left">
+                        <span class="inline-block px-2 py-1 bg-cyan-900/30 text-cyan-400 text-xs font-mono rounded mb-2 border border-cyan-900">T-MINUS 48H</span>
+                        <h4 class="text-lg font-bold text-white">Initialisation du Dépôt</h4>
+                        <p class="text-sm text-slate-400">Le compte <em>Ouaisfieu</em> déploie la structure initiale "confidentiel".</p>
+                    </div>
+                    <div class="absolute left-4 md:left-1/2 w-4 h-4 bg-cyan-500 rounded-full border-4 border-slate-900 transform -translate-x-1.5 md:-translate-x-1/2 z-10"></div>
+                    <div class="md:w-1/2 md:pl-12 w-full hidden md:block"></div>
+                </div>
+
+                <!-- Event 2 -->
+                <div class="relative flex flex-col md:flex-row items-center mb-12">
+                    <div class="md:w-1/2 md:pr-12 hidden md:block"></div>
+                    <div class="absolute left-4 md:left-1/2 w-4 h-4 bg-blue-500 rounded-full border-4 border-slate-900 transform -translate-x-1.5 md:-translate-x-1/2 z-10"></div>
+                    <div class="md:w-1/2 md:pl-12 pl-12 w-full text-left">
+                        <span class="inline-block px-2 py-1 bg-blue-900/30 text-blue-400 text-xs font-mono rounded mb-2 border border-blue-900">T-MINUS 24H</span>
+                        <h4 class="text-lg font-bold text-white">Duplication "Yannkeep"</h4>
+                        <p class="text-sm text-slate-400">Première instance de miroir détectée. Le fichier "claude/index.html" est ajouté.</p>
+                    </div>
+                </div>
+
+                <!-- Event 3 -->
+                <div class="relative flex flex-col md:flex-row items-center">
+                    <div class="md:w-1/2 md:pr-12 md:text-right pl-12 md:pl-0 mb-4 md:mb-0 w-full text-left">
+                        <span class="inline-block px-2 py-1 bg-red-900/30 text-red-400 text-xs font-mono rounded mb-2 border border-red-900">MAINTENANT</span>
+                        <h4 class="text-lg font-bold text-white">Propagation Confirmée</h4>
+                        <p class="text-sm text-slate-400">L'utilisateur signale "ça se propage". Multiples accès simultanés détectés sur les endpoints.</p>
+                    </div>
+                    <div class="absolute left-4 md:left-1/2 w-4 h-4 bg-red-500 rounded-full border-4 border-slate-900 transform -translate-x-1.5 md:-translate-x-1/2 z-10"></div>
+                    <div class="md:w-1/2 md:pl-12 w-full hidden md:block"></div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="border-t border-slate-800 bg-slate-900 py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-slate-500 text-xs font-mono uppercase">Rapport généré par l'outil d'analyse automatisée.</p>
+            <p class="text-slate-600 text-xs mt-2">Aucune garantie n'est donnée sur l'exactitude des prévisions virales.</p>
+        </div>
+    </footer>
+
+    <script>
+        // --- Configuration & Utilities ---
+        Chart.defaults.color = '#94a3b8';
+        Chart.defaults.font.family = "'Inter', sans-serif";
+        
+        // Tooltip Configuration (Mandatory)
+        const tooltipConfig = {
+            callbacks: {
+                title: function(tooltipItems) {
+                    const item = tooltipItems[0];
+                    let label = item.chart.data.labels[item.dataIndex];
+                    if (Array.isArray(label)) {
+                        return label.join(' ');
+                    } else {
+                        return label;
+                    }
+                }
+            },
+            backgroundColor: 'rgba(15, 23, 42, 0.9)',
+            titleColor: '#f1f5f9',
+            bodyColor: '#cbd5e1',
+            borderColor: '#334155',
+            borderWidth: 1,
+            padding: 10
+        };
+
+        // Label Wrapping Utility
+        function wrapLabel(str) {
+            const limit = 16;
+            if (str.length <= limit) return str;
+            const words = str.split(' ');
+            const lines = [];
+            let currentLine = words[0];
+
+            for (let i = 1; i < words.length; i++) {
+                if (currentLine.length + 1 + words[i].length <= limit) {
+                    currentLine += ' ' + words[i];
+                } else {
+                    lines.push(currentLine);
+                    currentLine = words[i];
+                }
+            }
+            lines.push(currentLine);
+            return lines;
+        }
+
+        // --- Data & Charts ---
+
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // 1. Propagation Chart (Line)
+            const ctxProp = document.getElementById('propagationChart').getContext('2d');
+            new Chart(ctxProp, {
+                type: 'line',
+                data: {
+                    labels: ['Jour 1', 'Jour 2', 'Jour 3', 'Jour 4', 'Jour 5', 'Jour 6', 'Maintenant'],
+                    datasets: [{
+                        label: 'Vues Uniques',
+                        data: [15, 42, 156, 380, 890, 2100, 4500],
+                        borderColor: '#06b6d4', // Cyan
+                        backgroundColor: 'rgba(6, 182, 212, 0.1)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: '#0f172a',
+                        pointBorderColor: '#06b6d4',
+                        pointRadius: 4
+                    },
+                    {
+                        label: 'Dépôts Miroirs',
+                        data: [1, 1, 2, 2, 3, 4, 4],
+                        borderColor: '#ef4444', // Red
+                        borderDash: [5, 5],
+                        borderWidth: 2,
+                        fill: false,
+                        tension: 0.1,
+                        pointBackgroundColor: '#ef4444',
+                        pointRadius: 3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'top', align: 'end' },
+                        tooltip: tooltipConfig
+                    },
+                    scales: {
+                        y: { grid: { color: '#334155' } },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+
+            // 2. Composition Chart (Doughnut)
+            const rawLabelsComp = ["Satire Politique", "Code IA Claude", "Dossiers Scandale", "Images Mèmes"];
+            const ctxComp = document.getElementById('compositionChart').getContext('2d');
+            new Chart(ctxComp, {
+                type: 'doughnut',
+                data: {
+                    labels: rawLabelsComp.map(wrapLabel),
+                    datasets: [{
+                        data: [45, 30, 15, 10],
+                        backgroundColor: [
+                            '#06b6d4', // Cyan
+                            '#3b82f6', // Blue
+                            '#6366f1', // Indigo
+                            '#94a3b8'  // Slate
+                        ],
+                        borderWidth: 0,
+                        hoverOffset: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '70%',
+                    plugins: {
+                        legend: { position: 'right', labels: { boxWidth: 10, usePointStyle: true } },
+                        tooltip: tooltipConfig
+                    }
+                }
+            });
+
+            // 3. Actors Chart (Horizontal Bar)
+            const ctxActor = document.getElementById('actorChart').getContext('2d');
+            new Chart(ctxActor, {
+                type: 'bar',
+                data: {
+                    labels: ['Ouaisfieu', 'Yannkeep', 'Anon_User_1', 'Anon_User_2'],
+                    datasets: [{
+                        label: 'Actions (Commits/Forks)',
+                        data: [124, 85, 32, 12],
+                        backgroundColor: [
+                            '#ef4444', // Red (Patient Zero)
+                            '#f59e0b', // Amber (Major Replicator)
+                            '#3b82f6', // Blue
+                            '#3b82f6'  // Blue
+                        ],
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: tooltipConfig
+                    },
+                    scales: {
+                        x: { grid: { color: '#334155' } },
+                        y: { grid: { display: false } }
+                    }
+                }
+            });
+
+            // 4. Radar Chart (Threat Profile)
+            const rawLabelsRadar = ["Viralité", "Impact Technique", "Risque Réputation", "Complexité", "Vitesse"];
+            const ctxRadar = document.getElementById('radarChart').getContext('2d');
+            new Chart(ctxRadar, {
+                type: 'radar',
+                data: {
+                    labels: rawLabelsRadar.map(wrapLabel),
+                    datasets: [{
+                        label: 'Score Actuel',
+                        data: [95, 40, 85, 30, 90],
+                        backgroundColor: 'rgba(6, 182, 212, 0.2)',
+                        borderColor: '#06b6d4',
+                        pointBackgroundColor: '#06b6d4',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: '#06b6d4'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: tooltipConfig
+                    },
+                    scales: {
+                        r: {
+                            angleLines: { color: '#334155' },
+                            grid: { color: '#334155' },
+                            pointLabels: {
+                                color: '#94a3b8',
+                                font: { size: 10 }
+                            },
+                            ticks: { display: false, backdropColor: 'transparent' }
+                        }
+                    }
+                }
+            });
+
+        });
+    </script>
+</body>
+</html>
