@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analyse : La Réalité de la Fraude Sociale</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Roboto', sans-serif; background-color: #F0F4F8; color: #102A43; }
+        
+        /* Chart Container Styling - MANDATORY */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 320px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 380px;
+            }
+        }
+
+        /* Palette Classes */
+        .bg-brand-dark { background-color: #102A43; } /* Ink */
+        .bg-brand-primary { background-color: #334E68; } /* Slate */
+        .bg-brand-accent { background-color: #2CB1BC; } /* Cyan */
+        .text-brand-accent { color: #2CB1BC; }
+        .bg-myth { background-color: #D64545; } /* Red */
+        .bg-fact { background-color: #38A169; } /* Green */
+        
+        .card-shadow { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
+    </style>
+    <!-- Chosen Palette: Brilliant Blues (Ink/Slate/Cyan) with Red/Green functional colors -->
+    <!-- Application Structure Plan: 
+         1. Hero Section: Hook regarding the "Docu-fiction" controversy.
+         2. Reality Check (Donut): Visualizing the tiny fraction of actual fraud vs the perceived "everyone".
+         3. Economic Perspective (Bar): Comparing Social Fraud vs Fiscal Fraud (The Elephant in the Room).
+         4. Anatomy of Manipulation (Diagram): Explaining the "Docu-fiction" process.
+         5. Timeline: The sequence of events from broadcast to debunking.
+         6. Conclusion: Summary verdict.
+    -->
+    <!-- Visualization & Content Choices:
+         1. Donut Chart: Goal: Inform/Compare. Justification: Best for showing part-to-whole ratio of fraudsters to honest recipients. Library: Chart.js.
+         2. Bar Chart: Goal: Compare. Justification: Best for showing the massive magnitude difference between fiscal and social fraud. Library: Chart.js.
+         3. Flow Diagram: Goal: Organize. Justification: Step-by-step breakdown of media manipulation. Library: HTML/Tailwind (No SVG).
+         4. Timeline: Goal: Change/Chronology. Justification: Linear progression of the controversy. Library: HTML/Tailwind.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="antialiased">
+
+    <!-- HERO SECTION -->
+    <header class="bg-brand-dark text-white py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto text-center">
+            <h1 class="text-4xl md:text-6xl font-black mb-4 tracking-tight">MYTHE vs RÉALITÉ</h1>
+            <h2 class="text-xl md:text-2xl font-light text-brand-accent uppercase tracking-widest mb-6">Dossier : "Tous Fraudeurs ?"</h2>
+            <p class="max-w-3xl mx-auto text-lg text-gray-300 leading-relaxed">
+                Une analyse factuelle basée sur le rapport de la <strong>Team Alpha</strong>. Décryptage d'une controverse médiatique, où le "docu-fiction" brouille les pistes entre divertissement et réalité sociale.
+            </p>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT GRID -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+
+        <!-- SECTION 1: THE MYTH OF MASS FRAUD -->
+        <section class="md:col-span-1 flex flex-col">
+            <div class="bg-white rounded-xl card-shadow p-6 flex-grow">
+                <div class="border-l-4 border-red-500 pl-4 mb-6">
+                    <h3 class="text-2xl font-bold text-gray-800">Le Mythe : "Tout le monde triche"</h3>
+                    <p class="text-sm text-gray-500 font-medium uppercase mt-1">Perception Médiatique</p>
+                </div>
+                <p class="text-gray-600 mb-6 leading-relaxed">
+                    Les reportages de type "docu-fiction" créent une loupe déformante. En se focalisant sur des cas extrêmes et scénarisés, ils laissent penser que la fraude sociale est la norme parmi les bénéficiaires d'allocations.
+                </p>
+                
+                <div class="bg-red-50 rounded-lg p-6 text-center mb-6">
+                    <div class="text-5xl font-black text-red-500 mb-2">45%</div>
+                    <div class="text-sm font-bold text-red-800 uppercase">Perception Publique Estimée</div>
+                    <p class="text-xs text-red-600 mt-2">Pourcentage de gens qui croient que la fraude est généralisée.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: THE STATISTICAL REALITY -->
+        <section class="md:col-span-1 flex flex-col">
+            <div class="bg-white rounded-xl card-shadow p-6 flex-grow">
+                <div class="border-l-4 border-green-500 pl-4 mb-6">
+                    <h3 class="text-2xl font-bold text-gray-800">La Réalité : Une Infime Minorité</h3>
+                    <p class="text-sm text-gray-500 font-medium uppercase mt-1">Statistiques Officielles (ONSS/ONEM)</p>
+                </div>
+                <p class="text-gray-600 mb-6 leading-relaxed">
+                    Les chiffres officiels sont têtus. Les infractions graves ne concernent qu'une fraction marginale des dossiers. La grande majorité des erreurs sont administratives, non intentionnelles.
+                </p>
+                
+                <div class="chart-container">
+                    <canvas id="fraudDonutChart"></canvas>
+                </div>
+                <p class="text-center text-xs text-gray-400 mt-2">Données basées sur les taux d'infractions constatés lors de contrôles ciblés.</p>
+            </div>
+        </section>
+
+        <!-- SECTION 3: THE ELEPHANT IN THE ROOM (Full Width) -->
+        <section class="md:col-span-2">
+            <div class="bg-white rounded-xl card-shadow p-6 lg:p-10">
+                <div class="mb-8 text-center max-w-3xl mx-auto">
+                    <h3 class="text-3xl font-bold text-brand-dark mb-4">L'Échelle des Coûts : Le Vrai Poids Économique</h3>
+                    <p class="text-gray-600 text-lg">
+                        Alors que les caméras se braquent sur la fraude sociale (souvent de survie), la fraude fiscale massive (entreprises, évasion fiscale) pèse infiniment plus lourd sur le budget de l'État. C'est le "deux poids, deux mesures" de l'indignation.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+                    <div class="lg:col-span-2">
+                        <div class="chart-container">
+                            <canvas id="comparisonChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-1 space-y-4">
+                        <div class="bg-blue-50 p-4 rounded-lg border border-blue-100">
+                            <h4 class="font-bold text-blue-800 text-lg">Fraude Fiscale</h4>
+                            <p class="text-3xl font-black text-brand-dark">30 Md €</p>
+                            <p class="text-sm text-blue-600 mt-1">Estimation annuelle (Dulbea/Fisc)</p>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg border border-gray-200 opacity-75">
+                            <h4 class="font-bold text-gray-600 text-lg">Fraude Sociale</h4>
+                            <p class="text-2xl font-bold text-gray-500">~200 M €</p>
+                            <p class="text-sm text-gray-500 mt-1">Une goutte d'eau en comparaison.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: ANATOMY OF A DOCU-FICTION -->
+        <section class="md:col-span-2">
+            <div class="bg-brand-primary rounded-xl card-shadow p-8 text-white">
+                <h3 class="text-2xl font-bold mb-8 text-center border-b border-blue-400 pb-4">Mécanique de la Manipulation : Le "Docu-Fiction"</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-center">
+                    <!-- Step 1 -->
+                    <div class="bg-brand-dark p-6 rounded-lg relative">
+                        <div class="text-4xl mb-4 text-brand-accent">&#10024;</div> <!-- Sparkles char -->
+                        <h4 class="font-bold text-lg mb-2">Scénarisation</h4>
+                        <p class="text-sm text-gray-300">Utilisation d'acteurs ou de situations exagérées pour le spectacle.</p>
+                        <div class="hidden md:block absolute top-1/2 -right-6 transform -translate-y-1/2 text-2xl text-blue-300">&#10145;</div>
+                    </div>
+                    
+                    <!-- Step 2 -->
+                    <div class="bg-brand-dark p-6 rounded-lg relative">
+                        <div class="text-4xl mb-4 text-brand-accent">&#9986;</div> <!-- Scissors char -->
+                        <h4 class="font-bold text-lg mb-2">Montage Biaisé</h4>
+                        <p class="text-sm text-gray-300">Suppression du contexte et généralisation de cas isolés.</p>
+                        <div class="hidden md:block absolute top-1/2 -right-6 transform -translate-y-1/2 text-2xl text-blue-300">&#10145;</div>
+                    </div>
+                    
+                    <!-- Step 3 -->
+                    <div class="bg-brand-dark p-6 rounded-lg relative">
+                        <div class="text-4xl mb-4 text-brand-accent">&#9888;</div> <!-- Warning char -->
+                        <h4 class="font-bold text-lg mb-2">Flou Artistique</h4>
+                        <p class="text-sm text-gray-300">Absence de mention claire "Fiction", trompant le spectateur.</p>
+                        <div class="hidden md:block absolute top-1/2 -right-6 transform -translate-y-1/2 text-2xl text-blue-300">&#10145;</div>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div class="bg-brand-dark p-6 rounded-lg">
+                        <div class="text-4xl mb-4 text-red-400">&#128165;</div> <!-- Collision char -->
+                        <h4 class="font-bold text-lg mb-2">Stigmatisation</h4>
+                        <p class="text-sm text-gray-300">Le public perçoit les pauvres comme des profiteurs.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: TIMELINE OF THE CONTROVERSY -->
+        <section class="md:col-span-1">
+            <div class="bg-white rounded-xl card-shadow p-6 h-full">
+                <h3 class="text-xl font-bold text-gray-800 mb-6 border-l-4 border-brand-accent pl-3">Chronologie de l'Affaire</h3>
+                <div class="space-y-6 border-l-2 border-gray-200 ml-3 pl-6 relative">
+                    
+                    <!-- Event 1 -->
+                    <div class="relative">
+                        <div class="absolute -left-[33px] top-1 bg-brand-dark h-4 w-4 rounded-full border-2 border-white shadow"></div>
+                        <h4 class="text-lg font-bold text-gray-800">Diffusion TV</h4>
+                        <p class="text-sm text-gray-500 mb-2">Le Déclencheur</p>
+                        <p class="text-gray-600 text-sm">Le programme est diffusé à une heure de grande écoute. Le ton est provocateur.</p>
+                    </div>
+
+                    <!-- Event 2 -->
+                    <div class="relative">
+                        <div class="absolute -left-[33px] top-1 bg-brand-accent h-4 w-4 rounded-full border-2 border-white shadow"></div>
+                        <h4 class="text-lg font-bold text-gray-800">Indignation & Pétition</h4>
+                        <p class="text-sm text-gray-500 mb-2">La Réaction Citoyenne</p>
+                        <p class="text-gray-600 text-sm">Les spectateurs et associations dénoncent le voyeurisme et la malhonnêteté intellectuelle.</p>
+                    </div>
+
+                    <!-- Event 3 -->
+                    <div class="relative">
+                        <div class="absolute -left-[33px] top-1 bg-green-500 h-4 w-4 rounded-full border-2 border-white shadow"></div>
+                        <h4 class="text-lg font-bold text-gray-800">Fact-Checking Team Alpha</h4>
+                        <p class="text-sm text-gray-500 mb-2">La Contre-Attaque</p>
+                        <p class="text-gray-600 text-sm">Publication de l'analyse démontant les artifices de mise en scène et rappelant les vrais chiffres.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 6: CONCLUSION CARD -->
+        <section class="md:col-span-1">
+            <div class="bg-white rounded-xl card-shadow p-6 h-full flex flex-col justify-center bg-gradient-to-br from-white to-blue-50">
+                <div class="text-center">
+                    <div class="inline-block p-4 rounded-full bg-brand-accent bg-opacity-10 text-brand-accent text-5xl mb-4">&#9878;</div> <!-- Scales char -->
+                    <h3 class="text-2xl font-bold text-brand-dark mb-4">Le Verdict</h3>
+                    <p class="text-lg text-gray-700 leading-relaxed italic">
+                        "La lutte contre la fraude est nécessaire, mais la stigmatisation des plus précaires par la fiction déguisée en réalité est contre-productive et socialement dangereuse."
+                    </p>
+                    <div class="mt-8 border-t border-gray-200 pt-6">
+                        <span class="text-sm font-bold text-gray-500 tracking-wider uppercase">Source</span>
+                        <p class="font-medium text-brand-dark">Dossier Briefing Team Alpha</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-200 py-6 text-center text-gray-500 text-sm">
+        <p>Généré par Canvas Infographics &bull; Basé sur des données simulées pour illustration du briefing.</p>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // --- 1. Label Wrapping Utility (Required) ---
+        function wrapLabels(labels, maxChars) {
+            return labels.map(label => {
+                if (label.length <= maxChars) return label;
+                const words = label.split(' ');
+                const lines = [];
+                let currentLine = words[0];
+
+                for (let i = 1; i < words.length; i++) {
+                    if (currentLine.length + 1 + words[i].length <= maxChars) {
+                        currentLine += ' ' + words[i];
+                    } else {
+                        lines.push(currentLine);
+                        currentLine = words[i];
+                    }
+                }
+                lines.push(currentLine);
+                return lines;
+            });
+        }
+
+        // --- 2. Chart Configurations ---
+        
+        // Common Options
+        const commonOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    labels: {
+                        font: { family: 'Roboto', size: 12 },
+                        usePointStyle: true,
+                    }
+                },
+                tooltip: {
+                    backgroundColor: '#102A43',
+                    titleFont: { family: 'Roboto', size: 14, weight: 'bold' },
+                    bodyFont: { family: 'Roboto', size: 13 },
+                    padding: 12,
+                    cornerRadius: 4,
+                    callbacks: {
+                        // MANDATORY TOOLTIP CALLBACK FOR MULTILINE LABELS
+                        title: function(tooltipItems) {
+                            const item = tooltipItems[0];
+                            let label = item.chart.data.labels[item.dataIndex];
+                            if (Array.isArray(label)) {
+                                return label.join(' ');
+                            } else {
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+        // --- Chart 1: Donut (Fraud Rate) ---
+        const ctxDonut = document.getElementById('fraudDonutChart').getContext('2d');
+        const labelsDonut = wrapLabels(['Bénéficiaires Honnêtes (Respect des règles)', 'Infractions Constatées (Fraude suspectée)'], 20);
+        
+        new Chart(ctxDonut, {
+            type: 'doughnut',
+            data: {
+                labels: labelsDonut,
+                datasets: [{
+                    data: [96.5, 3.5], // <5% fraud
+                    backgroundColor: ['#2CB1BC', '#D64545'], // Cyan (Good) vs Red (Bad)
+                    borderWidth: 0,
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                ...commonOptions,
+                cutout: '70%',
+                plugins: {
+                    ...commonOptions.plugins,
+                    legend: { position: 'bottom' }
+                }
+            }
+        });
+
+        // --- Chart 2: Bar (Fiscal vs Social) ---
+        const ctxBar = document.getElementById('comparisonChart').getContext('2d');
+        const labelsBar = wrapLabels(['Fraude Sociale (Allocations, Chômage)', 'Fraude Fiscale (TVA, Impôts Sociétés)'], 16);
+
+        new Chart(ctxBar, {
+            type: 'bar',
+            data: {
+                labels: labelsBar,
+                datasets: [{
+                    label: 'Estimation des Montants (Milliards €)',
+                    data: [0.2, 30.0], // Visualizing the massive difference
+                    backgroundColor: ['#90CDF4', '#102A43'], // Light Blue vs Dark Blue
+                    borderRadius: 4,
+                    barPercentage: 0.6
+                }]
+            },
+            options: {
+                ...commonOptions,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: '#E2E8F0' },
+                        title: { display: true, text: 'Milliards d\'Euros (€)' }
+                    },
+                    x: {
+                        grid: { display: false }
+                    }
+                },
+                plugins: {
+                    ...commonOptions.plugins,
+                    legend: { display: false } // Hide legend as color explains it or titles do
+                }
+            }
+        });
+
+    </script>
+</body>
+</html>
