@@ -1,0 +1,64 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ouaisfieu.github.io/confidentiel/sitemap.xml
+
+# ╔══════════════════════════════════════════════════════════════════════════╗
+# ║  CONFIDENTIEL — Contre-Institution Citoyenne de Surveillance            ║
+# ║  三种公民战法 — Les Trois Guerres Civiques                               ║
+# ║                                                                          ║
+# ║  "The Matrix is everywhere. It is all around us."                       ║
+# ║  — Morpheus                                                              ║
+# ╚══════════════════════════════════════════════════════════════════════════╝
+#
+# ÉCOSYSTÈME COMPLET :
+#
+# ┌─ ouaisfieu.github.io/confidentiel/ ─────────────────────────────────────┐
+# │  ├── /                    (Manifeste / Landing)                        │
+# │  ├── /claude/             (Toolkit 三种公民战法)                        │
+# │  │   ├── guerre-recit.html                                             │
+# │  │   ├── guerre-desideration.html                                      │
+# │  │   └── guerre-pretoire.html                                          │
+# │  ├── /scandale/           (Case Study Deborsu)                         │
+# │  │   ├── chiffres.html                                                 │
+# │  │   ├── anatomie.html                                                 │
+# │  │   ├── atelier.html                                                  │
+# │  │   └── /deborsu/        (Lead-dexing complet)                        │
+# │  │       ├── parcours.html                                             │
+# │  │       ├── reseaux.html                                              │
+# │  │       ├── oeuvres.html                                              │
+# │  │       ├── controverse.html                                          │
+# │  │       └── reactions.html                                            │
+# │  └── /connardovirus/      (Ingénierie virale)                          │
+# │      ├── declencheurs.html                                             │
+# │      ├── formats.html                                                  │
+# │      ├── hooks.html                                                    │
+# │      ├── amplification.html                                            │
+# │      └── templates.html                                                │
+# └─────────────────────────────────────────────────────────────────────────┘
+#
+# ┌─ yannkeep.github.io/confidentiel/claude/ ───────────────────────────────┐
+# │  Data Hub OSINT — Sources vérifiées, précédents juridiques, datasets   │
+# └─────────────────────────────────────────────────────────────────────────┘
+#
+# ┌─ Autres domaines liés ──────────────────────────────────────────────────┐
+# │  ouaisfieu.github.io/alertes-sociales/                                 │
+# │  yannkeep.github.io/alertes-sociales/                                  │
+# │  ouaisfi.eu/                                                           │
+# └─────────────────────────────────────────────────────────────────────────┘
+#
+# STATISTIQUES :
+# - 45+ fichiers HTML
+# - 65+ schemas JSON-LD
+# - 85+ questions FAQPage
+# - 6 domaines maillés
+# - Optimisé GEO (Generative Engine Optimization)
+#
+# CONTACT :
+# https://ouaisfi.eu/
+#
+# LICENSE :
+# CC BY-SA 4.0
+#
+# "We are fsociety. We are finally free. We are finally awake."
+# — Mr. Robot
