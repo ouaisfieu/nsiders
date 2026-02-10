@@ -1,0 +1,1905 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ouaisfieu × Korben · Terminal Citoyen</title>
+    <meta name="description" content="Intelligence citoyenne belge. Une page interactive digne de la culture hacker. Easter eggs inside.">
+    
+    <!-- Preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&family=Orbitron:wght@400;500;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    
+    <style>
+    /* ═══════════════════════════════════════════════════════════════════════════
+       
+       ██████╗ ██╗   ██╗ █████╗ ██╗███████╗███████╗██╗███████╗██╗   ██╗
+      ██╔═══██╗██║   ██║██╔══██╗██║██╔════╝██╔════╝██║██╔════╝██║   ██║
+      ██║   ██║██║   ██║███████║██║███████╗█████╗  ██║█████╗  ██║   ██║
+      ██║   ██║██║   ██║██╔══██║██║╚════██║██╔══╝  ██║██╔══╝  ██║   ██║
+      ╚██████╔╝╚██████╔╝██║  ██║██║███████║██║     ██║███████╗╚██████╔╝
+       ╚═════╝  ╚═════╝ ╚═╝  ╚═╝╚═╝╚══════╝╚═╝     ╚═╝╚══════╝ ╚═════╝
+       
+       Pour Korben, avec amour 💚
+       
+       EASTER EGGS:
+       - Konami Code: ↑↑↓↓←→←→BA → Matrix Rain
+       - IDDQD: God Mode activated
+       - IDKFA: Full Arsenal
+       - 42: Answer to everything
+       - Cliquer 7x sur le logo: ???
+       - Taper "korben" dans la console
+       - Taper "help" pour la liste des commandes
+       - Double-clic sur le fond: Starfield
+       - Secouer la souris rapidement: Glitch mode
+       - Ctrl+Shift+K: Korben Mode
+       
+       ═══════════════════════════════════════════════════════════════════════════ */
+    
+    :root {
+        /* Palette cyberpunk */
+        --void: #0a0a0f;
+        --void-light: #0d1117;
+        --void-lighter: #161b22;
+        --terminal-bg: #0c0c14;
+        
+        /* Couleurs ouaisfieu */
+        --mint: #48bb78;
+        --mint-glow: #68d391;
+        --mint-bright: #9ae6b4;
+        --lilac: #9f7aea;
+        --lilac-glow: #b794f4;
+        --lilac-bright: #d6bcfa;
+        
+        /* Accents NASA */
+        --nasa-blue: #0b3d91;
+        --nasa-red: #fc3d21;
+        --cyber-yellow: #ffd700;
+        --cyber-cyan: #00ffff;
+        --cyber-magenta: #ff00ff;
+        
+        /* Texte */
+        --text-primary: #e6edf3;
+        --text-secondary: #8b949e;
+        --text-muted: #484f58;
+        
+        /* Fonts */
+        --font-mono: 'Fira Code', 'Consolas', monospace;
+        --font-display: 'Orbitron', sans-serif;
+        --font-terminal: 'Share Tech Mono', monospace;
+        
+        /* Glow effects */
+        --glow-mint: 0 0 20px rgba(72, 187, 120, 0.5), 0 0 40px rgba(72, 187, 120, 0.3);
+        --glow-lilac: 0 0 20px rgba(159, 122, 234, 0.5), 0 0 40px rgba(159, 122, 234, 0.3);
+        --glow-cyan: 0 0 20px rgba(0, 255, 255, 0.5), 0 0 40px rgba(0, 255, 255, 0.3);
+    }
+    
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    html {
+        font-size: 16px;
+        scroll-behavior: smooth;
+    }
+    
+    body {
+        font-family: var(--font-mono);
+        background: var(--void);
+        color: var(--text-primary);
+        min-height: 100vh;
+        overflow-x: hidden;
+        cursor: crosshair;
+    }
+    
+    ::selection {
+        background: var(--lilac);
+        color: var(--void);
+    }
+    
+    /* ═══════════════ CANVAS LAYERS ═══════════════ */
+    #starfield, #matrix-rain, #particles, #glitch-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 0;
+    }
+    
+    #matrix-rain {
+        z-index: 1000;
+        opacity: 0;
+        transition: opacity 0.5s;
+    }
+    
+    #matrix-rain.active {
+        opacity: 1;
+    }
+    
+    #glitch-overlay {
+        z-index: 2000;
+        mix-blend-mode: screen;
+        opacity: 0;
+    }
+    
+    #glitch-overlay.active {
+        animation: glitch-flash 0.1s infinite;
+    }
+    
+    @keyframes glitch-flash {
+        0%, 100% { opacity: 0; }
+        50% { opacity: 0.8; }
+    }
+    
+    /* ═══════════════ GRID BACKGROUND ═══════════════ */
+    .grid-perspective {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: 
+            linear-gradient(rgba(72, 187, 120, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(72, 187, 120, 0.03) 1px, transparent 1px);
+        background-size: 40px 40px;
+        transform: perspective(500px) rotateX(60deg);
+        transform-origin: center top;
+        z-index: -1;
+        animation: grid-scroll 20s linear infinite;
+    }
+    
+    @keyframes grid-scroll {
+        0% { background-position: 0 0; }
+        100% { background-position: 0 1000px; }
+    }
+    
+    /* ═══════════════ SCANLINES ═══════════════ */
+    .scanlines {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 2px,
+            rgba(0, 0, 0, 0.1) 2px,
+            rgba(0, 0, 0, 0.1) 4px
+        );
+        pointer-events: none;
+        z-index: 999;
+        opacity: 0.3;
+    }
+    
+    /* ═══════════════ CRT EFFECT ═══════════════ */
+    .crt-effect {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 998;
+        background: radial-gradient(ellipse at center, transparent 0%, rgba(0,0,0,0.3) 100%);
+    }
+    
+    /* ═══════════════ MAIN CONTAINER ═══════════════ */
+    .main-container {
+        position: relative;
+        z-index: 10;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    /* ═══════════════ HEADER ═══════════════ */
+    header {
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid var(--void-lighter);
+        background: rgba(10, 10, 15, 0.8);
+        backdrop-filter: blur(10px);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
+    
+    .logo-container {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        cursor: pointer;
+        user-select: none;
+    }
+    
+    .logo-ascii {
+        font-family: var(--font-terminal);
+        font-size: 0.9rem;
+        line-height: 1.2;
+        color: var(--mint);
+        white-space: pre;
+        text-shadow: var(--glow-mint);
+        transition: all 0.3s;
+        display: block;
+    }
+    
+    .logo-text {
+        display: none;
+        font-family: var(--font-display);
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--mint);
+        text-shadow: var(--glow-mint);
+        letter-spacing: 0.1em;
+    }
+    
+    @media (max-width: 500px) {
+        .logo-ascii {
+            display: none;
+        }
+        .logo-text {
+            display: block;
+        }
+    }
+    
+    .logo-container:hover .logo-ascii,
+    .logo-container:hover .logo-text {
+        color: var(--lilac);
+        text-shadow: var(--glow-lilac);
+    }
+    
+    .logo-container.rainbow .logo-ascii,
+    .logo-container.rainbow .logo-text {
+        animation: rainbow 0.5s linear infinite;
+    }
+    
+    @keyframes rainbow {
+        0% { color: #ff0000; text-shadow: 0 0 20px #ff0000; }
+        16% { color: #ff8800; text-shadow: 0 0 20px #ff8800; }
+        33% { color: #ffff00; text-shadow: 0 0 20px #ffff00; }
+        50% { color: #00ff00; text-shadow: 0 0 20px #00ff00; }
+        66% { color: #0088ff; text-shadow: 0 0 20px #0088ff; }
+        83% { color: #8800ff; text-shadow: 0 0 20px #8800ff; }
+        100% { color: #ff0000; text-shadow: 0 0 20px #ff0000; }
+    }
+    
+    .status-bar {
+        display: flex;
+        gap: 2rem;
+        font-size: 0.75rem;
+        color: var(--text-secondary);
+    }
+    
+    .status-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .status-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        animation: pulse 2s ease-in-out infinite;
+    }
+    
+    .status-dot.green { background: var(--mint); box-shadow: 0 0 10px var(--mint); }
+    .status-dot.yellow { background: var(--cyber-yellow); box-shadow: 0 0 10px var(--cyber-yellow); }
+    .status-dot.red { background: var(--nasa-red); box-shadow: 0 0 10px var(--nasa-red); }
+    
+    @keyframes pulse {
+        0%, 100% { opacity: 1; transform: scale(1); }
+        50% { opacity: 0.5; transform: scale(0.8); }
+    }
+    
+    /* ═══════════════ HERO SECTION ═══════════════ */
+    .hero {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 4rem 2rem;
+        text-align: center;
+        position: relative;
+    }
+    
+    .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        background: rgba(159, 122, 234, 0.1);
+        border: 1px solid var(--lilac);
+        font-size: 0.75rem;
+        color: var(--lilac);
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        margin-bottom: 2rem;
+        animation: float 3s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+    }
+    
+    .hero-title {
+        font-family: var(--font-display);
+        font-size: clamp(2rem, 8vw, 5rem);
+        font-weight: 900;
+        letter-spacing: 0.1em;
+        margin-bottom: 1rem;
+        position: relative;
+    }
+    
+    .hero-title .char {
+        display: inline-block;
+        animation: char-wave 2s ease-in-out infinite;
+        animation-delay: calc(var(--i) * 0.1s);
+    }
+    
+    @keyframes char-wave {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+    }
+    
+    .hero-title .mint { color: var(--mint); text-shadow: var(--glow-mint); }
+    .hero-title .lilac { color: var(--lilac); text-shadow: var(--glow-lilac); }
+    
+    .hero-subtitle {
+        font-size: 1.25rem;
+        color: var(--text-secondary);
+        margin-bottom: 3rem;
+        max-width: 600px;
+    }
+    
+    .hero-subtitle .highlight {
+        color: var(--cyber-cyan);
+        text-shadow: var(--glow-cyan);
+    }
+    
+    /* ═══════════════ COMMAND PROMPT HINT ═══════════════ */
+    .cmd-hint {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 1rem 2rem;
+        background: var(--terminal-bg);
+        border: 1px solid var(--void-lighter);
+        font-family: var(--font-terminal);
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+        cursor: pointer;
+        transition: all 0.3s;
+        animation: blink-border 2s ease-in-out infinite;
+    }
+    
+    @keyframes blink-border {
+        0%, 100% { border-color: var(--void-lighter); }
+        50% { border-color: var(--mint); }
+    }
+    
+    .cmd-hint:hover {
+        background: var(--void-lighter);
+        border-color: var(--mint);
+        color: var(--mint);
+    }
+    
+    .cmd-hint .key {
+        padding: 0.25rem 0.5rem;
+        background: var(--void);
+        border: 1px solid var(--text-muted);
+        border-radius: 3px;
+        font-size: 0.75rem;
+    }
+    
+    /* ═══════════════ STATS DASHBOARD ═══════════════ */
+    .stats-dashboard {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        padding: 2rem;
+        max-width: 1000px;
+        margin: 0 auto 2rem;
+    }
+    
+    .stat-card {
+        background: rgba(13, 17, 23, 0.8);
+        border: 1px solid var(--void-lighter);
+        padding: 1.5rem;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s;
+    }
+    
+    .stat-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: linear-gradient(90deg, var(--mint), var(--lilac));
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.3s;
+    }
+    
+    .stat-card:hover {
+        transform: translateY(-5px);
+        border-color: var(--mint);
+    }
+    
+    .stat-card:hover::before {
+        transform: scaleX(1);
+    }
+    
+    .stat-value {
+        font-family: var(--font-display);
+        font-size: 2.5rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, var(--mint), var(--lilac));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    .stat-label {
+        font-size: 0.75rem;
+        color: var(--text-secondary);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-top: 0.5rem;
+    }
+    
+    .stat-bar {
+        margin-top: 1rem;
+        height: 4px;
+        background: var(--void);
+        border-radius: 2px;
+        overflow: hidden;
+    }
+    
+    .stat-bar-fill {
+        height: 100%;
+        background: linear-gradient(90deg, var(--mint), var(--lilac));
+        border-radius: 2px;
+        animation: fill-bar 2s ease-out forwards;
+    }
+    
+    @keyframes fill-bar {
+        from { width: 0; }
+    }
+    
+    /* ═══════════════ TERMINAL CONSOLE ═══════════════ */
+    .terminal-wrapper {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 500;
+        transform: translateY(calc(100% - 40px));
+        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    
+    .terminal-wrapper.open {
+        transform: translateY(0);
+    }
+    
+    .terminal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.5rem 1rem;
+        background: var(--void-lighter);
+        border-top: 1px solid var(--mint);
+        cursor: pointer;
+    }
+    
+    .terminal-title {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        font-family: var(--font-terminal);
+        font-size: 0.8rem;
+        color: var(--mint);
+    }
+    
+    .terminal-dots {
+        display: flex;
+        gap: 6px;
+    }
+    
+    .terminal-dots span {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: transform 0.2s;
+    }
+    
+    .terminal-dots span:hover { transform: scale(1.2); }
+    .terminal-dots .close { background: #ff5f56; }
+    .terminal-dots .minimize { background: #ffbd2e; }
+    .terminal-dots .maximize { background: #27ca40; }
+    
+    .terminal-toggle {
+        font-family: var(--font-terminal);
+        font-size: 0.75rem;
+        color: var(--text-secondary);
+    }
+    
+    .terminal-body {
+        background: var(--terminal-bg);
+        height: 300px;
+        overflow-y: auto;
+        overflow-x: auto;
+        padding: 1rem;
+        font-family: var(--font-terminal);
+        font-size: 0.8rem;
+    }
+    
+    .terminal-line {
+        margin-bottom: 0.5rem;
+        line-height: 1.4;
+        white-space: pre-wrap;
+        word-break: break-word;
+    }
+    
+    .terminal-line.input {
+        color: var(--text-primary);
+    }
+    
+    .terminal-line.output {
+        color: var(--mint);
+        white-space: pre-wrap;
+    }
+    
+    .terminal-line.error {
+        color: var(--nasa-red);
+    }
+    
+    .terminal-line.warning {
+        color: var(--cyber-yellow);
+    }
+    
+    .terminal-line.system {
+        color: var(--lilac);
+        white-space: pre;
+        font-size: 0.75rem;
+    }
+    
+    .terminal-line.ascii {
+        color: var(--cyber-cyan);
+        white-space: pre;
+        font-size: 0.55rem;
+        line-height: 1.1;
+    }
+    
+    .terminal-prompt {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        white-space: nowrap;
+    }
+    
+    .terminal-prompt-symbol {
+        color: var(--mint);
+    }
+    
+    .terminal-prompt-user {
+        color: var(--lilac);
+    }
+    
+    .terminal-input {
+        flex: 1;
+        background: transparent;
+        border: none;
+        outline: none;
+        font-family: var(--font-terminal);
+        font-size: 0.8rem;
+        color: var(--text-primary);
+        caret-color: var(--mint);
+        min-width: 0;
+    }
+    
+    .terminal-input::placeholder {
+        color: var(--text-muted);
+    }
+    
+    /* Force styles for terminal output - but respect pre for system/ascii */
+    .terminal-body .terminal-line.output {
+        white-space: pre-wrap !important;
+        font-family: var(--font-terminal) !important;
+    }
+    
+    .terminal-body .terminal-line.system,
+    .terminal-body .terminal-line.ascii {
+        white-space: pre !important;
+    }
+    
+    /* ═══════════════ NOTIFICATIONS ═══════════════ */
+    .notification-container {
+        position: fixed;
+        top: 80px;
+        right: 20px;
+        z-index: 1000;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .notification {
+        padding: 1rem 1.5rem;
+        background: var(--void-light);
+        border-left: 3px solid var(--mint);
+        font-size: 0.85rem;
+        animation: slide-in 0.3s ease-out, fade-out 0.3s 3s ease-out forwards;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+    
+    .notification.achievement {
+        border-color: var(--cyber-yellow);
+        background: linear-gradient(90deg, rgba(255, 215, 0, 0.1), transparent);
+    }
+    
+    .notification.secret {
+        border-color: var(--cyber-magenta);
+        background: linear-gradient(90deg, rgba(255, 0, 255, 0.1), transparent);
+    }
+    
+    .notification.korben {
+        border-color: var(--nasa-red);
+        background: linear-gradient(90deg, rgba(252, 61, 33, 0.1), transparent);
+    }
+    
+    @keyframes slide-in {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+    }
+    
+    @keyframes fade-out {
+        to { opacity: 0; transform: translateX(50px); }
+    }
+    
+    /* ═══════════════ ACHIEVEMENT POPUP ═══════════════ */
+    .achievement-popup {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0);
+        z-index: 2000;
+        background: var(--void-light);
+        border: 2px solid var(--cyber-yellow);
+        padding: 3rem;
+        text-align: center;
+        opacity: 0;
+        transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    
+    .achievement-popup.show {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+    
+    .achievement-icon {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+        animation: bounce 0.6s ease-out;
+    }
+    
+    @keyframes bounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-20px); }
+    }
+    
+    .achievement-title {
+        font-family: var(--font-display);
+        font-size: 1.5rem;
+        color: var(--cyber-yellow);
+        text-shadow: 0 0 20px var(--cyber-yellow);
+        margin-bottom: 0.5rem;
+    }
+    
+    .achievement-desc {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+    }
+    
+    /* ═══════════════ GOD MODE EFFECT ═══════════════ */
+    body.god-mode {
+        animation: god-mode-bg 2s linear infinite;
+    }
+    
+    body.god-mode * {
+        animation-play-state: running !important;
+    }
+    
+    @keyframes god-mode-bg {
+        0% { filter: hue-rotate(0deg); }
+        100% { filter: hue-rotate(360deg); }
+    }
+    
+    /* ═══════════════ KORBEN MODE ═══════════════ */
+    body.korben-mode::after {
+        content: '💚 KORBEN MODE ACTIVATED 💚';
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-family: var(--font-display);
+        font-size: 3rem;
+        color: var(--mint);
+        text-shadow: var(--glow-mint);
+        z-index: 3000;
+        animation: korben-flash 0.5s ease-out forwards;
+        pointer-events: none;
+    }
+    
+    @keyframes korben-flash {
+        0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        100% { opacity: 0; transform: translate(-50%, -50%) scale(2); }
+    }
+    
+    /* ═══════════════ KONAMI SUCCESS ═══════════════ */
+    .konami-success {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 3000;
+        pointer-events: none;
+        opacity: 0;
+    }
+    
+    .konami-success.show {
+        animation: konami-reveal 1s ease-out forwards;
+    }
+    
+    .konami-success .text {
+        font-family: var(--font-display);
+        font-size: 4rem;
+        color: var(--mint);
+        text-shadow: var(--glow-mint);
+    }
+    
+    @keyframes konami-reveal {
+        0% { opacity: 0; }
+        20% { opacity: 1; }
+        80% { opacity: 1; }
+        100% { opacity: 0; }
+    }
+    
+    /* ═══════════════ SECRET PANEL ═══════════════ */
+    .secret-panel {
+        position: fixed;
+        top: 0;
+        left: -400px;
+        width: 400px;
+        height: 100%;
+        background: var(--void-light);
+        border-right: 1px solid var(--cyber-magenta);
+        z-index: 600;
+        transition: left 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        overflow-y: auto;
+        padding: 2rem;
+    }
+    
+    .secret-panel.open {
+        left: 0;
+    }
+    
+    .secret-panel h2 {
+        font-family: var(--font-display);
+        color: var(--cyber-magenta);
+        text-shadow: 0 0 20px var(--cyber-magenta);
+        margin-bottom: 1.5rem;
+    }
+    
+    .secret-list {
+        list-style: none;
+    }
+    
+    .secret-list li {
+        padding: 0.75rem 0;
+        border-bottom: 1px solid var(--void-lighter);
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-size: 0.85rem;
+    }
+    
+    .secret-list .found {
+        color: var(--mint);
+    }
+    
+    .secret-list .hidden {
+        color: var(--text-muted);
+    }
+    
+    .secret-close {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: transparent;
+        border: 1px solid var(--cyber-magenta);
+        color: var(--cyber-magenta);
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+        font-family: var(--font-mono);
+        transition: all 0.2s;
+    }
+    
+    .secret-close:hover {
+        background: var(--cyber-magenta);
+        color: var(--void);
+    }
+    
+    /* ═══════════════ FOOTER ═══════════════ */
+    footer {
+        padding: 2rem;
+        text-align: center;
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        border-top: 1px solid var(--void-lighter);
+        background: rgba(10, 10, 15, 0.8);
+    }
+    
+    footer a {
+        color: var(--mint);
+        text-decoration: none;
+    }
+    
+    footer a:hover {
+        text-shadow: var(--glow-mint);
+    }
+    
+    /* ═══════════════ RESPONSIVE ═══════════════ */
+    @media (max-width: 768px) {
+        .status-bar {
+            display: none;
+        }
+        
+        .stats-dashboard {
+            grid-template-columns: 1fr 1fr;
+        }
+        
+        .terminal-body {
+            height: 200px;
+        }
+        
+        .secret-panel {
+            width: 100%;
+            left: -100%;
+        }
+    }
+    
+    /* ═══════════════ CURSOR TRAIL ═══════════════ */
+    .cursor-trail {
+        position: fixed;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--mint);
+        pointer-events: none;
+        z-index: 9999;
+        mix-blend-mode: screen;
+        opacity: 0.7;
+        transition: transform 0.1s;
+    }
+    
+    /* ═══════════════ ORBITING ELEMENTS ═══════════════ */
+    .orbit-container {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        width: 600px;
+        height: 600px;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+        z-index: 5;
+        opacity: 0.3;
+    }
+    
+    .orbit {
+        position: absolute;
+        border: 1px dashed var(--mint);
+        border-radius: 50%;
+        animation: rotate 20s linear infinite;
+    }
+    
+    .orbit:nth-child(1) {
+        width: 200px;
+        height: 200px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        animation-duration: 15s;
+    }
+    
+    .orbit:nth-child(2) {
+        width: 350px;
+        height: 350px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        animation-duration: 25s;
+        animation-direction: reverse;
+        border-color: var(--lilac);
+    }
+    
+    .orbit:nth-child(3) {
+        width: 500px;
+        height: 500px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        animation-duration: 35s;
+    }
+    
+    .satellite {
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        background: var(--mint);
+        border-radius: 50%;
+        box-shadow: var(--glow-mint);
+    }
+    
+    @keyframes rotate {
+        from { transform: translate(-50%, -50%) rotate(0deg); }
+        to { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+    
+    /* ═══════════════ PRINT (lol) ═══════════════ */
+    @media print {
+        body::before, body::after,
+        .grid-perspective, .scanlines, .crt-effect,
+        .terminal-wrapper, .orbit-container,
+        canvas {
+            display: none !important;
+        }
+    }
+    </style>
+</head>
+<body>
+    <!-- Canvas layers -->
+    <canvas id="starfield"></canvas>
+    <canvas id="matrix-rain"></canvas>
+    <canvas id="particles"></canvas>
+    <canvas id="glitch-overlay"></canvas>
+    
+    <!-- Background effects -->
+    <div class="grid-perspective"></div>
+    <div class="scanlines"></div>
+    <div class="crt-effect"></div>
+    
+    <!-- Orbiting elements (NASA style) -->
+    <div class="orbit-container">
+        <div class="orbit"><div class="satellite" style="top: 0; left: 50%;"></div></div>
+        <div class="orbit"><div class="satellite" style="top: 50%; right: 0;"></div></div>
+        <div class="orbit"><div class="satellite" style="bottom: 0; left: 50%;"></div></div>
+    </div>
+    
+    <!-- Main container -->
+    <div class="main-container">
+        <!-- Header -->
+        <header>
+            <div class="logo-container" id="logo" title="Cliquez plusieurs fois...">
+                <pre class="logo-ascii">█▀█ █ █ ▄▀█ █ █▀
+█▄█ █▄█ █▀█ █ ▄█</pre>
+                <span class="logo-text">OUAIS</span>
+            </div>
+            <div class="status-bar">
+                <div class="status-item">
+                    <span class="status-dot green"></span>
+                    <span>SYSTÈME: ACTIF</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-dot yellow"></span>
+                    <span id="uptime">UPTIME: 00:00:00</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-dot green"></span>
+                    <span id="secrets-counter">SECRETS: 0/10</span>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Hero section -->
+        <section class="hero">
+            <div class="hero-badge">
+                <span>🔓</span>
+                <span>Niveau d'accès: KORBEN</span>
+            </div>
+            
+            <h1 class="hero-title">
+                <span class="mint char" style="--i: 0">I</span><span class="mint char" style="--i: 1">N</span><span class="mint char" style="--i: 2">T</span><span class="mint char" style="--i: 3">E</span><span class="mint char" style="--i: 4">L</span><span class="mint char" style="--i: 5">L</span><span class="mint char" style="--i: 6">I</span><span class="mint char" style="--i: 7">G</span><span class="mint char" style="--i: 8">E</span><span class="mint char" style="--i: 9">N</span><span class="mint char" style="--i: 10">C</span><span class="mint char" style="--i: 11">E</span>
+                <br>
+                <span class="lilac char" style="--i: 12">C</span><span class="lilac char" style="--i: 13">I</span><span class="lilac char" style="--i: 14">T</span><span class="lilac char" style="--i: 15">O</span><span class="lilac char" style="--i: 16">Y</span><span class="lilac char" style="--i: 17">E</span><span class="lilac char" style="--i: 18">N</span><span class="lilac char" style="--i: 19">N</span><span class="lilac char" style="--i: 20">E</span>
+            </h1>
+            
+            <p class="hero-subtitle">
+                Observatoire citoyen indépendant.<br>
+                <span class="highlight">10 easter eggs</span> cachés. Trouvez-les tous.
+            </p>
+            
+            <div class="cmd-hint" id="open-terminal">
+                <span class="key">~</span>
+                <span>Appuyez sur <strong>²</strong> ou cliquez ici pour ouvrir la console</span>
+            </div>
+        </section>
+        
+        <!-- Stats Dashboard -->
+        <section class="stats-dashboard">
+            <div class="stat-card">
+                <div class="stat-value" data-target="70">0</div>
+                <div class="stat-label">Documents analysés</div>
+                <div class="stat-bar"><div class="stat-bar-fill" style="width: 70%"></div></div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" data-target="870">0</div>
+                <div class="stat-label">Budget total (€)</div>
+                <div class="stat-bar"><div class="stat-bar-fill" style="width: 8.7%"></div></div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" data-target="11">0</div>
+                <div class="stat-label">Plateformes actives</div>
+                <div class="stat-bar"><div class="stat-bar-fill" style="width: 100%"></div></div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" data-target="0">0</div>
+                <div class="stat-label">Trackers</div>
+                <div class="stat-bar"><div class="stat-bar-fill" style="width: 0%"></div></div>
+            </div>
+        </section>
+        
+        <!-- Footer -->
+        <footer>
+            <p>
+                © 2023-2026 <a href="https://ouaisfi.eu">ouaisfieu</a> · 
+                Fait avec 💚 et Claude · 
+                <a href="https://github.com/ouaisfieu">Fork me</a> · 
+                Pour <a href="https://korben.info" target="_blank" rel="noopener">Korben</a> avec 💜
+            </p>
+            <p style="margin-top: 0.5rem; font-size: 0.65rem;">
+                Hint: Les vrais hackers connaissent le Konami Code. Et IDDQD. Et 42. Et...
+            </p>
+        </footer>
+    </div>
+    
+    <!-- Terminal Console -->
+    <div class="terminal-wrapper" id="terminal">
+        <div class="terminal-header" id="terminal-header">
+            <div class="terminal-title">
+                <div class="terminal-dots">
+                    <span class="close"></span>
+                    <span class="minimize"></span>
+                    <span class="maximize"></span>
+                </div>
+                <span>citizen@ouaisfieu:~$</span>
+            </div>
+            <div class="terminal-toggle" id="terminal-toggle">▲ Ouvrir la console</div>
+        </div>
+        <div class="terminal-body" id="terminal-body">
+            <div class="terminal-line system">╔════════════════════════════════════╗
+║  OUAISFIEU TERMINAL v2.0.26        ║
+║  Intelligence Citoyenne Belge      ║
+║  Tapez 'help' pour les commandes   ║
+╚════════════════════════════════════╝</div>
+            <div class="terminal-line output">Bienvenue, agent. Prêt pour la mission.</div>
+            <div class="terminal-prompt">
+                <span class="terminal-prompt-user">guest</span>
+                <span class="terminal-prompt-symbol">@ouaisfieu:~$</span>
+                <input type="text" class="terminal-input" id="terminal-input" placeholder="Tapez une commande..." autocomplete="off" spellcheck="false">
+            </div>
+        </div>
+    </div>
+    
+    <!-- Notification container -->
+    <div class="notification-container" id="notifications"></div>
+    
+    <!-- Achievement popup -->
+    <div class="achievement-popup" id="achievement-popup">
+        <div class="achievement-icon">🏆</div>
+        <div class="achievement-title" id="achievement-title">ACHIEVEMENT UNLOCKED</div>
+        <div class="achievement-desc" id="achievement-desc">Description</div>
+    </div>
+    
+    <!-- Konami success overlay -->
+    <div class="konami-success" id="konami-success">
+        <div class="text">KONAMI CODE ACTIVATED</div>
+    </div>
+    
+    <!-- Secret panel -->
+    <div class="secret-panel" id="secret-panel">
+        <button class="secret-close" id="secret-close">× FERMER</button>
+        <h2>🔮 SECRETS TROUVÉS</h2>
+        <ul class="secret-list" id="secret-list">
+            <li class="hidden"><span>❓</span> Konami Code (↑↑↓↓←→←→BA)</li>
+            <li class="hidden"><span>❓</span> IDDQD (God Mode)</li>
+            <li class="hidden"><span>❓</span> IDKFA (Full Arsenal)</li>
+            <li class="hidden"><span>❓</span> 42 (The Answer)</li>
+            <li class="hidden"><span>❓</span> 7 clics sur le logo</li>
+            <li class="hidden"><span>❓</span> Commande "korben"</li>
+            <li class="hidden"><span>❓</span> Double-clic fond</li>
+            <li class="hidden"><span>❓</span> Ctrl+Shift+K</li>
+            <li class="hidden"><span>❓</span> Commande "matrix"</li>
+            <li class="hidden"><span>❓</span> Secouer la souris</li>
+        </ul>
+    </div>
+    
+    <!-- Cursor trail elements -->
+    <div class="cursor-trail" id="cursor-trail-1"></div>
+    <div class="cursor-trail" id="cursor-trail-2"></div>
+    <div class="cursor-trail" id="cursor-trail-3"></div>
+
+    <script>
+    // ═══════════════════════════════════════════════════════════════════════════
+    // OUAISFIEU TERMINAL SYSTEM
+    // Pour Korben, avec amour 💚
+    // ═══════════════════════════════════════════════════════════════════════════
+    
+    (function() {
+        'use strict';
+        
+        // ═══════════════ STATE ═══════════════
+        const state = {
+            secretsFound: new Set(),
+            totalSecrets: 10,
+            godMode: false,
+            matrixActive: false,
+            terminalOpen: false,
+            logoClicks: 0,
+            commandHistory: [],
+            historyIndex: -1,
+            mousePositions: [],
+            uptime: 0
+        };
+        
+        // ═══════════════ DOM ELEMENTS ═══════════════
+        const $ = id => document.getElementById(id);
+        const terminal = $('terminal');
+        const terminalBody = $('terminal-body');
+        const terminalInput = $('terminal-input');
+        const terminalHeader = $('terminal-header');
+        const terminalToggle = $('terminal-toggle');
+        const notifications = $('notifications');
+        const logo = $('logo');
+        const secretPanel = $('secret-panel');
+        const secretList = $('secret-list');
+        const achievementPopup = $('achievement-popup');
+        const konamiSuccess = $('konami-success');
+        const matrixCanvas = $('matrix-rain');
+        const starfieldCanvas = $('starfield');
+        const particlesCanvas = $('particles');
+        const glitchCanvas = $('glitch-overlay');
+        
+        // ═══════════════ UTILITIES ═══════════════
+        function notify(message, type = 'default') {
+            const notif = document.createElement('div');
+            notif.className = `notification ${type}`;
+            notif.innerHTML = `<span>${type === 'achievement' ? '🏆' : type === 'secret' ? '🔮' : type === 'korben' ? '💚' : '📡'}</span> ${message}`;
+            notifications.appendChild(notif);
+            setTimeout(() => notif.remove(), 3500);
+        }
+        
+        function showAchievement(title, desc) {
+            $('achievement-title').textContent = title;
+            $('achievement-desc').textContent = desc;
+            achievementPopup.classList.add('show');
+            setTimeout(() => achievementPopup.classList.remove('show'), 3000);
+        }
+        
+        function unlockSecret(index, name) {
+            if (state.secretsFound.has(index)) return false;
+            
+            state.secretsFound.add(index);
+            const items = secretList.querySelectorAll('li');
+            items[index].classList.remove('hidden');
+            items[index].classList.add('found');
+            items[index].innerHTML = `<span>✅</span> ${name}`;
+            
+            $('secrets-counter').textContent = `SECRETS: ${state.secretsFound.size}/${state.totalSecrets}`;
+            
+            notify(`Secret débloqué: ${name}`, 'secret');
+            
+            if (state.secretsFound.size === state.totalSecrets) {
+                setTimeout(() => {
+                    showAchievement('🎮 MASTER HACKER', 'Vous avez trouvé tous les secrets!');
+                    document.body.classList.add('god-mode');
+                    setTimeout(() => document.body.classList.remove('god-mode'), 5000);
+                }, 1000);
+            }
+            
+            return true;
+        }
+        
+        // ═══════════════ TERMINAL COMMANDS ═══════════════
+        const commands = {
+            help: () => {
+                return `Commandes disponibles:
+
+  help      Affiche cette aide
+  clear     Efface le terminal
+  about     À propos de ouaisfieu
+  korben    Message spécial 💚
+  matrix    Toggle Matrix Rain
+  hack      Simulation de hack
+  status    Statut du système
+  secrets   Panneau des secrets
+  whoami    Qui êtes-vous?
+  date      Date actuelle
+  fortune   Citation aléatoire
+  neofetch  Infos système
+  ping      Ping serveur
+  cowsay    La vache qui parle
+  sl        Train!
+  exit      Fermer le terminal
+
+Codes secrets: IDDQD, IDKFA, 42...`;
+            },
+            clear: () => {
+                const prompt = terminalBody.querySelector('.terminal-prompt');
+                terminalBody.innerHTML = '';
+                terminalBody.appendChild(prompt);
+                return null;
+            },
+            about: () => {
+                return `╔════════════════════════════════════╗
+║  OUAISFIEU                         ║
+║  Intelligence Citoyenne Belge      ║
+╠════════════════════════════════════╣
+║  Version: 2.0.26                   ║
+║  Mission: Documenter·Analyser      ║
+║  Budget:  870€ (2.5 ans)           ║
+║  Trackers: 0                       ║
+║  Éthique: 100%                     ║
+╠════════════════════════════════════╣
+║  Fork · Hack · Spread              ║
+╚════════════════════════════════════╝`;
+            },
+            korben: () => {
+                unlockSecret(5, 'Commande "korben"');
+                document.body.classList.add('korben-mode');
+                setTimeout(() => document.body.classList.remove('korben-mode'), 2000);
+                return `
+╦╔═╔═╗╦═╗╔╗ ╔═╗╔╗╔
+╠╩╗║ ║╠╦╝╠╩╗║╣ ║║║
+╩ ╩╚═╝╩╚═╚═╝╚═╝╝╚╝
+
+💚 Bisous de Belgique, Korben! 💚
+
+Merci d'exister et d'inspirer
+les geeks depuis 20+ ans.
+
+ouaisfieu existe grâce à des gens
+comme toi qui démocratisent la
+tech et l'esprit hacker.
+
+Fork · Hack · Spread 😉`;
+            },
+            matrix: () => {
+                unlockSecret(8, 'Commande "matrix"');
+                toggleMatrix();
+                return 'Follow the white rabbit...';
+            },
+            hack: () => {
+                const lines = [
+                    'Initialisation protocole...',
+                    'Connexion serveur particratique...',
+                    'Bypass firewall... [OK]',
+                    'Injection vérité... [OK]',
+                    'Download données publiques... [OK]',
+                    'Analyse dysfonctionnements... [OK]',
+                    '',
+                    '✓ HACK TERMINÉ',
+                    'Démocratie légèrement améliorée.'
+                ];
+                
+                let i = 0;
+                const interval = setInterval(() => {
+                    if (i < lines.length) {
+                        addTerminalLine(lines[i], 'output');
+                        i++;
+                    } else {
+                        clearInterval(interval);
+                    }
+                }, 300);
+                
+                return 'Lancement hack éthique...';
+            },
+            status: () => {
+                return `SYSTEM STATUS
+══════════════════════════
+CPU:     ████████░░ 82%
+RAM:     ██████░░░░ 64%
+DISK:    ███░░░░░░░ 28%
+SECRETS: ${state.secretsFound.size}/${state.totalSecrets}
+UPTIME:  ${formatUptime(state.uptime)}
+MODE:    ${state.godMode ? 'GOD MODE' : 'NORMAL'}
+══════════════════════════`;
+            },
+            secrets: () => {
+                secretPanel.classList.add('open');
+                return 'Panneau des secrets ouvert.';
+            },
+            whoami: () => 'guest@ouaisfieu - Citoyen·ne vigilant·e',
+            date: () => new Date().toLocaleString('fr-BE'),
+            fortune: () => {
+                const fortunes = [
+                    '"Dire la vérité est révolutionnaire." - Orwell',
+                    '"Les idées sont à l\'épreuve des balles." - V',
+                    '"There is no spoon." - Neo',
+                    '"Hack the planet!" - Zero Cool',
+                    '"The answer is 42." - Deep Thought',
+                    '"Fork · Hack · Spread" - ouaisfieu'
+                ];
+                return fortunes[Math.floor(Math.random() * fortunes.length)];
+            },
+            neofetch: () => {
+                return `   ◢██◣      guest@ouaisfieu
+  ◢████◣     ════════════════
+ ◢██████◣    OS: ouaisfieuOS 2.0
+  ◥◤◥◤       Host: GitHub Pages
+             Uptime: ${formatUptime(state.uptime)}
+             Shell: CitizenTerminal
+             Theme: Cyberpunk`;
+            },
+            ping: () => {
+                const ms = Math.floor(Math.random() * 50) + 10;
+                return `PING ouaisfi.eu: 64 bytes, time=${ms}ms`;
+            },
+            su: () => 'Permission denied: Seuls les citoyens sont root.',
+            sudo: (args) => {
+                if (args.join(' ').includes('sandwich')) {
+                    return '🥪 Voici votre sandwich citoyen!';
+                }
+                return 'Grands pouvoirs = grandes responsabilités.';
+            },
+            cowsay: (args) => {
+                const msg = args.join(' ') || 'Meuh!';
+                const m = msg.length > 20 ? msg.slice(0,17)+'...' : msg;
+                const line = '─'.repeat(m.length + 2);
+                return `┌${line}┐
+│ ${m} │
+└${line}┘
+      \\   ^__^
+       \\  (oo)\\_______
+          (__)\\       )\\/\\
+              ||----w |
+              ||     ||`;
+            },
+            sl: () => {
+                return `      ====        ________
+  _D _|  |_______/        \\__I_I_
+   |(_)---  |   H\\________/ |   |
+   /     |  |   H  |  |     |   |
+  |      |  |   H  |__|_____|___|
+  |______|___H_/__|___\\___/
+     ||    ||      ||   ||
+     ||    ||      ||   ||
+🚂 TCHOU TCHOU!`;
+            },
+            exit: () => {
+                terminal.classList.remove('open');
+                terminalToggle.textContent = '▲ Ouvrir la console';
+                state.terminalOpen = false;
+                return null;
+            },
+            iddqd: () => {
+                unlockSecret(1, 'IDDQD (God Mode)');
+                state.godMode = true;
+                document.body.classList.add('god-mode');
+                notify('GOD MODE ACTIVATED', 'achievement');
+                return '⚡ GOD MODE ON ⚡';
+            },
+            idkfa: () => {
+                unlockSecret(2, 'IDKFA (Full Arsenal)');
+                return `ARSENAL CITOYEN:
+🗡️ Constitution (Art.42)
+🛡️ Droits fondamentaux
+⚔️ Liberté d'expression
+🏹 Droit de pétition
+💣 Vérité factuelle`;
+            },
+            '42': () => {
+                unlockSecret(3, '42 (The Answer)');
+                return '42: La réponse à la vie, l\'univers, et le reste.';
+            }
+        };
+        
+        // ═══════════════ TERMINAL FUNCTIONS ═══════════════
+        function addTerminalLine(content, type = 'output') {
+            const line = document.createElement('div');
+            line.className = `terminal-line ${type}`;
+            // Use textContent to preserve formatting, not innerHTML
+            line.textContent = content;
+            
+            const prompt = terminalBody.querySelector('.terminal-prompt');
+            terminalBody.insertBefore(line, prompt);
+            terminalBody.scrollTop = terminalBody.scrollHeight;
+        }
+        
+        function executeCommand(input) {
+            const trimmed = input.trim();
+            if (!trimmed) return;
+            
+            // Add to history
+            state.commandHistory.unshift(trimmed);
+            state.historyIndex = -1;
+            
+            // Echo command
+            addTerminalLine(`<span style="color: var(--lilac)">guest</span>@ouaisfieu:~$ ${trimmed}`, 'input');
+            
+            // Parse command
+            const parts = trimmed.split(' ');
+            const cmd = parts[0].toLowerCase();
+            const args = parts.slice(1);
+            
+            // Check for secret codes typed as commands
+            if (cmd === 'iddqd') {
+                const result = commands.iddqd();
+                if (result) addTerminalLine(result, 'output');
+                return;
+            }
+            
+            if (cmd === 'idkfa') {
+                const result = commands.idkfa();
+                if (result) addTerminalLine(result, 'output');
+                return;
+            }
+            
+            if (cmd === '42') {
+                const result = commands['42']();
+                if (result) addTerminalLine(result, 'output');
+                return;
+            }
+            
+            // Execute command
+            if (commands[cmd]) {
+                const result = commands[cmd](args);
+                if (result) addTerminalLine(result, 'output');
+            } else {
+                addTerminalLine(`<span style="color: var(--nasa-red)">Commande non reconnue: ${cmd}</span>`, 'error');
+                addTerminalLine('Tapez "help" pour la liste des commandes.', 'output');
+            }
+        }
+        
+        function formatUptime(seconds) {
+            const h = Math.floor(seconds / 3600);
+            const m = Math.floor((seconds % 3600) / 60);
+            const s = seconds % 60;
+            return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+        }
+        
+        // ═══════════════ MATRIX RAIN ═══════════════
+        function initMatrix() {
+            const ctx = matrixCanvas.getContext('2d');
+            matrixCanvas.width = window.innerWidth;
+            matrixCanvas.height = window.innerHeight;
+            
+            const chars = 'ouaisfieu·FORK·HACK·SPREAD·アイウエオカキクケコサシスセソ01';
+            const fontSize = 14;
+            const columns = Math.floor(matrixCanvas.width / fontSize);
+            const drops = new Array(columns).fill(1);
+            
+            function draw() {
+                if (!state.matrixActive) return;
+                
+                ctx.fillStyle = 'rgba(10, 10, 15, 0.05)';
+                ctx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
+                
+                ctx.fillStyle = '#48bb78';
+                ctx.font = `${fontSize}px 'Fira Code', monospace`;
+                
+                for (let i = 0; i < drops.length; i++) {
+                    const char = chars[Math.floor(Math.random() * chars.length)];
+                    ctx.fillText(char, i * fontSize, drops[i] * fontSize);
+                    
+                    if (drops[i] * fontSize > matrixCanvas.height && Math.random() > 0.975) {
+                        drops[i] = 0;
+                    }
+                    drops[i]++;
+                }
+                
+                requestAnimationFrame(draw);
+            }
+            
+            return draw;
+        }
+        
+        let matrixDraw = null;
+        
+        function toggleMatrix() {
+            state.matrixActive = !state.matrixActive;
+            matrixCanvas.classList.toggle('active', state.matrixActive);
+            
+            if (state.matrixActive) {
+                if (!matrixDraw) matrixDraw = initMatrix();
+                matrixDraw();
+            }
+        }
+        
+        // ═══════════════ STARFIELD ═══════════════
+        function initStarfield() {
+            const ctx = starfieldCanvas.getContext('2d');
+            starfieldCanvas.width = window.innerWidth;
+            starfieldCanvas.height = window.innerHeight;
+            
+            const stars = [];
+            const numStars = 200;
+            
+            for (let i = 0; i < numStars; i++) {
+                stars.push({
+                    x: Math.random() * starfieldCanvas.width,
+                    y: Math.random() * starfieldCanvas.height,
+                    size: Math.random() * 2,
+                    speed: Math.random() * 0.5 + 0.1
+                });
+            }
+            
+            function draw() {
+                ctx.fillStyle = 'rgba(10, 10, 15, 0.2)';
+                ctx.fillRect(0, 0, starfieldCanvas.width, starfieldCanvas.height);
+                
+                stars.forEach(star => {
+                    ctx.fillStyle = `rgba(72, 187, 120, ${Math.random() * 0.5 + 0.3})`;
+                    ctx.beginPath();
+                    ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    star.y += star.speed;
+                    if (star.y > starfieldCanvas.height) {
+                        star.y = 0;
+                        star.x = Math.random() * starfieldCanvas.width;
+                    }
+                });
+                
+                requestAnimationFrame(draw);
+            }
+            
+            draw();
+        }
+        
+        // ═══════════════ PARTICLES ═══════════════
+        function initParticles() {
+            const ctx = particlesCanvas.getContext('2d');
+            particlesCanvas.width = window.innerWidth;
+            particlesCanvas.height = window.innerHeight;
+            
+            const particles = [];
+            const mouse = { x: 0, y: 0 };
+            
+            document.addEventListener('mousemove', e => {
+                mouse.x = e.clientX;
+                mouse.y = e.clientY;
+                
+                if (Math.random() > 0.9) {
+                    particles.push({
+                        x: mouse.x,
+                        y: mouse.y,
+                        vx: (Math.random() - 0.5) * 2,
+                        vy: (Math.random() - 0.5) * 2,
+                        life: 1,
+                        color: Math.random() > 0.5 ? '#48bb78' : '#9f7aea'
+                    });
+                }
+            });
+            
+            function draw() {
+                ctx.clearRect(0, 0, particlesCanvas.width, particlesCanvas.height);
+                
+                for (let i = particles.length - 1; i >= 0; i--) {
+                    const p = particles[i];
+                    
+                    ctx.fillStyle = p.color;
+                    ctx.globalAlpha = p.life;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, 3, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.life -= 0.02;
+                    
+                    if (p.life <= 0) {
+                        particles.splice(i, 1);
+                    }
+                }
+                
+                ctx.globalAlpha = 1;
+                requestAnimationFrame(draw);
+            }
+            
+            draw();
+        }
+        
+        // ═══════════════ CURSOR TRAIL ═══════════════
+        function initCursorTrail() {
+            const trails = [
+                $('cursor-trail-1'),
+                $('cursor-trail-2'),
+                $('cursor-trail-3')
+            ];
+            
+            let positions = trails.map(() => ({ x: 0, y: 0 }));
+            
+            document.addEventListener('mousemove', e => {
+                positions[0] = { x: e.clientX, y: e.clientY };
+            });
+            
+            function update() {
+                for (let i = trails.length - 1; i > 0; i--) {
+                    positions[i].x += (positions[i - 1].x - positions[i].x) * 0.3;
+                    positions[i].y += (positions[i - 1].y - positions[i].y) * 0.3;
+                }
+                
+                trails.forEach((trail, i) => {
+                    trail.style.left = `${positions[i].x - 5}px`;
+                    trail.style.top = `${positions[i].y - 5}px`;
+                    trail.style.opacity = 1 - (i * 0.3);
+                    trail.style.transform = `scale(${1 - (i * 0.2)})`;
+                });
+                
+                requestAnimationFrame(update);
+            }
+            
+            update();
+        }
+        
+        // ═══════════════ KONAMI CODE ═══════════════
+        const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+        let konamiIndex = 0;
+        
+        // ═══════════════ CHEAT CODES DETECTION ═══════════════
+        let typedChars = '';
+        
+        document.addEventListener('keydown', e => {
+            // Konami code
+            if (e.key === konamiCode[konamiIndex]) {
+                konamiIndex++;
+                if (konamiIndex === konamiCode.length) {
+                    unlockSecret(0, 'Konami Code (↑↑↓↓←→←→BA)');
+                    konamiSuccess.classList.add('show');
+                    setTimeout(() => konamiSuccess.classList.remove('show'), 2000);
+                    toggleMatrix();
+                    konamiIndex = 0;
+                }
+            } else if (e.key === konamiCode[0]) {
+                konamiIndex = 1;
+            } else {
+                konamiIndex = 0;
+            }
+            
+            // Text cheat codes (when not in terminal)
+            if (document.activeElement !== terminalInput) {
+                typedChars += e.key.toLowerCase();
+                typedChars = typedChars.slice(-10);
+                
+                if (typedChars.includes('iddqd')) {
+                    commands.iddqd();
+                    typedChars = '';
+                }
+                
+                if (typedChars.includes('idkfa')) {
+                    commands.idkfa();
+                    notify('Full Arsenal Unlocked!', 'achievement');
+                    typedChars = '';
+                }
+                
+                if (typedChars.includes('42')) {
+                    unlockSecret(3, '42 (The Answer)');
+                    notify('The Answer to Life, the Universe, and Everything', 'achievement');
+                    typedChars = '';
+                }
+            }
+            
+            // Ctrl+Shift+K = Korben Mode
+            if (e.ctrlKey && e.shiftKey && e.key === 'K') {
+                e.preventDefault();
+                unlockSecret(7, 'Ctrl+Shift+K');
+                commands.korben();
+            }
+            
+            // ² or ~ to toggle terminal
+            if (e.key === '²' || e.key === '~' || e.key === '`') {
+                e.preventDefault();
+                toggleTerminal();
+            }
+        });
+        
+        // ═══════════════ MOUSE SHAKE DETECTION ═══════════════
+        let lastMouseTime = 0;
+        let shakeCount = 0;
+        
+        document.addEventListener('mousemove', e => {
+            const now = Date.now();
+            state.mousePositions.push({ x: e.clientX, y: e.clientY, time: now });
+            
+            // Keep only last 500ms of positions
+            state.mousePositions = state.mousePositions.filter(p => now - p.time < 500);
+            
+            // Check for rapid movement
+            if (state.mousePositions.length > 10) {
+                let totalDistance = 0;
+                for (let i = 1; i < state.mousePositions.length; i++) {
+                    const dx = state.mousePositions[i].x - state.mousePositions[i-1].x;
+                    const dy = state.mousePositions[i].y - state.mousePositions[i-1].y;
+                    totalDistance += Math.sqrt(dx*dx + dy*dy);
+                }
+                
+                if (totalDistance > 2000) {
+                    if (!state.secretsFound.has(9)) {
+                        unlockSecret(9, 'Secouer la souris');
+                        glitchCanvas.classList.add('active');
+                        setTimeout(() => glitchCanvas.classList.remove('active'), 500);
+                    }
+                    state.mousePositions = [];
+                }
+            }
+        });
+        
+        // ═══════════════ DOUBLE CLICK STARFIELD ═══════════════
+        document.addEventListener('dblclick', e => {
+            if (e.target.closest('.terminal-wrapper') || e.target.closest('button') || e.target.closest('a')) return;
+            
+            unlockSecret(6, 'Double-clic fond');
+            
+            // Create explosion of particles
+            const ctx = particlesCanvas.getContext('2d');
+            for (let i = 0; i < 50; i++) {
+                const angle = (Math.PI * 2 * i) / 50;
+                const speed = Math.random() * 5 + 2;
+                ctx.fillStyle = Math.random() > 0.5 ? '#48bb78' : '#9f7aea';
+                ctx.beginPath();
+                ctx.arc(e.clientX + Math.cos(angle) * speed * 20, e.clientY + Math.sin(angle) * speed * 20, 3, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        });
+        
+        // ═══════════════ LOGO CLICKS ═══════════════
+        logo.addEventListener('click', () => {
+            state.logoClicks++;
+            
+            if (state.logoClicks === 7) {
+                unlockSecret(4, '7 clics sur le logo');
+                logo.classList.add('rainbow');
+                showAchievement('🌈 RAINBOW MODE', 'Vous avez cliqué 7 fois sur le logo!');
+                setTimeout(() => logo.classList.remove('rainbow'), 5000);
+                state.logoClicks = 0;
+            }
+        });
+        
+        // ═══════════════ TERMINAL TOGGLE ═══════════════
+        function toggleTerminal() {
+            state.terminalOpen = !state.terminalOpen;
+            terminal.classList.toggle('open', state.terminalOpen);
+            terminalToggle.textContent = state.terminalOpen ? '▼ Fermer la console' : '▲ Ouvrir la console';
+            
+            if (state.terminalOpen) {
+                terminalInput.focus();
+            }
+        }
+        
+        terminalHeader.addEventListener('click', toggleTerminal);
+        $('open-terminal').addEventListener('click', toggleTerminal);
+        
+        // ═══════════════ TERMINAL INPUT ═══════════════
+        terminalInput.addEventListener('keydown', e => {
+            if (e.key === 'Enter') {
+                executeCommand(terminalInput.value);
+                terminalInput.value = '';
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                if (state.historyIndex < state.commandHistory.length - 1) {
+                    state.historyIndex++;
+                    terminalInput.value = state.commandHistory[state.historyIndex];
+                }
+            } else if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                if (state.historyIndex > 0) {
+                    state.historyIndex--;
+                    terminalInput.value = state.commandHistory[state.historyIndex];
+                } else {
+                    state.historyIndex = -1;
+                    terminalInput.value = '';
+                }
+            } else if (e.key === 'Tab') {
+                e.preventDefault();
+                const partial = terminalInput.value.toLowerCase();
+                const matches = Object.keys(commands).filter(cmd => cmd.startsWith(partial));
+                if (matches.length === 1) {
+                    terminalInput.value = matches[0];
+                } else if (matches.length > 1) {
+                    addTerminalLine(matches.join('  '), 'output');
+                }
+            }
+        });
+        
+        // ═══════════════ SECRET PANEL ═══════════════
+        $('secret-close').addEventListener('click', () => {
+            secretPanel.classList.remove('open');
+        });
+        
+        // ═══════════════ STATS ANIMATION ═══════════════
+        function animateStats() {
+            document.querySelectorAll('.stat-value').forEach(stat => {
+                const target = parseInt(stat.dataset.target);
+                const duration = 2000;
+                const start = Date.now();
+                
+                function update() {
+                    const elapsed = Date.now() - start;
+                    const progress = Math.min(elapsed / duration, 1);
+                    const eased = 1 - Math.pow(1 - progress, 3);
+                    stat.textContent = Math.floor(target * eased);
+                    
+                    if (progress < 1) {
+                        requestAnimationFrame(update);
+                    }
+                }
+                
+                update();
+            });
+        }
+        
+        // ═══════════════ UPTIME ═══════════════
+        function updateUptime() {
+            state.uptime++;
+            $('uptime').textContent = `UPTIME: ${formatUptime(state.uptime)}`;
+        }
+        
+        // ═══════════════ INIT ═══════════════
+        function init() {
+            initStarfield();
+            initParticles();
+            initCursorTrail();
+            animateStats();
+            setInterval(updateUptime, 1000);
+            
+            // Welcome notification
+            setTimeout(() => {
+                notify('Bienvenue, agent. Terminal disponible avec la touche ²', 'default');
+            }, 1000);
+            
+            setTimeout(() => {
+                notify('10 secrets sont cachés. Bonne chasse!', 'secret');
+            }, 3000);
+            
+            // Handle resize
+            window.addEventListener('resize', () => {
+                starfieldCanvas.width = window.innerWidth;
+                starfieldCanvas.height = window.innerHeight;
+                particlesCanvas.width = window.innerWidth;
+                particlesCanvas.height = window.innerHeight;
+                matrixCanvas.width = window.innerWidth;
+                matrixCanvas.height = window.innerHeight;
+            });
+        }
+        
+        // Start when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+    })();
+    </script>
+</body>
+</html>
