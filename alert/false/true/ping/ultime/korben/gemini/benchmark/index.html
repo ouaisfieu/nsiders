@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Recherche: Opération Confidentiel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Chosen Palette: Warm Neutrals (Journalistic/Investigative Tone) -->
+    <!-- Background: #F9FAFB (Warm Grey/White), Text: #1F2937, Accents: #D97706 (Amber/Warning), #4B5563 (Slate) -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'paper': '#F9FAFB',
+                        'ink': '#1F2937',
+                        'accent-warm': '#D97706', // Amber for "Alerts/Fake"
+                        'accent-cool': '#64748B', // Slate for "Data/Structure"
+                        'subtle': '#E5E7EB'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Merriweather', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #F9FAFB; color: #1F2937; }
+        h1, h2, h3 { font-family: 'Merriweather', serif; }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container { height: 350px; }
+        }
+        .tab-active { border-bottom: 2px solid #D97706; color: #1F2937; font-weight: 600; }
+        .tab-inactive { color: #6B7280; }
+        .tab-inactive:hover { color: #D97706; }
+        .fade-in { animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Application Structure Plan: 
+         1. Header: Project Identity & Status Summary.
+         2. Navigation (Tabs): Thematic split based on user keywords (Le Réseau, Cas Deborsu, Analyse MAGA).
+         3. Dynamic Content Area:
+            - "Vue d'ensemble": KPI cards & Timeline of the investigation.
+            - "Le Vector (Github.io)": Technical analysis of the leak source.
+            - "Cas d'Étude (Deborsu)": Deepfake analysis specific to the journalist keyword.
+            - "Narratifs (MAGA/Fake)": Content analysis of the disinformation.
+         4. Interaction: Clickable tabs to swap views, filters for data charts to drill down into specific dates or sources.
+         Why: This structure allows the user to switch between the "Technical" (Github), the "Specific" (Deborsu), and the "Thematic" (MAGA) aspects of the investigation.
+    -->
+
+    <!-- Header -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <span class="text-accent-warm text-2xl mr-2">●</span>
+                    <h1 class="text-xl font-bold text-ink tracking-tight">Projet <span class="text-accent-warm">CONFIDENTIEL</span></h1>
+                    <span class="ml-4 px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-500 border border-gray-200">Dossier #GH-2024-BE</span>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <div class="flex flex-col items-end">
+                        <span class="text-xs text-gray-500 uppercase tracking-wider">Statut</span>
+                        <span class="text-sm font-semibold text-green-700">En cours d'analyse</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+        
+        <!-- Introduction -->
+        <section class="mb-10 text-center max-w-3xl mx-auto">
+            <h2 class="text-3xl font-bold mb-4 text-ink">Plan de Recherche & Analyse</h2>
+            <p class="text-lg text-gray-600 leading-relaxed">
+                Ce tableau de bord synthétise les éléments collectés concernant le dépôt <strong>github.io</strong> suspect. 
+                L'analyse se concentre sur trois axes : l'authenticité des médias impliquant <strong>C. Deborsu</strong>, 
+                la propagation de rhétorique type <strong>"MAGA"</strong> en Europe, et la structure technique du réseau "Fake".
+            </p>
+        </section>
+
+        <!-- Navigation Tabs -->
+        <div class="flex flex-wrap justify-center border-b border-gray-200 mb-8 overflow-x-auto">
+            <button onclick="switchTab('overview')" id="tab-overview" class="tab-active px-6 py-3 text-sm font-medium transition-colors whitespace-nowrap">Vue d'ensemble</button>
+            <button onclick="switchTab('deborsu')" id="tab-deborsu" class="tab-inactive px-6 py-3 text-sm font-medium transition-colors whitespace-nowrap">Cas d'Étude: Deborsu</button>
+            <button onclick="switchTab('maga')" id="tab-maga" class="tab-inactive px-6 py-3 text-sm font-medium transition-colors whitespace-nowrap">Narratifs & MAGA</button>
+            <button onclick="switchTab('vector')" id="tab-vector" class="tab-inactive px-6 py-3 text-sm font-medium transition-colors whitespace-nowrap">Source: Github.io</button>
+        </div>
+
+        <!-- Dynamic View Container -->
+        <div id="view-container" class="fade-in min-h-[500px]">
+            <!-- Content injected via JS -->
+        </div>
+
+    </main>
+
+    <footer class="bg-white border-t border-gray-200 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8 flex justify-between items-center">
+            <p class="text-xs text-gray-400">Généré pour analyse interne uniquement.</p>
+            <p class="text-xs text-gray-400">Données simulées basées sur les mots-clés de recherche.</p>
+        </div>
+    </footer>
+
+    <!-- Visualization & Content Choices:
+         - Overview: KPI Cards (Key Stats) + Timeline Chart (Chart.js Line) to show activity volume over time. Goal: Context.
+         - Deborsu: Radar Chart (Chart.js) comparing Audio/Video/Context scores to visualize Deepfake probability. Goal: Deepfake Analysis.
+         - MAGA: Horizontal Bar Chart comparing keyword frequency (US Import vs Local context). Goal: Narrative tracing.
+         - Vector: Pie Chart showing source traffic to the Github.io repo. Goal: Origin tracing.
+         - Text blocks: Used for qualitative summary ("Hypothèse de travail").
+         -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <script>
+        // --- DATA STORE ---
+        const reportData = {
+            overview: {
+                kpis: [
+                    { label: "Fichiers Analysés", value: "1,240", trend: "+12%" },
+                    { label: "Probabilité Fake", value: "87%", trend: "Haute" },
+                    { label: "Sources Identifiées", value: "3", trend: "Github, X, Telegram" }
+                ],
+                timeline: {
+                    labels: ['Semaine 1', 'Semaine 2', 'Semaine 3', 'Semaine 4'],
+                    data: [12, 45, 130, 85],
+                    description: "Évolution du volume de mentions 'Confidentiel' sur les réseaux sociaux suite à la publication github.io."
+                }
+            },
+            deborsu: {
+                title: "Analyse Deepfake: C. Deborsu",
+                description: "Examen biométrique et sémantique d'une vidéo virale attribuée au journaliste. Les indices pointent vers une génération synthétique.",
+                metrics: {
+                    labels: ['Synchro Labiale', 'Texture Peau', 'Cohérence Audio', 'Ombres/Lumière', 'Fréquence de Clignement'],
+                    data: [20, 45, 30, 60, 15] // Low scores indicate fake artifacts
+                },
+                details: "La vidéo présente des artefacts de compression typiques des modèles GANs anciens. La prosodie ne correspond pas au modèle vocal de référence (Match: 34%)."
+            },
+            maga: {
+                title: "Influence Transatlantique (Mots-clés MAGA)",
+                description: "Corrélation entre les thèmes de la campagne américaine (MAGA) et les éléments de langage retrouvés dans le faux rapport.",
+                keywords: {
+                    labels: ['"Deep State"', '"Fake News"', '"Souveraineté"', '"Liberté"', '"Élites"'],
+                    datasetUS: [90, 85, 40, 70, 80],
+                    datasetLocal: [65, 80, 85, 60, 75]
+                }
+            },
+            vector: {
+                title: "Vecteur de Diffusion: Github.io",
+                description: "Le dépôt 'confidentiel-leaks.github.io' sert de point d'ancrage. Analyse des commits et du trafic entrant.",
+                sources: {
+                    labels: ['Liens Directs (Telegram)', 'Twitter/X', 'Facebook', 'Organique'],
+                    data: [45, 30, 15, 10]
+                }
+            }
+        };
+
+        // --- CHART INSTANCES ---
+        let currentChart = null;
+
+        // --- INIT ---
+        document.addEventListener('DOMContentLoaded', () => {
+            switchTab('overview');
+        });
+
+        // --- NAVIGATION LOGIC ---
+        function switchTab(tabId) {
+            // Update Tab Styles
+            const tabs = ['overview', 'deborsu', 'maga', 'vector'];
+            tabs.forEach(t => {
+                const btn = document.getElementById(`tab-${t}`);
+                if(t === tabId) {
+                    btn.classList.remove('tab-inactive');
+                    btn.classList.add('tab-active');
+                } else {
+                    btn.classList.remove('tab-active');
+                    btn.classList.add('tab-inactive');
+                }
+            });
+
+            // Render Content
+            const container = document.getElementById('view-container');
+            container.innerHTML = ''; // Clear current
+            
+            // Re-trigger animation
+            container.classList.remove('fade-in');
+            void container.offsetWidth; // trigger reflow
+            container.classList.add('fade-in');
+
+            if (tabId === 'overview') renderOverview(container);
+            else if (tabId === 'deborsu') renderDeborsu(container);
+            else if (tabId === 'maga') renderMaga(container);
+            else if (tabId === 'vector') renderVector(container);
+        }
+
+        // --- RENDER FUNCTIONS ---
+
+        function renderOverview(container) {
+            // KPI Grid
+            const kpiSection = document.createElement('div');
+            kpiSection.className = "grid grid-cols-1 md:grid-cols-3 gap-6 mb-10";
+            reportData.overview.kpis.forEach(kpi => {
+                kpiSection.innerHTML += `
+                    <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                        <p class="text-sm font-medium text-gray-500 uppercase">${kpi.label}</p>
+                        <div class="mt-2 flex items-baseline">
+                            <span class="text-3xl font-bold text-ink">${kpi.value}</span>
+                            <span class="ml-2 text-sm font-medium text-accent-warm">${kpi.trend}</span>
+                        </div>
+                    </div>
+                `;
+            });
+            container.appendChild(kpiSection);
+
+            // Timeline Chart Section
+            const chartSection = document.createElement('div');
+            chartSection.className = "bg-white p-6 rounded-lg shadow-sm border border-gray-100 flex flex-col items-center";
+            chartSection.innerHTML = `
+                <h3 class="text-lg font-bold text-ink mb-2 self-start">Chronologie de l'Incident</h3>
+                <p class="text-sm text-gray-500 mb-6 self-start max-w-2xl">${reportData.overview.timeline.description}</p>
+                <div class="chart-container">
+                    <canvas id="chartOverview"></canvas>
+                </div>
+            `;
+            container.appendChild(chartSection);
+
+            // Init Chart
+            setTimeout(() => {
+                const ctx = document.getElementById('chartOverview').getContext('2d');
+                if(currentChart) currentChart.destroy();
+                currentChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: reportData.overview.timeline.labels,
+                        datasets: [{
+                            label: 'Mentions "Confidentiel"',
+                            data: reportData.overview.timeline.data,
+                            borderColor: '#D97706',
+                            backgroundColor: 'rgba(217, 119, 6, 0.1)',
+                            borderWidth: 2,
+                            tension: 0.4,
+                            fill: true
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false }
+                        },
+                        scales: {
+                            y: { beginAtZero: true, grid: { borderDash: [2, 4] } },
+                            x: { grid: { display: false } }
+                        }
+                    }
+                });
+            }, 0);
+        }
+
+        function renderDeborsu(container) {
+            // Layout: Text Left, Chart Right
+            const layout = document.createElement('div');
+            layout.className = "grid grid-cols-1 lg:grid-cols-2 gap-8 items-start";
+            
+            // Text Content
+            const textCol = document.createElement('div');
+            textCol.innerHTML = `
+                <div class="bg-white p-6 rounded-lg shadow-sm border-l-4 border-accent-warm">
+                    <h3 class="text-xl font-bold text-ink mb-3">${reportData.deborsu.title}</h3>
+                    <p class="text-gray-600 mb-4 leading-relaxed">${reportData.deborsu.description}</p>
+                    <div class="bg-gray-50 p-4 rounded text-sm text-gray-700">
+                        <strong>Note d'Analyse:</strong> ${reportData.deborsu.details}
+                    </div>
+                    <div class="mt-6">
+                        <h4 class="font-bold text-sm text-gray-900 mb-2">Actions Requises:</h4>
+                        <ul class="list-disc list-inside text-sm text-gray-600 space-y-1">
+                            <li>Isoler les segments audio pour comparaison spectrale.</li>
+                            <li>Vérifier les métadonnées du fichier source.</li>
+                            <li>Contacter l'expert biométrique.</li>
+                        </ul>
+                    </div>
+                </div>
+            `;
+
+            // Chart Content
+            const chartCol = document.createElement('div');
+            chartCol.className = "bg-white p-6 rounded-lg shadow-sm border border-gray-100 flex flex-col items-center";
+            chartCol.innerHTML = `
+                <h3 class="text-lg font-bold text-ink mb-4 self-start">Indices de Naturalité (Score 0-100)</h3>
+                <div class="chart-container">
+                    <canvas id="chartDeborsu"></canvas>
+                </div>
+                <p class="text-xs text-gray-400 mt-4 text-center w-full">Un score bas (< 50) indique une probabilité élevée de manipulation.</p>
+            `;
+
+            layout.appendChild(textCol);
+            layout.appendChild(chartCol);
+            container.appendChild(layout);
+
+            // Init Chart
+            setTimeout(() => {
+                const ctx = document.getElementById('chartDeborsu').getContext('2d');
+                if(currentChart) currentChart.destroy();
+                currentChart = new Chart(ctx, {
+                    type: 'radar',
+                    data: {
+                        labels: reportData.deborsu.metrics.labels,
+                        datasets: [{
+                            label: 'Score de Naturalité',
+                            data: reportData.deborsu.metrics.data,
+                            backgroundColor: 'rgba(217, 119, 6, 0.2)',
+                            borderColor: '#D97706',
+                            pointBackgroundColor: '#D97706',
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            r: {
+                                angleLines: { color: '#E5E7EB' },
+                                grid: { color: '#E5E7EB' },
+                                pointLabels: {
+                                    font: { size: 12, family: 'Inter' },
+                                    color: '#4B5563'
+                                },
+                                suggestMin: 0,
+                                suggestMax: 100
+                            }
+                        }
+                    }
+                });
+            }, 0);
+        }
+
+        function renderMaga(container) {
+            const layout = document.createElement('div');
+            layout.className = "flex flex-col gap-6";
+
+            // Intro text
+            const intro = document.createElement('div');
+            intro.innerHTML = `
+                <div class="mb-4">
+                    <h3 class="text-xl font-bold text-ink">${reportData.maga.title}</h3>
+                    <p class="text-gray-600 mt-2">${reportData.maga.description}</p>
+                </div>
+            `;
+            layout.appendChild(intro);
+
+            // Chart Section
+            const chartSection = document.createElement('div');
+            chartSection.className = "bg-white p-6 rounded-lg shadow-sm border border-gray-100 flex flex-col items-center";
+            chartSection.innerHTML = `
+                <div class="flex justify-between w-full mb-4">
+                    <h4 class="font-bold text-gray-700">Fréquence Comparée: US vs Local</h4>
+                    <div class="flex space-x-4 text-xs items-center">
+                        <span class="flex items-center"><span class="w-3 h-3 bg-gray-400 rounded-full mr-1"></span> Discours US Original</span>
+                        <span class="flex items-center"><span class="w-3 h-3 bg-amber-600 rounded-full mr-1"></span> Discours "Confidentiel"</span>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="chartMaga"></canvas>
+                </div>
+            `;
+            layout.appendChild(chartSection);
+            container.appendChild(layout);
+
+            // Init Chart
+            setTimeout(() => {
+                const ctx = document.getElementById('chartMaga').getContext('2d');
+                if(currentChart) currentChart.destroy();
+                currentChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: reportData.maga.keywords.labels,
+                        datasets: [
+                            {
+                                label: 'Rhétorique US (Ref)',
+                                data: reportData.maga.keywords.datasetUS,
+                                backgroundColor: '#9CA3AF',
+                                borderRadius: 4,
+                                barPercentage: 0.6
+                            },
+                            {
+                                label: 'Rapport "Confidentiel"',
+                                data: reportData.maga.keywords.datasetLocal,
+                                backgroundColor: '#D97706',
+                                borderRadius: 4,
+                                barPercentage: 0.6
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        indexAxis: 'y',
+                        scales: {
+                            x: { grid: { display: false } },
+                            y: { grid: { display: false } }
+                        }
+                    }
+                });
+            }, 0);
+        }
+
+        function renderVector(container) {
+            const layout = document.createElement('div');
+            layout.className = "grid grid-cols-1 md:grid-cols-2 gap-8";
+
+            // Details
+            const details = document.createElement('div');
+            details.className = "space-y-6";
+            details.innerHTML = `
+                <div class="bg-white p-6 rounded-lg shadow-sm border-l-4 border-gray-500">
+                    <h3 class="font-bold text-lg mb-2 text-ink">Analyse du Domaine</h3>
+                    <div class="space-y-3 text-sm">
+                        <div class="flex justify-between border-b border-gray-100 pb-2">
+                            <span class="text-gray-500">URL Cible:</span>
+                            <span class="font-mono text-gray-800">confidentiel-leaks.github.io</span>
+                        </div>
+                        <div class="flex justify-between border-b border-gray-100 pb-2">
+                            <span class="text-gray-500">Date de Création:</span>
+                            <span class="font-mono text-gray-800">22 Oct 2024</span>
+                        </div>
+                        <div class="flex justify-between pb-2">
+                            <span class="text-gray-500">Technologie:</span>
+                            <span class="font-mono text-gray-800">Jekyll / Static</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-amber-50 p-4 rounded border border-amber-100">
+                    <h4 class="font-bold text-amber-800 text-sm mb-1">⚠ Alerte de Sécurité</h4>
+                    <p class="text-amber-700 text-xs leading-snug">
+                        Ce dépôt contient des scripts obfusqués tentant de récolter des données de navigation (fingerprinting).
+                        Ne pas visiter sans VPN/Sandbox.
+                    </p>
+                </div>
+            `;
+
+            // Chart
+            const chartBox = document.createElement('div');
+            chartBox.className = "bg-white p-6 rounded-lg shadow-sm border border-gray-100 flex flex-col items-center justify-center";
+            chartBox.innerHTML = `
+                <h3 class="text-lg font-bold text-ink mb-4">Sources du Trafic</h3>
+                <div class="chart-container">
+                    <canvas id="chartVector"></canvas>
+                </div>
+            `;
+
+            layout.appendChild(details);
+            layout.appendChild(chartBox);
+            container.appendChild(layout);
+
+             // Init Chart
+             setTimeout(() => {
+                const ctx = document.getElementById('chartVector').getContext('2d');
+                if(currentChart) currentChart.destroy();
+                currentChart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: reportData.vector.sources.labels,
+                        datasets: [{
+                            data: reportData.vector.sources.data,
+                            backgroundColor: ['#1F2937', '#D97706', '#9CA3AF', '#E5E7EB'],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        cutout: '70%',
+                        plugins: {
+                            legend: { position: 'bottom', labels: { boxWidth: 12, usePointStyle: true } }
+                        }
+                    }
+                });
+            }, 0);
+        }
+
+    </script>
+</body>
+</html>
