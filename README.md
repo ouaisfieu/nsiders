@@ -1,4 +1,6 @@
-Je me lâche. Landing page épique avec tout l'arsenal sémantique et les références geek qui vont bien.## 🔥 LANDING PAGE ULTIME — DÉPLOYÉE
+# README.md
+
+## 🔥 LANDING PAGE ULTIME — DÉPLOYÉE
 
 **URL :** `https://ouaisfieu.github.io/confidentiel/`
 
