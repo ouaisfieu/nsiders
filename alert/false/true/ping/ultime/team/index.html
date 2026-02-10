@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Briefing Team Alpha : Analyse & Fact-Checking</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; }
+        
+        /* Chart Container Styling - MANDATORY */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px; /* Base height */
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+
+        .active-tab {
+            background-color: #0f172a; /* Slate 900 */
+            color: #ffffff;
+            border-bottom: 2px solid #3b82f6; /* Blue 500 */
+        }
+        .inactive-tab {
+            background-color: transparent;
+            color: #64748b; /* Slate 500 */
+        }
+        .inactive-tab:hover {
+            color: #0f172a;
+            background-color: #e2e8f0;
+        }
+
+        .fact-card {
+            transition: all 0.3s ease;
+        }
+        .fact-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+    </style>
+    <!-- Chosen Palette: Slate (Background), Blue (Action), Red (Error/Myth), Emerald (Fact/Truth) -->
+    <!-- Application Structure Plan: The app uses a Dashboard metaphor ('Team Alpha Briefing Room'). It is divided into 4 key sections: 'Briefing Context' (Introduction), 'Réalité vs Fiction' (Data Visualization), 'Décodeur de Mythes' (Interactive Fact-Checking), and 'Conclusion' (Synthesis). This structure allows the user to first understand the controversy, then see the hard data, then engage with specific debunked claims, and finally review the verdict. Navigation is persistent to allow non-linear exploration. -->
+    <!-- Visualization & Content Choices: 
+         1. Comparison Charts (Bar): To contrast the massive gap between 'Perceived Fraud' and 'Actual Fraud'.
+         2. Proportion Chart (Doughnut): To visualize Fiscal Fraud vs. Social Fraud, putting the economic impact in perspective.
+         3. Interactive Cards: For the 'Myths', allowing users to click and 'reveal' the truth, mimicking an investigative process.
+         4. Timeline (Vertical Layout): To show the sequence of the media controversy.
+         CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="text-slate-800">
+
+    <!-- Navigation Bar -->
+    <nav class="bg-white shadow-md fixed w-full z-10 top-0">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-2xl font-bold text-slate-900 tracking-tighter">TEAM<span class="text-blue-600">ALPHA</span> // BRIEFING</span>
+                </div>
+                <div class="hidden md:flex space-x-8 items-center">
+                    <button onclick="switchTab('context')" id="nav-context" class="active-tab px-3 py-2 rounded-md text-sm font-medium transition-colors">Contexte</button>
+                    <button onclick="switchTab('data')" id="nav-data" class="inactive-tab px-3 py-2 rounded-md text-sm font-medium transition-colors">Données & Stats</button>
+                    <button onclick="switchTab('debunk')" id="nav-debunk" class="inactive-tab px-3 py-2 rounded-md text-sm font-medium transition-colors">Fact-Checking</button>
+                    <button onclick="switchTab('conclusion')" id="nav-conclusion" class="inactive-tab px-3 py-2 rounded-md text-sm font-medium transition-colors">Verdict</button>
+                </div>
+                <!-- Mobile Menu Button (Functional via JS) -->
+                <div class="flex items-center md:hidden">
+                    <button onclick="toggleMobileMenu()" class="text-slate-600 hover:text-slate-900 focus:outline-none p-2">
+                        <span class="text-2xl">☰</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Nav -->
+        <div id="mobile-menu" class="hidden md:hidden bg-slate-50 border-t border-slate-200">
+            <button onclick="switchTab('context')" class="block w-full text-left px-4 py-2 hover:bg-slate-200">Contexte</button>
+            <button onclick="switchTab('data')" class="block w-full text-left px-4 py-2 hover:bg-slate-200">Données & Stats</button>
+            <button onclick="switchTab('debunk')" class="block w-full text-left px-4 py-2 hover:bg-slate-200">Fact-Checking</button>
+            <button onclick="switchTab('conclusion')" class="block w-full text-left px-4 py-2 hover:bg-slate-200">Verdict</button>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12">
+
+        <!-- SECTION 1: CONTEXTE -->
+        <section id="context" class="space-y-8 animate-fade-in">
+            <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-6 md:p-8">
+                <h1 class="text-3xl font-bold text-slate-900 mb-4">Dossier : La Polémique "Docu-Fiction"</h1>
+                <p class="text-lg text-slate-600 leading-relaxed mb-6">
+                    Cette section analyse le rapport de la <strong>Team Alpha</strong> concernant la controverse médiatique (type "Deborsu"). Le rapport qualifie certaines productions télévisuelles de "docu-fiction de série B", accusées de stigmatiser les bénéficiaires sociaux par des mises en scène douteuses.
+                </p>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-4">
+                        <h3 class="font-bold text-blue-900">L'Objet du Briefing</h3>
+                        <p class="text-sm text-blue-800 mt-2">
+                            Analyse critique de la rhétorique "Tous Fraudeurs". Le briefing met en lumière l'écart entre la narration sensationnaliste (chasse aux chômeurs) et la réalité sociologique du terrain.
+                        </p>
+                    </div>
+                    <div class="bg-red-50 border-l-4 border-red-500 p-4">
+                        <h3 class="font-bold text-red-900">Les Accusations</h3>
+                        <p class="text-sm text-red-800 mt-2">
+                            Le rapport suggère une manipulation de l'opinion publique via des techniques de montage et de généralisation abusive, transformant des cas isolés en une soi-disant norme systémique.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
+                <h2 class="text-xl font-bold mb-4">Chronologie de la Controverse</h2>
+                <div class="space-y-4">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 h-8 w-8 rounded-full bg-slate-200 flex items-center justify-center font-bold text-slate-600">1</div>
+                        <div class="ml-4">
+                            <h4 class="text-md font-semibold">Diffusion du Reportage</h4>
+                            <p class="text-slate-600 text-sm">Emission présentant des cas extrêmes de fraude sociale présumée.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 h-8 w-8 rounded-full bg-slate-200 flex items-center justify-center font-bold text-slate-600">2</div>
+                        <div class="ml-4">
+                            <h4 class="text-md font-semibold">Réaction Publique & Pétition</h4>
+                            <p class="text-slate-600 text-sm">Indignation d'une partie du public ("Tous fraudeurs ?"), lancement de pétitions pour dénoncer la stigmatisation.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center font-bold text-blue-600">3</div>
+                        <div class="ml-4">
+                            <h4 class="text-md font-semibold">Briefing Team Alpha (Contre-Enquête)</h4>
+                            <p class="text-slate-600 text-sm">Publication de l'analyse factuelle démontant la mécanique du reportage.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: DONNÉES -->
+        <section id="data" class="hidden space-y-8 animate-fade-in">
+            <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-6 md:p-8">
+                <h2 class="text-2xl font-bold text-slate-900 mb-2">Les Chiffres Réels de la Fraude</h2>
+                <p class="text-slate-600 mb-8">
+                    Pour comprendre l'ampleur de la manipulation, il est crucial de comparer la perception médiatique avec les statistiques officielles (ONSS, Cour des Comptes).
+                </p>
+
+                <div class="grid lg:grid-cols-2 gap-8">
+                    <!-- Chart 1: Perception vs Reality -->
+                    <div class="flex flex-col">
+                        <h3 class="text-lg font-semibold text-center mb-4">Perception Publique vs Réalité Détectée</h3>
+                        <div class="chart-container bg-slate-50 rounded-lg p-4 border border-slate-100">
+                            <canvas id="perceptionChart"></canvas>
+                        </div>
+                        <p class="text-xs text-center text-slate-500 mt-2">Sources estimées : Sondages d'opinion vs Rapports ONSS.</p>
+                    </div>
+
+                    <!-- Chart 2: Social vs Fiscal -->
+                    <div class="flex flex-col">
+                        <h3 class="text-lg font-semibold text-center mb-4">L'Éléphant dans la pièce : Fraude Fiscale vs Sociale</h3>
+                        <div class="chart-container bg-slate-50 rounded-lg p-4 border border-slate-100">
+                            <canvas id="comparisonChart"></canvas>
+                        </div>
+                        <p class="text-xs text-center text-slate-500 mt-2">Comparaison des montants estimés (en Milliards €).</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Key Metrics Dashboard -->
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow-sm border-t-4 border-emerald-500">
+                    <div class="text-sm text-slate-500 uppercase tracking-wide">Taux de Fraude Réel (Chômage)</div>
+                    <div class="text-3xl font-bold text-slate-900 mt-2">&lt; 2-3%</div>
+                    <p class="text-sm text-slate-600 mt-2">Contrairement à l'image d'un abus généralisé.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-sm border-t-4 border-blue-500">
+                    <div class="text-sm text-slate-500 uppercase tracking-wide">Coût des Contrôles</div>
+                    <div class="text-3xl font-bold text-slate-900 mt-2">Élevé</div>
+                    <p class="text-sm text-slate-600 mt-2">La chasse aux "petits" fraudeurs coûte souvent plus qu'elle ne rapporte.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-sm border-t-4 border-slate-700">
+                    <div class="text-sm text-slate-500 uppercase tracking-wide">Impact Fraude Fiscale</div>
+                    <div class="text-3xl font-bold text-slate-900 mt-2">x 100</div>
+                    <p class="text-sm text-slate-600 mt-2">La grande fraude fiscale pèse bien plus lourd sur le budget de l'État.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: FACT-CHECKING (Interactive) -->
+        <section id="debunk" class="hidden space-y-8 animate-fade-in">
+            <div class="bg-white rounded-lg p-6 md:p-8">
+                <h2 class="text-2xl font-bold text-slate-900 mb-2">Décodeur de Mythes</h2>
+                <p class="text-slate-600 mb-6">
+                    Cliquez sur les affirmations ci-dessous pour révéler l'analyse factuelle de la Team Alpha et débunker les idées reçues véhiculées par le "docu-fiction".
+                </p>
+
+                <div class="space-y-4">
+                    <!-- Myth 1 -->
+                    <div class="fact-card bg-white border border-slate-200 rounded-lg overflow-hidden cursor-pointer group" onclick="toggleFact('fact1', this)">
+                        <div class="p-4 bg-slate-50 flex justify-between items-center">
+                            <div class="flex items-center space-x-3">
+                                <span class="bg-red-100 text-red-800 text-xs font-bold px-2 py-1 rounded">MYTHE</span>
+                                <h3 class="font-semibold text-slate-800">"C'est facile de vivre aux crochets du CPAS."</h3>
+                            </div>
+                            <span class="text-slate-400 group-hover:text-blue-500 transition-colors text-xl font-bold">+</span>
+                        </div>
+                        <div id="fact1" class="hidden p-6 bg-white border-t border-slate-100">
+                            <p class="text-slate-700">
+                                <span class="font-bold text-emerald-600">FAUX.</span> Les conditions d'octroi du Revenu d'Intégration Sociale (RIS) sont strictes. Des enquêtes sociales approfondies sont menées sur les ressources, le train de vie et la disposition au travail. Le montant est souvent inférieur au seuil de pauvreté.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Myth 2 -->
+                    <div class="fact-card bg-white border border-slate-200 rounded-lg overflow-hidden cursor-pointer group" onclick="toggleFact('fact2', this)">
+                        <div class="p-4 bg-slate-50 flex justify-between items-center">
+                            <div class="flex items-center space-x-3">
+                                <span class="bg-red-100 text-red-800 text-xs font-bold px-2 py-1 rounded">MYTHE</span>
+                                <h3 class="font-semibold text-slate-800">"La majorité des chômeurs trichent."</h3>
+                            </div>
+                            <span class="text-slate-400 group-hover:text-blue-500 transition-colors text-xl font-bold">+</span>
+                        </div>
+                        <div id="fact2" class="hidden p-6 bg-white border-t border-slate-100">
+                            <p class="text-slate-700">
+                                <span class="font-bold text-emerald-600">FAUX.</span> Selon l'ONEM et l'ONSS, les infractions graves ne concernent qu'une infime minorité des dossiers contrôlés. La généralisation d'actes isolés est une technique de manipulation statistique.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Myth 3 -->
+                    <div class="fact-card bg-white border border-slate-200 rounded-lg overflow-hidden cursor-pointer group" onclick="toggleFact('fact3', this)">
+                        <div class="p-4 bg-slate-50 flex justify-between items-center">
+                            <div class="flex items-center space-x-3">
+                                <span class="bg-red-100 text-red-800 text-xs font-bold px-2 py-1 rounded">MYTHE</span>
+                                <h3 class="font-semibold text-slate-800">"Le reportage montre la réalité brute."</h3>
+                            </div>
+                            <span class="text-slate-400 group-hover:text-blue-500 transition-colors text-xl font-bold">+</span>
+                        </div>
+                        <div id="fact3" class="hidden p-6 bg-white border-t border-slate-100">
+                            <p class="text-slate-700">
+                                <span class="font-bold text-emerald-600">TROMPEUR.</span> Le terme "Docu-Fiction" implique une part de scénarisation. Utiliser des acteurs ou recréer des scènes sans avertissement explicite crée un biais cognitif chez le spectateur, qui perçoit la fiction comme une preuve journalistique.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: CONCLUSION -->
+        <section id="conclusion" class="hidden space-y-8 animate-fade-in">
+            <div class="bg-slate-900 rounded-lg shadow-lg p-8 text-white">
+                <h2 class="text-3xl font-bold mb-4">Verdict Team Alpha</h2>
+                <div class="w-full h-1 bg-gradient-to-r from-blue-500 to-emerald-500 mb-6"></div>
+                
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-xl font-semibold text-blue-300 mb-3">Synthèse</h3>
+                        <p class="text-slate-300 leading-relaxed mb-4">
+                            L'analyse démontre que la narration de type "Tous Fraudeurs" relève davantage du divertissement sensationnaliste que du journalisme d'investigation rigoureux. En se focalisant de manière disproportionnée sur la fraude sociale marginale tout en ignorant la fraude fiscale massive, ce type de contenu désinforme le public sur les véritables enjeux économiques de la Belgique.
+                        </p>
+                        <p class="text-slate-300">
+                            La pétition et les réactions citoyennes soulignent un refus de cette stigmatisation médiatique.
+                        </p>
+                    </div>
+                    <div class="bg-slate-800 p-6 rounded border border-slate-700">
+                        <h3 class="text-lg font-bold text-white mb-4">Recommandations</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <span class="text-emerald-400 mr-2">✓</span>
+                                <span class="text-sm text-slate-300">Vérifier les sources statistiques (ONSS, Statbel).</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-emerald-400 mr-2">✓</span>
+                                <span class="text-sm text-slate-300">Distinguer clairement fiction et documentaire.</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-emerald-400 mr-2">✓</span>
+                                <span class="text-sm text-slate-300">Mettre en perspective : comparer les types de fraudes.</span>
+                            </li>
+                        </ul>
+                        <button onclick="switchTab('context')" class="mt-6 w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded transition-colors">
+                            Retour au dossier
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-white border-t border-slate-200 mt-12 py-8">
+        <div class="max-w-7xl mx-auto px-4 text-center text-slate-500 text-sm">
+            <p>&copy; 2024 Analyse Team Alpha. Basé sur les données publiques disponibles.</p>
+            <p class="mt-2">Ce document est une analyse interactive indépendante à but pédagogique.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // --- State Management ---
+        const state = {
+            currentTab: 'context',
+            chartsInitialized: false
+        };
+
+        // --- Navigation Logic ---
+        function switchTab(tabId) {
+            // Hide all sections
+            ['context', 'data', 'debunk', 'conclusion'].forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+                document.getElementById('nav-' + id).classList.remove('active-tab');
+                document.getElementById('nav-' + id).classList.add('inactive-tab');
+            });
+
+            // Show selected section
+            document.getElementById(tabId).classList.remove('hidden');
+            
+            // Update nav styles (Desktop)
+            const activeBtn = document.getElementById('nav-' + tabId);
+            if(activeBtn) {
+                activeBtn.classList.remove('inactive-tab');
+                activeBtn.classList.add('active-tab');
+            }
+
+            // Mobile menu close
+            document.getElementById('mobile-menu').classList.add('hidden');
+
+            state.currentTab = tabId;
+
+            // Initialize charts only when data tab is first viewed
+            if (tabId === 'data' && !state.chartsInitialized) {
+                initCharts();
+                state.chartsInitialized = true;
+            }
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // --- Fact Checking Interaction ---
+        function toggleFact(factId, cardElement) {
+            const factContent = document.getElementById(factId);
+            const icon = cardElement.querySelector('.text-xl');
+            
+            if (factContent.classList.contains('hidden')) {
+                factContent.classList.remove('hidden');
+                icon.textContent = '-';
+                cardElement.classList.add('shadow-md');
+            } else {
+                factContent.classList.add('hidden');
+                icon.textContent = '+';
+                cardElement.classList.remove('shadow-md');
+            }
+        }
+
+        // --- Chart.js Implementations ---
+        function initCharts() {
+            // Chart 1: Perception vs Reality
+            const ctx1 = document.getElementById('perceptionChart').getContext('2d');
+            new Chart(ctx1, {
+                type: 'bar',
+                data: {
+                    labels: ['Perception (Sondage)', 'Réalité (Contrôles)'],
+                    datasets: [{
+                        label: '% de bénéficiaires en infraction',
+                        data: [45, 3.5], // Illustrative data based on typical dissonance
+                        backgroundColor: [
+                            'rgba(239, 68, 68, 0.7)', // Red for Myth
+                            'rgba(16, 185, 129, 0.7)' // Green for Reality
+                        ],
+                        borderColor: [
+                            'rgb(239, 68, 68)',
+                            'rgb(16, 185, 129)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false, // Critical for container sizing
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.parsed.y + '% ' + (context.dataIndex === 0 ? '(Est. Perception)' : '(Stats Officielles)');
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            title: { display: true, text: 'Pourcentage (%)' }
+                        }
+                    }
+                }
+            });
+
+            // Chart 2: Fiscal vs Social Fraud
+            const ctx2 = document.getElementById('comparisonChart').getContext('2d');
+            new Chart(ctx2, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Fraude Sociale (Prestations)', 'Fraude Fiscale (Est. Min)'],
+                    datasets: [{
+                        data: [200, 30000], // Illustrative scale: Millions vs Billions represented
+                        backgroundColor: [
+                            'rgba(59, 130, 246, 0.6)', // Blue
+                            'rgba(15, 23, 42, 0.8)'   // Dark Slate
+                        ],
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false, // Critical for container sizing
+                    plugins: {
+                        legend: { position: 'bottom' },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.label || '';
+                                    if (label) { label += ': '; }
+                                    if (context.parsed === 200) {
+                                        return label + '~200-300 Millions €';
+                                    } else {
+                                        return label + '> 30 Milliards €';
+                                    }
+                                }
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Comparaison des montants (Échelle 1:150)',
+                            font: { size: 14 }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Initialize default view
+        document.addEventListener('DOMContentLoaded', () => {
+            switchTab('context');
+        });
+
+    </script>
+</body>
+</html>
