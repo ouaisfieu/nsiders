@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infographie : Opération Confidentiel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Chosen Palette: Brilliant Blues (Cyber/Investigative Theme) -->
+    <!-- Background: #0F172A (Slate 900), Surface: #1E293B (Slate 800), Accent: #0EA5E9 (Sky 500), Text: #F1F5F9 -->
+
+    <!-- Application Structure Plan:
+         1. Header/Hook: Sets the "Confidential Investigation" tone.
+         2. Situation Overview: Key Performance Indicators (Big Numbers) to Inform.
+         3. The Vector (Github.io): Timeline (Line Chart) and Source Breakdown (Donut) to show Change and Composition.
+         4. The Content (Deborsu Case): Deepfake biometric analysis (Radar Chart) to Compare specific technical flaws.
+         5. The Narrative (MAGA/Influence): Keyword frequency comparison (Bar Chart) to Organize narrative clusters.
+         6. Network Topology: Bot cluster analysis (Bubble Chart) to show Relationships (Volume vs Influence).
+         7. Process Flow: HTML-based diagram showing the attack lifecycle.
+         8. Conclusion: Summary of findings.
+    -->
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@300;400;600;800&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0F172A; /* Slate 900 */
+            color: #F1F5F9; /* Slate 100 */
+        }
+
+        h1, h2, h3, .mono-font {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Chart Container Styling Requirements */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+
+        /* Custom Scrollbar for "Hacker" feel */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0F172A; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #0EA5E9; 
+        }
+
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+        }
+        
+        .glow-text {
+            text-shadow: 0 0 10px rgba(14, 165, 233, 0.5);
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-sky-500 selection:text-white">
+
+    <!-- Header Section -->
+    <header class="w-full py-12 px-4 border-b border-slate-800 bg-slate-900/50 sticky top-0 z-50 backdrop-blur-md">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <div>
+                <h1 class="text-3xl md:text-5xl font-bold text-sky-500 tracking-tighter glow-text">
+                    OPÉRATION<br><span class="text-white">CONFIDENTIEL</span>
+                </h1>
+                <p class="mt-2 text-slate-400 text-sm md:text-base max-w-lg">
+                    Analyse forensique de la campagne de désinformation #GH-2024-BE.
+                    <span class="block text-sky-400 mt-1">Classification: RESTRICTED // Github.io Vector Identified</span>
+                </p>
+            </div>
+            <div class="hidden md:block text-right">
+                <div class="inline-block px-4 py-2 border border-sky-500/30 rounded bg-sky-500/10">
+                    <span class="block text-xs text-sky-300 uppercase tracking-widest">Statut</span>
+                    <span class="text-xl font-bold text-white">ACTIF</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 py-12 space-y-20">
+
+        <!-- SECTION 1: Executive Summary (KPIs) -->
+        <section>
+            <div class="mb-6 border-l-4 border-sky-500 pl-4">
+                <h2 class="text-2xl font-bold text-white">Vue d'Ensemble</h2>
+                <p class="text-slate-400 mt-2 max-w-3xl">
+                    Le réseau "Confidentiel" exploite une infrastructure GitHub Pages pour diffuser des contenus synthétiques (Deepfakes) visant des personnalités médiatiques (C. Deborsu) et politiques. L'impact est mesurable par une propagation virale rapide amplifiée par des clusters de bots utilisant une rhétorique importée (MAGA).
+                </p>
+            </div>
+
+            <!-- Goal: Inform (Big Numbers) -->
+            <!-- Visualization: Grid of Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="glass-panel p-6 rounded-xl shadow-lg transform transition hover:scale-105">
+                    <p class="text-sky-400 text-sm font-mono uppercase mb-2">Domaines Malveillants</p>
+                    <p class="text-4xl font-bold text-white">12</p>
+                    <p class="text-xs text-slate-500 mt-2">Source primaire: github.io</p>
+                </div>
+                <div class="glass-panel p-6 rounded-xl shadow-lg transform transition hover:scale-105">
+                    <p class="text-sky-400 text-sm font-mono uppercase mb-2">Contenu Synthétique</p>
+                    <p class="text-4xl font-bold text-white">87%</p>
+                    <p class="text-xs text-slate-500 mt-2">Probabilité moyenne (AI)</p>
+                </div>
+                <div class="glass-panel p-6 rounded-xl shadow-lg transform transition hover:scale-105">
+                    <p class="text-sky-400 text-sm font-mono uppercase mb-2">Portée Estimée</p>
+                    <p class="text-4xl font-bold text-white">2.4M</p>
+                    <p class="text-xs text-slate-500 mt-2">Vues uniques (EU)</p>
+                </div>
+                <div class="glass-panel p-6 rounded-xl shadow-lg transform transition hover:scale-105">
+                    <p class="text-sky-400 text-sm font-mono uppercase mb-2">Narratif Dominant</p>
+                    <p class="text-2xl font-bold text-white truncate">ANTI-INSTITUTION</p>
+                    <p class="text-xs text-slate-500 mt-2">Style: MAGA/Souverainiste</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: The Vector (Trends & Sources) -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="md:col-span-2">
+                <div class="mb-4">
+                    <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+                        <span class="text-sky-500">01.</span> Le Vecteur d'Attaque
+                    </h2>
+                    <p class="text-slate-400 mt-2">
+                        L'analyse temporelle révèle une corrélation directe entre la création du dépôt <code>confidentiel.github.io</code> et les pics de mention sur les réseaux sociaux. Le trafic est majoritairement inorganique, suggérant une amplification coordonnée.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Visualization: Line Chart (Change over time) -->
+            <div class="glass-panel p-6 rounded-xl shadow-lg">
+                <h3 class="text-lg font-bold text-white mb-4">Propagation Temporelle (72h)</h3>
+                <div class="chart-container">
+                    <canvas id="chartTimeline"></canvas>
+                </div>
+                <p class="text-xs text-slate-500 mt-4 italic text-center">Fig 1. Volume de mentions horaires post-déploiement.</p>
+            </div>
+
+            <!-- Visualization: Donut Chart (Composition) -->
+            <div class="glass-panel p-6 rounded-xl shadow-lg">
+                <h3 class="text-lg font-bold text-white mb-4">Origine du Trafic Référent</h3>
+                <div class="chart-container">
+                    <canvas id="chartSources"></canvas>
+                </div>
+                <p class="text-xs text-slate-500 mt-4 italic text-center">Fig 2. Répartition par plateforme vecteur.</p>
+            </div>
+        </section>
+
+        <!-- SECTION 3: Deepfake Analysis (Deborsu Case) -->
+        <section>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+                <div class="md:col-span-1">
+                    <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+                        <span class="text-sky-500">02.</span> Cas d'Étude: C. Deborsu
+                    </h2>
+                    <div class="mt-4 space-y-4">
+                        <p class="text-slate-400">
+                            La vidéo virale impliquant le journaliste C. Deborsu a été soumise à une analyse biométrique. Les résultats indiquent une manipulation synthétique (Deepfake) de génération intermédiaire.
+                        </p>
+                        <div class="bg-slate-800 p-4 rounded border-l-2 border-red-500">
+                            <h4 class="text-red-400 font-bold text-sm mb-1">ANOMALIE DÉTECTÉE</h4>
+                            <p class="text-xs text-slate-300">
+                                La fréquence de clignement des yeux est inférieure à 12/min (humain normal: 15-20). Des artefacts de 'glitching' sont visibles autour de la bouche.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Visualization: Radar Chart (Comparison of Metrics) -->
+                <div class="md:col-span-2 glass-panel p-6 rounded-xl shadow-lg">
+                    <div class="flex justify-between items-end mb-4">
+                        <h3 class="text-lg font-bold text-white">Score de Naturalité Biométrique</h3>
+                        <span class="text-xs text-slate-500">0 = Artificiel, 100 = Naturel</span>
+                    </div>
+                    <!-- Chart Container with specific logic for Radar usually needing more square aspect -->
+                    <div class="chart-container mx-auto">
+                        <canvas id="chartDeborsu"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: Narrative & Network (MAGA Influence) -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Narrative Analysis -->
+            <div class="glass-panel p-6 rounded-xl shadow-lg">
+                <div class="mb-4">
+                    <h3 class="text-xl font-bold text-white flex items-center gap-2">
+                        <span class="text-sky-500">03.</span> Empreinte Sémantique
+                    </h3>
+                    <p class="text-slate-400 text-sm mt-2">
+                        Comparaison des mots-clés utilisés dans le rapport "Confidentiel" avec la rhétorique "MAGA" américaine. On observe une importation directe de concepts traduits littéralement.
+                    </p>
+                </div>
+                <!-- Visualization: Horizontal Bar Chart (Ranking/Comparison) -->
+                <div class="chart-container">
+                    <canvas id="chartMaga"></canvas>
+                </div>
+            </div>
+
+            <!-- Network Topology -->
+            <div class="glass-panel p-6 rounded-xl shadow-lg">
+                <div class="mb-4">
+                    <h3 class="text-xl font-bold text-white flex items-center gap-2">
+                        <span class="text-sky-500">04.</span> Topologie du Réseau
+                    </h3>
+                    <p class="text-slate-400 text-sm mt-2">
+                        Analyse des clusters de bots rediffusant le contenu. Corrélation entre le volume de posts (Axe X) et le score d'influence artificielle (Axe Y). La taille des bulles représente la portée estimée.
+                    </p>
+                </div>
+                <!-- Visualization: Bubble Chart (Relationships) -->
+                <div class="chart-container">
+                    <canvas id="chartNetwork"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: Attack Process Flow (Structured HTML) -->
+        <section>
+             <h2 class="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+                <span class="text-sky-500">05.</span> Chaîne de Compromission
+            </h2>
+            
+            <!-- Visualization: Process Flow using Tailwind Grid/Flex (Goal: Organize) -->
+            <!-- NO MERMAID JS USED. Structured HTML only. -->
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-4 text-center items-center">
+                
+                <!-- Step 1 -->
+                <div class="bg-slate-800 p-4 rounded-lg border border-slate-700 relative group hover:border-sky-500 transition">
+                    <div class="text-2xl mb-2">📥</div>
+                    <h4 class="font-bold text-sky-400 text-sm">Génération</h4>
+                    <p class="text-xs text-slate-400 mt-1">Création Deepfake & PDF via IA Générative</p>
+                </div>
+
+                <!-- Arrow -->
+                <div class="hidden md:block text-sky-500 text-2xl font-bold">→</div>
+                <div class="md:hidden text-sky-500 text-2xl font-bold py-2">↓</div>
+
+                <!-- Step 2 -->
+                <div class="bg-slate-800 p-4 rounded-lg border border-slate-700 relative group hover:border-sky-500 transition">
+                    <div class="text-2xl mb-2">☁️</div>
+                    <h4 class="font-bold text-sky-400 text-sm">Hébergement</h4>
+                    <p class="text-xs text-slate-400 mt-1">Upload sur confidentiel.github.io</p>
+                </div>
+
+                <!-- Arrow -->
+                <div class="hidden md:block text-sky-500 text-2xl font-bold">→</div>
+                <div class="md:hidden text-sky-500 text-2xl font-bold py-2">↓</div>
+
+                <!-- Step 3 -->
+                <div class="bg-slate-800 p-4 rounded-lg border border-red-900/50 border-slate-700 relative group hover:border-red-500 transition">
+                    <div class="text-2xl mb-2">📢</div>
+                    <h4 class="font-bold text-red-400 text-sm">Amplification</h4>
+                    <p class="text-xs text-slate-400 mt-1">Activation Botnet (Telegram/X) & Narrative MAGA</p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="border-t border-slate-800 pt-8 mt-12 text-center">
+            <p class="text-slate-500 text-sm">
+                Rapport généré automatiquement par le système de surveillance CANVAS.
+                <br>
+                <span class="text-xs opacity-50">Données simulées pour démonstration. Aucune donnée personnelle réelle n'a été exposée.</span>
+            </p>
+        </footer>
+
+    </main>
+
+    <!-- Visualization & Content Choices Summary:
+         1. Timeline (Line Chart): Chosen to show the sudden spike in disinformation traffic, critical for establishing the attack window.
+         2. Sources (Donut Chart): Selected to highlight the artificial nature of traffic (Botnet dominance vs Organic).
+         3. Biometrics (Radar Chart): Best fit for multivariate comparison of "Naturalness" scores (Audio, Video, Sync, Lighting) for the Deborsu deepfake.
+         4. Keywords (Bar Chart): Horizontal bars allow for long labels (phrases) to compare the frequency of imported MAGA terms vs local context.
+         5. Bot Clusters (Bubble Chart): chosen to show 3 dimensions: Volume, Influence, and Reach (bubble size) of the bot network.
+    -->
+    
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <script>
+        // --- Utility: Label Wrapping (>16 chars) ---
+        function wrapLabel(str, maxLen = 16) {
+            if (str.length <= maxLen) return str;
+            const words = str.split(' ');
+            const lines = [];
+            let currentLine = words[0];
+
+            for (let i = 1; i < words.length; i++) {
+                if (currentLine.length + 1 + words[i].length <= maxLen) {
+                    currentLine += ' ' + words[i];
+                } else {
+                    lines.push(currentLine);
+                    currentLine = words[i];
+                }
+            }
+            lines.push(currentLine);
+            return lines;
+        }
+
+        // --- Utility: Shared Tooltip Config (Mandatory) ---
+        const commonTooltipConfig = {
+            callbacks: {
+                title: function(tooltipItems) {
+                    const item = tooltipItems[0];
+                    let label = item.chart.data.labels[item.dataIndex];
+                    if (Array.isArray(label)) {
+                        return label.join(' ');
+                    } else {
+                        return label;
+                    }
+                }
+            },
+            backgroundColor: 'rgba(15, 23, 42, 0.9)', // Slate 900
+            titleColor: '#0EA5E9', // Sky 500
+            bodyColor: '#F1F5F9', // Slate 100
+            borderColor: '#334155', // Slate 700
+            borderWidth: 1,
+            padding: 12,
+            cornerRadius: 8
+        };
+
+        // --- Chart 1: Timeline (Line) ---
+        const ctxTimeline = document.getElementById('chartTimeline').getContext('2d');
+        const rawLabelsTimeline = ['Lancement Repo', 'Amorçage Bots', 'Viralité X', 'Sommet', 'Contre-mesures', 'Déclin'];
+        const processedLabelsTimeline = rawLabelsTimeline.map(l => wrapLabel(l));
+
+        new Chart(ctxTimeline, {
+            type: 'line',
+            data: {
+                labels: processedLabelsTimeline,
+                datasets: [{
+                    label: 'Mentions / Heure',
+                    data: [120, 850, 4200, 3100, 1500, 400],
+                    borderColor: '#0EA5E9', // Sky 500
+                    backgroundColor: 'rgba(14, 165, 233, 0.2)',
+                    fill: true,
+                    tension: 0.4,
+                    pointBackgroundColor: '#0F172A',
+                    pointBorderColor: '#0EA5E9',
+                    pointBorderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: commonTooltipConfig
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: '#334155' },
+                        ticks: { color: '#94A3B8' }
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: { color: '#94A3B8' }
+                    }
+                }
+            }
+        });
+
+        // --- Chart 2: Sources (Donut) ---
+        const ctxSources = document.getElementById('chartSources').getContext('2d');
+        const rawLabelsSources = ['Botnet Telegram (Direct)', 'Twitter / X (Amplifié)', 'Facebook (Organique)', 'Autres'];
+        const processedLabelsSources = rawLabelsSources.map(l => wrapLabel(l));
+
+        new Chart(ctxSources, {
+            type: 'doughnut',
+            data: {
+                labels: processedLabelsSources,
+                datasets: [{
+                    data: [45, 35, 15, 5],
+                    backgroundColor: [
+                        '#0EA5E9', // Sky 500
+                        '#3B82F6', // Blue 500
+                        '#6366F1', // Indigo 500
+                        '#94A3B8'  // Slate 400
+                    ],
+                    borderWidth: 0,
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { color: '#94A3B8', usePointStyle: true, padding: 20 }
+                    },
+                    tooltip: commonTooltipConfig
+                },
+                cutout: '70%'
+            }
+        });
+
+        // --- Chart 3: Deborsu Deepfake (Radar) ---
+        const ctxDeborsu = document.getElementById('chartDeborsu').getContext('2d');
+        const rawLabelsDeborsu = ['Synchro Labiale', 'Texture de Peau', 'Cohérence Audio', 'Ombres & Lumière', 'Clignement Yeux'];
+        const processedLabelsDeborsu = rawLabelsDeborsu.map(l => wrapLabel(l));
+
+        new Chart(ctxDeborsu, {
+            type: 'radar',
+            data: {
+                labels: processedLabelsDeborsu,
+                datasets: [{
+                    label: 'Vidéo "Deborsu Leaks"',
+                    data: [35, 45, 80, 55, 20], // Low scores = fake artifacts
+                    fill: true,
+                    backgroundColor: 'rgba(239, 68, 68, 0.2)', // Red tint for alert
+                    borderColor: '#EF4444', // Red 500
+                    pointBackgroundColor: '#EF4444',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: '#EF4444'
+                },
+                {
+                    label: 'Référence Humaine',
+                    data: [95, 98, 99, 95, 95],
+                    fill: true,
+                    backgroundColor: 'rgba(14, 165, 233, 0.1)', // Sky tint
+                    borderColor: '#0EA5E9', // Sky 500
+                    pointBackgroundColor: '#0EA5E9',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: '#0EA5E9'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { labels: { color: '#94A3B8' } },
+                    tooltip: commonTooltipConfig
+                },
+                scales: {
+                    r: {
+                        angleLines: { color: '#334155' },
+                        grid: { color: '#334155' },
+                        pointLabels: { color: '#F1F5F9', font: { size: 11 } },
+                        suggestedMin: 0,
+                        suggestedMax: 100
+                    }
+                }
+            }
+        });
+
+        // --- Chart 4: MAGA Narrative (Horizontal Bar) ---
+        const ctxMaga = document.getElementById('chartMaga').getContext('2d');
+        const rawLabelsMaga = ['"Deep State" / État Profond', '"Fake News" Media', 'Souveraineté Totale', 'Corruption des Élites', 'Grand Remplacement'];
+        const processedLabelsMaga = rawLabelsMaga.map(l => wrapLabel(l));
+
+        new Chart(ctxMaga, {
+            type: 'bar',
+            data: {
+                labels: processedLabelsMaga,
+                datasets: [
+                    {
+                        label: 'Narratif US (MAGA)',
+                        data: [95, 90, 60, 85, 40],
+                        backgroundColor: '#3B82F6', // Blue 500
+                        borderRadius: 4
+                    },
+                    {
+                        label: 'Rapport "Confidentiel"',
+                        data: [92, 88, 75, 82, 30],
+                        backgroundColor: '#0EA5E9', // Sky 500
+                        borderRadius: 4
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'y',
+                plugins: {
+                    legend: { labels: { color: '#94A3B8' } },
+                    tooltip: commonTooltipConfig
+                },
+                scales: {
+                    x: {
+                        grid: { color: '#334155' },
+                        ticks: { color: '#94A3B8' }
+                    },
+                    y: {
+                        grid: { display: false },
+                        ticks: { color: '#F1F5F9' }
+                    }
+                }
+            }
+        });
+
+        // --- Chart 5: Network Topology (Bubble) ---
+        const ctxNetwork = document.getElementById('chartNetwork').getContext('2d');
+        
+        new Chart(ctxNetwork, {
+            type: 'bubble',
+            data: {
+                datasets: [{
+                    label: 'Cluster Alpha (Origine)',
+                    data: [
+                        { x: 20, y: 90, r: 15 },
+                        { x: 25, y: 85, r: 10 },
+                        { x: 22, y: 88, r: 12 }
+                    ],
+                    backgroundColor: '#EF4444' // Red
+                },
+                {
+                    label: 'Cluster Beta (Amplificateurs)',
+                    data: [
+                        { x: 50, y: 40, r: 25 },
+                        { x: 55, y: 45, r: 20 },
+                        { x: 48, y: 35, r: 22 },
+                        { x: 52, y: 38, r: 18 }
+                    ],
+                    backgroundColor: '#0EA5E9' // Sky
+                },
+                {
+                    label: 'Comptes Organiques (Victimes)',
+                    data: [
+                        { x: 80, y: 15, r: 8 },
+                        { x: 85, y: 10, r: 6 },
+                        { x: 75, y: 20, r: 10 },
+                        { x: 90, y: 12, r: 5 },
+                        { x: 82, y: 18, r: 7 }
+                    ],
+                    backgroundColor: '#10B981' // Green
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { labels: { color: '#94A3B8' } },
+                    tooltip: commonTooltipConfig
+                },
+                scales: {
+                    x: {
+                        title: { display: true, text: 'Volume de Publications', color: '#64748B' },
+                        grid: { color: '#334155' },
+                        ticks: { color: '#94A3B8' }
+                    },
+                    y: {
+                        title: { display: true, text: 'Score Influence Algorithmique', color: '#64748B' },
+                        grid: { color: '#334155' },
+                        ticks: { color: '#94A3B8' }
+                    }
+                }
+            }
+        });
+
+    </script>
+</body>
+</html>
